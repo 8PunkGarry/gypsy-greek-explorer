@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
@@ -7,9 +6,10 @@ import BlurBackground from '@/components/ui/BlurBackground';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { ArrowRight, CheckCircle, UserCircle, UserRound, MessageCircle, RotateCw, XCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle, UserCircle, UserRound, MessageCircle, RotateCw, XCircle, Upload, Filter } from 'lucide-react';
 import { toast } from "sonner";
 import TestCard from '@/components/ui/TestCard';
+import QuestionUploader from '@/components/ui/QuestionUploader';
 
 // Типы вопросов для симуляции собеседования
 interface InterviewQuestion {
@@ -26,7 +26,7 @@ interface InterviewQuestion {
   type: 'multiple-choice' | 'open-ended';
 }
 
-const interviewQuestions: InterviewQuestion[] = [
+const defaultInterviewQuestions: InterviewQuestion[] = [
   // История
   {
     id: 'hist1',
@@ -44,7 +44,7 @@ const interviewQuestions: InterviewQuestion[] = [
   {
     id: 'hist2',
     category: 'history',
-    text: 'Что означает "День Охи" (ΟΧΙ) и когда его отмечают?',
+    text: 'Что означает "День Охи" (ΟΧИ) и когда его отмечают?',
     options: [
       { id: 'h2a', text: '28 октября, день отказа Греции подчиниться фашистской Италии', isCorrect: true },
       { id: 'h2b', text: '25 марта, начало восстания против османского владычества', isCorrect: false },
@@ -72,7 +72,7 @@ const interviewQuestions: InterviewQuestion[] = [
   {
     id: 'cult1',
     category: 'culture',
-    text: 'Какой танец считается неофициальным национальным танцем Греции?',
+    text: 'Ка��ой танец считается неофициальным национальным танцем Греции?',
     options: [
       { id: 'c1a', text: 'Сиртаки', isCorrect: true },
       { id: 'c1b', text: 'Каламатьянос', isCorrect: false },
@@ -122,8 +122,45 @@ const Interview = () => {
   const [interviewStarted, setInterviewStarted] = useState(false);
   const [interviewComplete, setInterviewComplete] = useState(false);
   const [currentAnswer, setCurrentAnswer] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [interviewQuestions, setInterviewQuestions] = useState<InterviewQuestion[]>(defaultInterviewQuestions);
+  const [customQuestions, setCustomQuestions] = useState<InterviewQuestion[]>([]);
+  const [activeQuestions, setActiveQuestions] = useState<InterviewQuestion[]>(defaultInterviewQuestions);
   
-  const currentQuestion = interviewQuestions[currentQuestionIndex];
+  const currentQuestion = activeQuestions[currentQuestionIndex];
+
+  useEffect(() => {
+    // Retrieve saved custom questions from localStorage, if any
+    const savedQuestions = localStorage.getItem('customInterviewQuestions');
+    if (savedQuestions) {
+      try {
+        const parsedQuestions = JSON.parse(savedQuestions);
+        setCustomQuestions(parsedQuestions);
+      } catch (e) {
+        console.error("Error parsing saved questions:", e);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    // Save custom questions to localStorage whenever they change
+    localStorage.setItem('customInterviewQuestions', JSON.stringify(customQuestions));
+  }, [customQuestions]);
+
+  useEffect(() => {
+    // Filter questions based on selected category
+    let filteredQuestions = [...interviewQuestions, ...customQuestions];
+    
+    if (selectedCategory) {
+      filteredQuestions = filteredQuestions.filter(q => q.category === selectedCategory);
+    }
+    
+    setActiveQuestions(filteredQuestions);
+    // Reset index if needed
+    if (currentQuestionIndex >= filteredQuestions.length) {
+      setCurrentQuestionIndex(0);
+    }
+  }, [selectedCategory, interviewQuestions, customQuestions, currentQuestionIndex]);
 
   const handleStartInterview = () => {
     setInterviewStarted(true);
@@ -133,7 +170,7 @@ const Interview = () => {
   };
 
   const handleNextQuestion = () => {
-    if (currentQuestionIndex < interviewQuestions.length - 1) {
+    if (currentQuestionIndex < activeQuestions.length - 1) {
       setCurrentQuestionIndex(prevIndex => prevIndex + 1);
       setCurrentAnswer('');
     } else {
@@ -176,12 +213,41 @@ const Interview = () => {
     toast.info("Начинаем собеседование заново");
   };
 
+  const handleAddQuestion = (newQuestion: InterviewQuestion) => {
+    setCustomQuestions(prev => [...prev, newQuestion]);
+  };
+
+  const handleSelectCategory = (category: string | null) => {
+    setSelectedCategory(category);
+    setCurrentQuestionIndex(0);
+    setResponses([]);
+    setInterviewComplete(false);
+    
+    if (category) {
+      toast.info(`Выбрана категория: ${
+        category === 'history' ? 'История' :
+        category === 'geography' ? 'География' :
+        category === 'culture' ? 'Культура' : 'Политика'
+      }`);
+    } else {
+      toast.info("Выбраны все категории");
+    }
+  };
+
   const getCorrectAnswersCount = () => {
     return responses.filter(r => r.correct === true).length;
   };
 
   const getMultipleChoiceQuestionsCount = () => {
-    return interviewQuestions.filter(q => q.type === 'multiple-choice').length;
+    return activeQuestions.filter(q => q.type === 'multiple-choice').length;
+  };
+
+  const getCategoryQuestionsCount = (category: string) => {
+    return [...interviewQuestions, ...customQuestions].filter(q => q.category === category).length;
+  };
+
+  const getCustomQuestionsCount = () => {
+    return customQuestions.length;
   };
 
   return (
@@ -201,68 +267,145 @@ const Interview = () => {
           </div>
           
           {!interviewStarted && !interviewComplete && (
-            <div className="grid md:grid-cols-2 gap-8 mb-12">
-              <Card>
-                <CardHeader>
-                  <CardTitle>О симуляции собеседования</CardTitle>
-                  <CardDescription>Как подготовиться и что ожидать</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <p>Эта симуляция содержит примерные вопросы, которые вам могут задать на реальном собеседовании при получении греческого гражданства.</p>
-                  
-                  <div className="space-y-2">
-                    <h3 className="font-medium">Симуляция включает:</h3>
-                    <ul className="space-y-1">
-                      <li className="flex items-start">
-                        <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                        <span>Вопросы с выбором ответа по истории, географии, политике и культуре</span>
-                      </li>
-                      <li className="flex items-start">
-                        <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                        <span>Открытые вопросы, требующие развернутого ответа</span>
-                      </li>
-                      <li className="flex items-start">
-                        <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                        <span>Подробные объяснения и рекомендации по ответам</span>
-                      </li>
-                    </ul>
+            <>
+              <div className="mb-8">
+                <div className="flex flex-wrap items-center gap-4 mb-6">
+                  <div className="flex items-center gap-2">
+                    <Filter className="h-5 w-5 text-gray-600" />
+                    <span className="font-medium">Фильтр по категории:</span>
                   </div>
-                </CardContent>
-                <CardFooter>
-                  <Button variant="outline" onClick={() => navigate('/history')}>Повторить материал</Button>
-                </CardFooter>
-              </Card>
-              
-              <Card className="bg-greek-darkBlue/5 border-greek-darkBlue/20">
-                <CardHeader>
-                  <CardTitle>Готовы начать?</CardTitle>
-                  <CardDescription>Проверьте свои знания о Греции</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="mb-6">Симуляция займет примерно 15-20 минут. Она включает {getMultipleChoiceQuestionsCount()} вопросов с выбором ответа и {interviewQuestions.length - getMultipleChoiceQuestionsCount()} открытых вопросов.</p>
                   
-                  <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
-                    <h3 className="font-medium text-amber-800">Совет:</h3>
-                    <p className="text-amber-700">Отвечайте на вопросы так, как если бы вы были на настоящем собеседовании. Помните, что в открытых вопросах важно показать свою связь с греческой культурой и ценностями.</p>
+                  <div className="flex flex-wrap gap-2">
+                    <Button 
+                      variant={selectedCategory === null ? "default" : "outline"} 
+                      onClick={() => handleSelectCategory(null)}
+                      className="rounded-full"
+                      size="sm"
+                    >
+                      Все ({interviewQuestions.length + customQuestions.length})
+                    </Button>
+                    <Button 
+                      variant={selectedCategory === 'history' ? "default" : "outline"} 
+                      onClick={() => handleSelectCategory('history')}
+                      className="rounded-full"
+                      size="sm"
+                    >
+                      История ({getCategoryQuestionsCount('history')})
+                    </Button>
+                    <Button 
+                      variant={selectedCategory === 'geography' ? "default" : "outline"} 
+                      onClick={() => handleSelectCategory('geography')}
+                      className="rounded-full"
+                      size="sm"
+                    >
+                      География ({getCategoryQuestionsCount('geography')})
+                    </Button>
+                    <Button 
+                      variant={selectedCategory === 'culture' ? "default" : "outline"} 
+                      onClick={() => handleSelectCategory('culture')}
+                      className="rounded-full"
+                      size="sm"
+                    >
+                      Культура ({getCategoryQuestionsCount('culture')})
+                    </Button>
+                    <Button 
+                      variant={selectedCategory === 'politics' ? "default" : "outline"} 
+                      onClick={() => handleSelectCategory('politics')}
+                      className="rounded-full"
+                      size="sm"
+                    >
+                      Политика ({getCategoryQuestionsCount('politics')})
+                    </Button>
                   </div>
-                </CardContent>
-                <CardFooter>
-                  <Button 
-                    onClick={handleStartInterview}
-                    className="w-full bg-greek-darkBlue hover:bg-greek-darkBlue/90"
-                  >
-                    Начать симуляцию <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </CardFooter>
-              </Card>
-            </div>
+                </div>
+
+                {getCustomQuestionsCount() > 0 && (
+                  <div className="bg-green-50 border border-green-100 rounded-lg p-4 mb-6">
+                    <h3 className="font-medium text-green-800 mb-1">Пользовательские вопросы</h3>
+                    <p className="text-green-700 mb-2">У вас есть {getCustomQuestionsCount()} собственных вопросов.</p>
+                  </div>
+                )}
+
+                <div className="flex flex-wrap gap-4">
+                  <QuestionUploader onQuestionAdd={handleAddQuestion} />
+                  
+                  {selectedCategory && (
+                    <QuestionUploader 
+                      onQuestionAdd={handleAddQuestion} 
+                      category={selectedCategory as 'history' | 'geography' | 'culture' | 'politics'} 
+                    />
+                  )}
+                </div>
+              </div>
+            
+              <div className="grid md:grid-cols-2 gap-8 mb-12">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>О симуляции собеседования</CardTitle>
+                    <CardDescription>Как подготовиться и что ожидать</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <p>Эта симуляция содержит примерные вопросы, которые вам могут задать на реальном собеседовании при получении греческого гражданства.</p>
+                    
+                    <div className="space-y-2">
+                      <h3 className="font-medium">Симуляция включает:</h3>
+                      <ul className="space-y-1">
+                        <li className="flex items-start">
+                          <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                          <span>Вопросы с выбором ответа по истории, географии, политике и культуре</span>
+                        </li>
+                        <li className="flex items-start">
+                          <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                          <span>Открытые вопросы, требующие развернутого ответа</span>
+                        </li>
+                        <li className="flex items-start">
+                          <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                          <span>Подробные объяснения и рекомендации по ответам</span>
+                        </li>
+                        <li className="flex items-start">
+                          <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                          <span>Возможность добавить свои собственные вопросы</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </CardContent>
+                  <CardFooter>
+                    <Button variant="outline" onClick={() => navigate('/history')}>Повторить материал</Button>
+                  </CardFooter>
+                </Card>
+                
+                <Card className="bg-greek-darkBlue/5 border-greek-darkBlue/20">
+                  <CardHeader>
+                    <CardTitle>Готовы начать?</CardTitle>
+                    <CardDescription>Проверьте свои знания о Греции</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="mb-6">Симуляция включает {getMultipleChoiceQuestionsCount()} вопросов с выбором ответа и {activeQuestions.length - getMultipleChoiceQuestionsCount()} открытых вопросов.</p>
+                    
+                    <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
+                      <h3 className="font-medium text-amber-800">Совет:</h3>
+                      <p className="text-amber-700">Отвечайте на вопросы так, как если бы вы были на настоящем собеседовании. Помните, что в открытых вопросах важно показать свою связь с греческой культурой и ценностями.</p>
+                    </div>
+                  </CardContent>
+                  <CardFooter>
+                    <Button 
+                      onClick={handleStartInterview}
+                      className="w-full bg-greek-darkBlue hover:bg-greek-darkBlue/90"
+                      disabled={activeQuestions.length === 0}
+                    >
+                      Начать симуляцию <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </CardFooter>
+                </Card>
+              </div>
+            </>
           )}
           
-          {interviewStarted && !interviewComplete && (
+          {interviewStarted && !interviewComplete && activeQuestions.length > 0 && (
             <div className="max-w-3xl mx-auto">
               <div className="flex items-center justify-between mb-6">
                 <span className="text-sm font-medium text-gray-500">
-                  Вопрос {currentQuestionIndex + 1} из {interviewQuestions.length}
+                  Вопрос {currentQuestionIndex + 1} из {activeQuestions.length}
                 </span>
                 <span className="bg-greek-darkBlue/10 text-greek-darkBlue px-3 py-1 rounded-full text-sm font-medium">
                   Категория: {
@@ -333,7 +476,7 @@ const Interview = () => {
                   
                   <div className="space-y-4 mb-8">
                     {responses.filter(r => r.correct !== undefined).map((response, index) => {
-                      const question = interviewQuestions.find(q => q.id === response.questionId);
+                      const question = activeQuestions.find(q => q.id === response.questionId);
                       return (
                         <div key={response.questionId} className={`p-4 rounded-lg border ${response.correct ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}`}>
                           <div className="flex items-center">
@@ -355,7 +498,7 @@ const Interview = () => {
                   
                   <div className="space-y-6">
                     {responses.filter(r => r.correct === undefined).map((response) => {
-                      const question = interviewQuestions.find(q => q.id === response.questionId);
+                      const question = activeQuestions.find(q => q.id === response.questionId);
                       return (
                         <div key={response.questionId} className="border border-gray-200 rounded-lg overflow-hidden">
                           <div className="bg-gray-50 p-4 border-b">
