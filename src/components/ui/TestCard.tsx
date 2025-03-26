@@ -11,6 +11,8 @@ interface Question {
     isCorrect: boolean;
   }[];
   explanation: string;
+  type?: 'multiple-choice' | 'open-ended';
+  category?: 'history' | 'geography' | 'culture' | 'politics';
 }
 
 interface TestCardProps {
@@ -43,10 +45,6 @@ const TestCard: React.FC<TestCardProps> = ({
         onAnswer(selectedOption.isCorrect);
       }
     }
-  };
-  
-  const getSelectedOption = () => {
-    return question.options.find(opt => opt.id === selectedOptionId);
   };
   
   const resetQuestion = () => {
