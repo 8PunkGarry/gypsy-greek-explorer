@@ -116,4 +116,3 @@ function getCategoryName(category: string): string {
     default: return category;
   }
 }
-
