@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import WelcomeHero from '@/components/ui/WelcomeHero';
@@ -187,116 +188,16 @@ const Index = () => {
                   </div>
                 </div>
                 
-                <button className="px-8 py-3 bg-greek-darkBlue text-white rounded-full text-lg font-medium shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
-                  Попробовать сейчас
+                <button 
+                  className="px-8 py-3 bg-greek-darkBlue text-white rounded-full text-lg font-medium shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
+                  onClick={handleStartLearning}
+                >
+                  Начать обучение
                 </button>
               </div>
               
               <div>
                 <TestCard question={sampleQuestion} />
-              </div>
-            </div>
-          </div>
-        </section>
-        
-        {/* Learning Paths Section */}
-        <section className="py-20 bg-greek-blue/5 relative">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <div className="inline-block mb-4 px-4 py-1.5 rounded-full bg-greek-blue/10 text-greek-darkBlue font-medium">
-                <span>Индивидуальный подход</span>
-              </div>
-              <h2 className="text-3xl md:text-4xl font-heading font-semibold text-gray-900 mb-6 max-w-3xl mx-auto">
-                Выберите свой темп обучения
-              </h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Мы предлагаем различные программы обучения, адаптированные под ваше расписание и цели.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-              <div className="p-6 rounded-xl bg-white/80 backdrop-blur-sm border border-gray-100 shadow-soft hover:shadow-medium transition-all duration-300 hover:-translate-y-1">
-                <div className="w-12 h-12 rounded-full bg-greek-blue/20 text-greek-darkBlue flex items-center justify-center mb-6">
-                  <Clock size={24} />
-                </div>
-                <h3 className="text-xl font-medium text-gray-900 mb-3">Быстрая подготовка</h3>
-                <p className="text-gray-600 mb-4">
-                  Интенсивный курс для тех, кому нужно подготовиться к собеседованию за 2 недели. Фокус на ключевых вопросах и концепциях.
-                </p>
-                <ul className="space-y-2 mb-6">
-                  <li className="flex items-center text-gray-600">
-                    <span className="w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-2 text-xs">✓</span>
-                    10-15 минут обучения в день
-                  </li>
-                  <li className="flex items-center text-gray-600">
-                    <span className="w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-2 text-xs">✓</span>
-                    Фокус на самых важных вопросах
-                  </li>
-                  <li className="flex items-center text-gray-600">
-                    <span className="w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-2 text-xs">✓</span>
-                    Экспресс-симулятор собеседования
-                  </li>
-                </ul>
-                <button className="w-full py-2 rounded-full border border-greek-darkBlue text-greek-darkBlue font-medium hover:bg-greek-blue/10 transition-colors duration-300">
-                  Выбрать план
-                </button>
-              </div>
-              
-              <div className="p-6 rounded-xl bg-greek-darkBlue text-white border border-gray-100 shadow-soft hover:shadow-medium transition-all duration-300 hover:-translate-y-1 relative overflow-hidden">
-                <div className="absolute top-0 right-0 bg-greek-blue/20 px-4 py-1 text-xs font-medium rounded-bl-lg">
-                  Популярный выбор
-                </div>
-                <div className="w-12 h-12 rounded-full bg-white/20 text-white flex items-center justify-center mb-6">
-                  <Clock size={24} />
-                </div>
-                <h3 className="text-xl font-medium mb-3">Стандартная подготовка</h3>
-                <p className="text-white/80 mb-4">
-                  Сбалансированный курс для подготовки за 1 мес��ц. Охватывает все аспекты с достаточным временем для усвоения материала.
-                </p>
-                <ul className="space-y-2 mb-6">
-                  <li className="flex items-center text-white/80">
-                    <span className="w-5 h-5 rounded-full bg-white/20 text-white flex items-center justify-center mr-2 text-xs">✓</span>
-                    30 минут обучения в день
-                  </li>
-                  <li className="flex items-center text-white/80">
-                    <span className="w-5 h-5 rounded-full bg-white/20 text-white flex items-center justify-center mr-2 text-xs">✓</span>
-                    Полное покрытие всех тем
-                  </li>
-                  <li className="flex items-center text-white/80">
-                    <span className="w-5 h-5 rounded-full bg-white/20 text-white flex items-center justify-center mr-2 text-xs">✓</span>
-                    3 полных симулятора собеседования
-                  </li>
-                </ul>
-                <button className="w-full py-2 rounded-full bg-white text-greek-darkBlue font-medium hover:bg-opacity-90 transition-colors duration-300">
-                  Выбрать план
-                </button>
-              </div>
-              
-              <div className="p-6 rounded-xl bg-white/80 backdrop-blur-sm border border-gray-100 shadow-soft hover:shadow-medium transition-all duration-300 hover:-translate-y-1">
-                <div className="w-12 h-12 rounded-full bg-greek-blue/20 text-greek-darkBlue flex items-center justify-center mb-6">
-                  <Clock size={24} />
-                </div>
-                <h3 className="text-xl font-medium text-gray-900 mb-3">Глубокое погружение</h3>
-                <p className="text-gray-600 mb-4">
-                  Комплексный курс для тех, кто хочет не только пройти собеседование, но и глубоко понять греческую культуру и историю.
-                </p>
-                <ul className="space-y-2 mb-6">
-                  <li className="flex items-center text-gray-600">
-                    <span className="w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-2 text-xs">✓</span>
-                    45+ минут обучения в день
-                  </li>
-                  <li className="flex items-center text-gray-600">
-                    <span className="w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-2 text-xs">✓</span>
-                    Углубленное изучение каждой темы
-                  </li>
-                  <li className="flex items-center text-gray-600">
-                    <span className="w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-2 text-xs">✓</span>
-                    Неограниченное количество симуляций
-                  </li>
-                </ul>
-                <button className="w-full py-2 rounded-full border border-greek-darkBlue text-greek-darkBlue font-medium hover:bg-greek-blue/10 transition-colors duration-300">
-                  Выбрать план
-                </button>
               </div>
             </div>
           </div>
@@ -321,13 +222,13 @@ const Index = () => {
                   className="px-8 py-3 bg-white text-greek-darkBlue rounded-full text-lg font-medium shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
                   onClick={handleStartLearning}
                 >
-                  Начать бесплатно
+                  Начать обучение
                 </button>
                 <button 
                   className="px-8 py-3 bg-transparent border border-white text-white rounded-full text-lg font-medium hover:bg-white/10 transform hover:-translate-y-1 transition-all duration-300"
                   onClick={handleInterviewSimulation}
                 >
-                  Узнать больше
+                  Симуляция собеседования
                 </button>
               </div>
             </div>
