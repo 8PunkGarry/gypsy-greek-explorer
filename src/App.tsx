@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import History from "./pages/History";
 import Interview from "./pages/Interview";
+import QuestionUpload from "./pages/QuestionUpload";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/history" element={<History />} />
           <Route path="/interview" element={<Interview />} />
+          <Route path="/questions" element={<QuestionUpload />} />
           {/* These routes will be implemented later */}
           <Route path="/geography" element={<NotFound />} />
           <Route path="/culture" element={<NotFound />} />
