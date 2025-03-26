@@ -361,7 +361,7 @@ const Interview = () => {
         const parsedQuestions = JSON.parse(savedQuestions);
         console.log('Loaded custom questions:', parsedQuestions);
 
-        // Обеспечим, чтобы все загруженные вопросы имели options
+        // Ensure all loaded questions have options array for consistency
         const processedCustomQuestions = parsedQuestions.map((q: any) => {
           if (!q.options || q.options.length === 0) {
             return {
@@ -382,20 +382,21 @@ const Interview = () => {
   }, []);
 
   useEffect(() => {
-    // Отображаем текущие значения для отладки
-    console.log('Current state:', {
+    // Debug state values
+    console.log('DEBUG - Current state:', {
       selectedCategory,
-      interviewQuestions: interviewQuestions.length,
-      customQuestions: customQuestions.length,
-      activeQuestions: activeQuestions.length,
+      interviewQuestionsLength: interviewQuestions.length,
+      customQuestionsLength: customQuestions.length,
+      activeQuestionsLength: activeQuestions.length,
+      historyQuestionsCount: interviewQuestions.filter(q => q.category === 'history').length
     });
     
     const currentPath = window.location.pathname;
-    console.log('Current path:', currentPath);
+    console.log('DEBUG - Current path:', currentPath);
     
+    // Determine category from URL
     let categoryFromPath: string | null = null;
     
-    // Определяем категорию из URL
     if (currentPath.includes('/history')) {
       categoryFromPath = 'history';
     } else if (currentPath.includes('/geography')) {
@@ -405,51 +406,56 @@ const Interview = () => {
     } else if (currentPath.includes('/politics')) {
       categoryFromPath = 'politics';
     } else if (currentPath.includes('/practice')) {
-      // Для страницы практики используем выбранную категорию
+      // For practice page, use the selected category
       categoryFromPath = selectedCategory;
     }
     
-    // Обновляем категорию, если она определена из URL
+    // Update category if determined from URL and different from current
     if (categoryFromPath && selectedCategory !== categoryFromPath) {
-      console.log('Setting category from path:', categoryFromPath);
+      console.log('DEBUG - Setting category from path:', categoryFromPath);
       setSelectedCategory(categoryFromPath);
-      return; // Выходим, т.к. изменение selectedCategory вызовет повторное выполнение useEffect
+      return; // Exit as the selectedCategory change will trigger another useEffect run
     }
     
-    // Собираем все вопросы
+    // Collect all questions
     let allQuestions = [...interviewQuestions];
-    console.log('Default questions count:', interviewQuestions.length, 'history questions:', interviewQuestions.filter(q => q.category === 'history').length);
+    console.log('DEBUG - Default questions count:', interviewQuestions.length);
+    console.log('DEBUG - History questions in default:', interviewQuestions.filter(q => q.category === 'history').length);
     
-    // Добавляем пользовательские вопросы, убедившись, что у каждого есть options
-    const validCustomQuestions = customQuestions.map(q => {
-      if (!q.options || q.options.length === 0) {
-        return {
-          ...q,
-          options: [{ id: `${q.id}-option`, text: '', isCorrect: true }]
-        };
-      }
-      return q;
-    });
+    // Add custom questions with options array for consistency
+    if (customQuestions.length > 0) {
+      const validCustomQuestions = customQuestions.map(q => {
+        if (!q.options || q.options.length === 0) {
+          return {
+            ...q,
+            options: [{ id: `${q.id}-option`, text: '', isCorrect: true }]
+          };
+        }
+        return q;
+      });
+      
+      allQuestions = [...allQuestions, ...validCustomQuestions];
+      console.log('DEBUG - Added custom questions, new total:', allQuestions.length);
+    }
     
-    allQuestions = [...allQuestions, ...validCustomQuestions];
-    console.log('All questions total:', allQuestions.length);
-    
-    // Фильтруем по категории, если она выбрана
+    // Filter by selected category
     let filteredQuestions = allQuestions;
     if (selectedCategory) {
       filteredQuestions = allQuestions.filter(q => q.category === selectedCategory);
-      console.log(`Filtered questions for category ${selectedCategory}:`, filteredQuestions.length);
+      console.log(`DEBUG - Filtered questions for category ${selectedCategory}:`, filteredQuestions.length);
       
-      // Выводим все вопросы по истории для отладки
+      // Log history questions for debugging
       if (selectedCategory === 'history') {
-        console.log('History questions:', filteredQuestions.map(q => q.id));
+        console.log('DEBUG - History questions after filtering:', 
+          filteredQuestions.map(q => q.id));
       }
     }
     
-    // Устанавливаем активные вопросы
+    // Set active questions
+    console.log('DEBUG - Setting active questions, count:', filteredQuestions.length);
     setActiveQuestions(filteredQuestions);
     
-    // Сбрасываем индекс, если вышли за пределы
+    // Reset index if out of bounds for new filtered list
     if (currentQuestionIndex >= filteredQuestions.length && filteredQuestions.length > 0) {
       setCurrentQuestionIndex(0);
     }

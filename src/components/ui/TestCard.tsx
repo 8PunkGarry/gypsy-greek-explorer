@@ -55,11 +55,11 @@ const TestCard: React.FC<TestCardProps> = ({
     }
   };
   
-  // Пропускаем отображение опций для открытых вопросов
+  // Check for question type
   const isOpenEnded = question.type === 'open-ended';
   
-  // Обеспечим наличие опций для отображения карточки
-  if (!question || !question.options || question.options.length === 0) {
+  // Safety check for missing options
+  if (!question.options || question.options.length === 0) {
     console.error('Question without options:', question);
     return (
       <div className={`p-6 rounded-xl bg-white/90 border border-gray-100 shadow-soft ${className}`}>
@@ -73,11 +73,11 @@ const TestCard: React.FC<TestCardProps> = ({
     <div className={`p-6 rounded-xl bg-white/90 border border-gray-100 shadow-soft ${className}`}>
       <h3 className="text-xl font-medium text-gray-900 mb-4">{question.text}</h3>
       
-      {/* Не показываем варианты ответов для открытых вопросов */}
+      {/* Don't show options for open-ended questions */}
       {!isOpenEnded && (
         <div className="space-y-3 mb-6">
           {question.options.map((option) => {
-            // Пропускаем пустые опции, которые используются для открытых вопросов
+            // Skip empty options that might be used for open-ended questions
             if (!option.text && isOpenEnded) return null;
             
             const isSelected = selectedOptionId === option.id;
