@@ -57,6 +57,17 @@ const TestCard: React.FC<TestCardProps> = ({
     }
   };
   
+  // Ensure question has options to avoid rendering errors
+  if (!question.options || question.options.length === 0) {
+    console.error('Question without options:', question);
+    return (
+      <div className={`p-6 rounded-xl bg-white/90 border border-gray-100 shadow-soft ${className}`}>
+        <h3 className="text-xl font-medium text-gray-900 mb-4">{question.text}</h3>
+        <p className="text-gray-600 mb-4">Ошибка: У этого вопроса нет вариантов ответа</p>
+      </div>
+    );
+  }
+  
   return (
     <div className={`p-6 rounded-xl bg-white/90 border border-gray-100 shadow-soft ${className}`}>
       <h3 className="text-xl font-medium text-gray-900 mb-4">{question.text}</h3>

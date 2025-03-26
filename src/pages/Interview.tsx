@@ -125,38 +125,46 @@ const Interview = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [interviewQuestions, setInterviewQuestions] = useState<InterviewQuestion[]>(defaultInterviewQuestions);
   const [customQuestions, setCustomQuestions] = useState<InterviewQuestion[]>([]);
-  const [activeQuestions, setActiveQuestions] = useState<InterviewQuestion[]>(defaultInterviewQuestions);
+  const [activeQuestions, setActiveQuestions] = useState<InterviewQuestion[]>([]);
   
-  const currentQuestion = activeQuestions[currentQuestionIndex];
+  const hasQuestions = activeQuestions.length > 0;
+  const currentQuestion = hasQuestions ? activeQuestions[currentQuestionIndex] : null;
 
   useEffect(() => {
-    // Retrieve saved custom questions from localStorage, if any
     const savedQuestions = localStorage.getItem('customInterviewQuestions');
     if (savedQuestions) {
       try {
         const parsedQuestions = JSON.parse(savedQuestions);
+        console.log('Loaded custom questions:', parsedQuestions);
         setCustomQuestions(parsedQuestions);
       } catch (e) {
         console.error("Error parsing saved questions:", e);
       }
+    } else {
+      console.log('No custom questions found in localStorage');
     }
   }, []);
 
   useEffect(() => {
-    // Save custom questions to localStorage whenever they change
-    localStorage.setItem('customInterviewQuestions', JSON.stringify(customQuestions));
-  }, [customQuestions]);
-
-  useEffect(() => {
-    // Filter questions based on selected category
-    let filteredQuestions = [...interviewQuestions, ...customQuestions];
+    let filteredQuestions = [...interviewQuestions];
+    
+    const validCustomQuestions = customQuestions.filter(q => 
+      q.text && 
+      ((q.type === 'multiple-choice' && q.options && q.options.length > 0) || 
+       (q.type === 'open-ended' && q.correctAnswer)) && 
+      q.explanation
+    );
+    
+    console.log('Valid custom questions:', validCustomQuestions);
+    filteredQuestions = [...filteredQuestions, ...validCustomQuestions];
     
     if (selectedCategory) {
       filteredQuestions = filteredQuestions.filter(q => q.category === selectedCategory);
     }
     
+    console.log('Filtered questions:', filteredQuestions);
     setActiveQuestions(filteredQuestions);
-    // Reset index if needed
+    
     if (currentQuestionIndex >= filteredQuestions.length) {
       setCurrentQuestionIndex(0);
     }
@@ -164,8 +172,8 @@ const Interview = () => {
 
   const handleStartInterview = () => {
     setInterviewStarted(true);
-    toast.success("Симуляция собеседования началась", {
-      description: "Отвечайте на вопросы как на реальном собеседовании"
+    toast.success("Практика началась", {
+      description: "Отвечайте на вопросы, чтобы проверить свои знания"
     });
   };
 
@@ -175,13 +183,15 @@ const Interview = () => {
       setCurrentAnswer('');
     } else {
       setInterviewComplete(true);
-      toast.success("Собеседование завершено!", {
+      toast.success("Практика завершена!", {
         description: "Вы ответили на все вопросы. Вы можете просмотреть свои результаты."
       });
     }
   };
 
   const handleMultipleChoiceAnswer = (wasCorrect: boolean) => {
+    if (!currentQuestion) return;
+    
     setResponses(prev => [...prev, {
       questionId: currentQuestion.id,
       response: '',
@@ -190,6 +200,8 @@ const Interview = () => {
   };
 
   const handleOpenEndedSubmit = () => {
+    if (!currentQuestion) return;
+    
     if (currentAnswer.trim()) {
       setResponses(prev => [...prev, {
         questionId: currentQuestion.id,
@@ -210,11 +222,7 @@ const Interview = () => {
     setResponses([]);
     setInterviewComplete(false);
     setCurrentAnswer('');
-    toast.info("Начинаем собеседование заново");
-  };
-
-  const handleAddQuestion = (newQuestion: InterviewQuestion) => {
-    setCustomQuestions(prev => [...prev, newQuestion]);
+    toast.info("Начинаем практику заново");
   };
 
   const handleSelectCategory = (category: string | null) => {
@@ -246,9 +254,48 @@ const Interview = () => {
     return [...interviewQuestions, ...customQuestions].filter(q => q.category === category).length;
   };
 
-  const getCustomQuestionsCount = () => {
-    return customQuestions.length;
-  };
+  if (!hasQuestions && interviewStarted) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <BlurBackground />
+        <Navbar />
+        
+        <main className="flex-grow pt-24 pb-16">
+          <div className="container mx-auto px-4">
+            <div className="max-w-3xl mx-auto">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Нет доступных вопросов</CardTitle>
+                  <CardDescription>Добавьте вопросы или выберите другую категорию</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p>В выбранной категории нет вопросов. Пожалуйста, добавьте новые вопросы в разделе "Вопросы" или выберите другую категорию.</p>
+                </CardContent>
+                <CardFooter className="flex justify-between">
+                  <Button 
+                    variant="outline" 
+                    onClick={() => navigate('/questions')}
+                  >
+                    Добавить вопросы
+                  </Button>
+                  <Button 
+                    onClick={() => {
+                      setInterviewStarted(false);
+                      setSelectedCategory(null);
+                    }}
+                  >
+                    Вернуться назад
+                  </Button>
+                </CardFooter>
+              </Card>
+            </div>
+          </div>
+        </main>
+        
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -259,10 +306,10 @@ const Interview = () => {
         <div className="container mx-auto px-4">
           <div className="mb-8">
             <h1 className="text-3xl md:text-4xl font-heading font-semibold text-gray-900 mb-4">
-              Симуляция собеседования
+              Практика
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl">
-              Проверьте свою готовность к реальному собеседованию на получение греческого гражданства с помощью нашей интерактивной симуляции.
+              Проверьте свои ��нания о Греции с помощью практических вопросов.
             </p>
           </div>
           
@@ -319,89 +366,67 @@ const Interview = () => {
                   </div>
                 </div>
 
-                {getCustomQuestionsCount() > 0 && (
-                  <div className="bg-green-50 border border-green-100 rounded-lg p-4 mb-6">
-                    <h3 className="font-medium text-green-800 mb-1">Пользовательские вопросы</h3>
-                    <p className="text-green-700 mb-2">У вас есть {getCustomQuestionsCount()} собственных вопросов.</p>
-                  </div>
-                )}
-
-                <div className="flex flex-wrap gap-4">
-                  <QuestionUploader onQuestionAdd={handleAddQuestion} />
+                <div className="grid md:grid-cols-2 gap-8 mb-12">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>О практике</CardTitle>
+                      <CardDescription>Как проверить свои знания</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <p>Практика содержит вопросы по различным аспектам Греции: истории, географии, культуре и политике.</p>
+                      
+                      <div className="space-y-2">
+                        <h3 className="font-medium">Практика включает:</h3>
+                        <ul className="space-y-1">
+                          <li className="flex items-start">
+                            <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                            <span>Вопросы с выбором ответа по различным темам</span>
+                          </li>
+                          <li className="flex items-start">
+                            <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                            <span>Открытые вопросы, требующие развернутого ответа</span>
+                          </li>
+                          <li className="flex items-start">
+                            <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
+                            <span>Подробные объяснения и дополнительная информация</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </CardContent>
+                    <CardFooter>
+                      <Button variant="outline" onClick={() => navigate('/questions')}>Добавить свои вопросы</Button>
+                    </CardFooter>
+                  </Card>
                   
-                  {selectedCategory && (
-                    <QuestionUploader 
-                      onQuestionAdd={handleAddQuestion} 
-                      category={selectedCategory as 'history' | 'geography' | 'culture' | 'politics'} 
-                    />
-                  )}
+                  <Card className="bg-greek-darkBlue/5 border-greek-darkBlue/20">
+                    <CardHeader>
+                      <CardTitle>Готовы начать?</CardTitle>
+                      <CardDescription>Проверьте свои знания о Греции</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="mb-6">Практика включает {getMultipleChoiceQuestionsCount()} вопросов с выбором ответа и {activeQuestions.length - getMultipleChoiceQuestionsCount()} открытых вопросов.</p>
+                      
+                      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
+                        <h3 className="font-medium text-amber-800">Совет:</h3>
+                        <p className="text-amber-700">Постарайтесь ответить на все вопросы самостоятельно, прежде чем смотреть объяснения.</p>
+                      </div>
+                    </CardContent>
+                    <CardFooter>
+                      <Button 
+                        onClick={handleStartInterview}
+                        className="w-full bg-greek-darkBlue hover:bg-greek-darkBlue/90"
+                        disabled={activeQuestions.length === 0}
+                      >
+                        Начать практику <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    </CardFooter>
+                  </Card>
                 </div>
-              </div>
-            
-              <div className="grid md:grid-cols-2 gap-8 mb-12">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>О симуляции собеседования</CardTitle>
-                    <CardDescription>Как подготовиться и что ожидать</CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p>Эта симуляция содержит примерные вопросы, которые вам могут задать на реальном собеседовании при получении греческого гражданства.</p>
-                    
-                    <div className="space-y-2">
-                      <h3 className="font-medium">Симуляция включает:</h3>
-                      <ul className="space-y-1">
-                        <li className="flex items-start">
-                          <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                          <span>Вопросы с выбором ответа по истории, географии, политике и культуре</span>
-                        </li>
-                        <li className="flex items-start">
-                          <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                          <span>Открытые вопросы, требующие развернутого ответа</span>
-                        </li>
-                        <li className="flex items-start">
-                          <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                          <span>Подробные объяснения и рекомендации по ответам</span>
-                        </li>
-                        <li className="flex items-start">
-                          <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                          <span>Возможность добавить свои собственные вопросы</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </CardContent>
-                  <CardFooter>
-                    <Button variant="outline" onClick={() => navigate('/history')}>Повторить материал</Button>
-                  </CardFooter>
-                </Card>
-                
-                <Card className="bg-greek-darkBlue/5 border-greek-darkBlue/20">
-                  <CardHeader>
-                    <CardTitle>Готовы начать?</CardTitle>
-                    <CardDescription>Проверьте свои знания о Греции</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="mb-6">Симуляция включает {getMultipleChoiceQuestionsCount()} вопросов с выбором ответа и {activeQuestions.length - getMultipleChoiceQuestionsCount()} открытых вопросов.</p>
-                    
-                    <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
-                      <h3 className="font-medium text-amber-800">Совет:</h3>
-                      <p className="text-amber-700">Отвечайте на вопросы так, как если бы вы были на настоящем собеседовании. Помните, что в открытых вопросах важно показать свою связь с греческой культурой и ценностями.</p>
-                    </div>
-                  </CardContent>
-                  <CardFooter>
-                    <Button 
-                      onClick={handleStartInterview}
-                      className="w-full bg-greek-darkBlue hover:bg-greek-darkBlue/90"
-                      disabled={activeQuestions.length === 0}
-                    >
-                      Начать симуляцию <ArrowRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </CardFooter>
-                </Card>
               </div>
             </>
           )}
           
-          {interviewStarted && !interviewComplete && activeQuestions.length > 0 && (
+          {interviewStarted && !interviewComplete && currentQuestion && (
             <div className="max-w-3xl mx-auto">
               <div className="flex items-center justify-between mb-6">
                 <span className="text-sm font-medium text-gray-500">
@@ -431,7 +456,7 @@ const Interview = () => {
                     </div>
                     <div>
                       <h3 className="text-xl font-medium text-gray-900 mb-3">{currentQuestion.text}</h3>
-                      <p className="text-gray-600 mb-2">Это открытый вопрос. Напишите развернутый ответ, как на реальном собеседовании.</p>
+                      <p className="text-gray-600 mb-2">Это открытый вопрос. Напишите развернутый ответ.</p>
                     </div>
                   </div>
                   
@@ -463,8 +488,8 @@ const Interview = () => {
                 <CardHeader className="bg-greek-blue/5 border-b">
                   <div className="flex items-center justify-between">
                     <div>
-                      <CardTitle>Результаты собеседования</CardTitle>
-                      <CardDescription>Ваша подготовка к получению греческого гражданства</CardDescription>
+                      <CardTitle>Результаты практики</CardTitle>
+                      <CardDescription>Ваша подготовка к изучению Греции</CardDescription>
                     </div>
                     <div className="h-16 w-16 rounded-full bg-green-50 border-4 border-green-500 flex items-center justify-center text-xl font-bold text-green-700">
                       {getCorrectAnswersCount()}/{getMultipleChoiceQuestionsCount()}
@@ -514,7 +539,7 @@ const Interview = () => {
                               <div className="flex items-start">
                                 <MessageCircle className="h-5 w-5 text-blue-500 mr-2 mt-0.5" />
                                 <div>
-                                  <p className="text-sm font-medium text-blue-700 mb-1">Рекомендация:</p>
+                                  <p className="text-sm font-medium text-blue-700 mb-1">Информация:</p>
                                   <p className="text-blue-700">{question?.explanation}</p>
                                 </div>
                               </div>
