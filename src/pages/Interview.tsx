@@ -126,7 +126,7 @@ const defaultInterviewQuestions: InterviewQuestion[] = [
     text: 'Кто были величайшими древнегреческими поэтами и философами?',
     options: [
       { id: 'writers1a', text: 'Гомер, Эсхил, Софокл, Еврипид, Сократ, Платон, Аристотель', isCorrect: true },
-      { id: 'writers1b', text: 'Цезарь, Цицерон, ��видий, Гораций', isCorrect: false },
+      { id: 'writers1b', text: 'Цезарь, Цицерон, Овидий, Гораций', isCorrect: false },
       { id: 'writers1c', text: 'Геродот, Фукидид, Ксенофонт, Пиндар', isCorrect: false },
       { id: 'writers1d', text: 'Александр Великий, Перикл, Фемистокл, Агамемнон', isCorrect: false },
     ],
@@ -352,6 +352,7 @@ const Interview = () => {
   const hasQuestions = activeQuestions.length > 0;
   const currentQuestion = hasQuestions ? activeQuestions[currentQuestionIndex] : null;
 
+  // Загрузка пользовательских вопросов из localStorage
   useEffect(() => {
     const savedQuestions = localStorage.getItem('customInterviewQuestions');
     if (savedQuestions) {
@@ -367,9 +368,33 @@ const Interview = () => {
     }
   }, []);
 
+  // Определение активных вопросов на основе категории
   useEffect(() => {
+    // Проверяем текущий URL и устанавливаем категорию на основе него
+    const currentPath = window.location.pathname;
+    console.log('Current path:', currentPath);
+    
+    let categoryFromPath: string | null = null;
+    
+    if (currentPath.includes('/history')) {
+      categoryFromPath = 'history';
+    } else if (currentPath.includes('/geography')) {
+      categoryFromPath = 'geography';
+    } else if (currentPath.includes('/culture')) {
+      categoryFromPath = 'culture';
+    } else if (currentPath.includes('/politics')) {
+      categoryFromPath = 'politics';
+    }
+    
+    // Если пользователь находится на странице определенной категории, обновляем выбранную категорию
+    if (categoryFromPath && selectedCategory !== categoryFromPath) {
+      setSelectedCategory(categoryFromPath);
+      console.log('Setting category from path:', categoryFromPath);
+    }
+    
     let filteredQuestions = [...interviewQuestions];
     
+    // Добавляем пользовательские вопросы
     const validCustomQuestions = customQuestions.filter(q => 
       q.text && 
       ((q.type === 'multiple-choice' && q.options && q.options.length > 0) || 
@@ -380,14 +405,17 @@ const Interview = () => {
     console.log('Valid custom questions:', validCustomQuestions);
     filteredQuestions = [...filteredQuestions, ...validCustomQuestions];
     
+    // Фильтруем вопросы по категории, если она выбрана
     if (selectedCategory) {
       filteredQuestions = filteredQuestions.filter(q => q.category === selectedCategory);
+      console.log(`Filtered questions for category ${selectedCategory}:`, filteredQuestions);
     }
     
-    console.log('Filtered questions:', filteredQuestions);
+    console.log('Final filtered questions count:', filteredQuestions.length);
     setActiveQuestions(filteredQuestions);
     
-    if (currentQuestionIndex >= filteredQuestions.length) {
+    // Сбрасываем индекс, если необходимо
+    if (currentQuestionIndex >= filteredQuestions.length && filteredQuestions.length > 0) {
       setCurrentQuestionIndex(0);
     }
   }, [selectedCategory, interviewQuestions, customQuestions, currentQuestionIndex]);
@@ -460,7 +488,7 @@ const Interview = () => {
         category === 'culture' ? 'Культура' : 'Политика'
       }`);
     } else {
-      toast.info("Выбраны все кате��ории");
+      toast.info("Выбраны все категории");
     }
   };
 
@@ -567,228 +595,3 @@ const Interview = () => {
                       className="rounded-full"
                       size="sm"
                     >
-                      География ({getCategoryQuestionsCount('geography')})
-                    </Button>
-                    <Button 
-                      variant={selectedCategory === 'culture' ? "default" : "outline"} 
-                      onClick={() => handleSelectCategory('culture')}
-                      className="rounded-full"
-                      size="sm"
-                    >
-                      Культура ({getCategoryQuestionsCount('culture')})
-                    </Button>
-                    <Button 
-                      variant={selectedCategory === 'politics' ? "default" : "outline"} 
-                      onClick={() => handleSelectCategory('politics')}
-                      className="rounded-full"
-                      size="sm"
-                    >
-                      Политика ({getCategoryQuestionsCount('politics')})
-                    </Button>
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-8 mb-12">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle>О практике</CardTitle>
-                      <CardDescription>Как проверить свои знания</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <p>Практика содержит вопросы по различным аспектам Греции: истории, географии, культуре и политике.</p>
-                      
-                      <div className="space-y-2">
-                        <h3 className="font-medium">Практика включает:</h3>
-                        <ul className="space-y-1">
-                          <li className="flex items-start">
-                            <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                            <span>Вопросы с выбором ответа по различным темам</span>
-                          </li>
-                          <li className="flex items-start">
-                            <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                            <span>Открытые вопросы, требующие развернутого ответа</span>
-                          </li>
-                          <li className="flex items-start">
-                            <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                            <span>Подробные объяснения и дополнительная информация</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </CardContent>
-                    <CardFooter>
-                      <Button variant="outline" onClick={() => navigate('/questions')}>Добавить свои вопросы</Button>
-                    </CardFooter>
-                  </Card>
-                  
-                  <Card className="bg-greek-darkBlue/5 border-greek-darkBlue/20">
-                    <CardHeader>
-                      <CardTitle>Готовы начать?</CardTitle>
-                      <CardDescription>Проверьте свои знания о Греции</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="mb-6">Практика включает {getMultipleChoiceQuestionsCount()} вопросов с выбором ответа и {activeQuestions.length - getMultipleChoiceQuestionsCount()} открытых вопросов.</p>
-                      
-                      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-6">
-                        <h3 className="font-medium text-amber-800">Совет:</h3>
-                        <p className="text-amber-700">Постарайтесь ответить на все вопросы самостоятельно, прежде чем смотреть объяснения.</p>
-                      </div>
-                    </CardContent>
-                    <CardFooter>
-                      <Button 
-                        onClick={handleStartInterview}
-                        className="w-full bg-greek-darkBlue hover:bg-greek-darkBlue/90"
-                        disabled={activeQuestions.length === 0}
-                      >
-                        Начать практику <ArrowRight className="ml-2 h-4 w-4" />
-                      </Button>
-                    </CardFooter>
-                  </Card>
-                </div>
-              </div>
-            </>
-          )}
-          
-          {interviewStarted && !interviewComplete && currentQuestion && (
-            <div className="max-w-3xl mx-auto">
-              <div className="flex items-center justify-between mb-6">
-                <span className="text-sm font-medium text-gray-500">
-                  Вопрос {currentQuestionIndex + 1} из {activeQuestions.length}
-                </span>
-                <span className="bg-greek-darkBlue/10 text-greek-darkBlue px-3 py-1 rounded-full text-sm font-medium">
-                  Категория: {
-                    currentQuestion.category === 'history' ? 'История' :
-                    currentQuestion.category === 'geography' ? 'География' :
-                    currentQuestion.category === 'culture' ? 'Культура' : 'Политика'
-                  }
-                </span>
-              </div>
-              
-              {currentQuestion.type === 'multiple-choice' ? (
-                <TestCard 
-                  question={currentQuestion as any}
-                  onAnswer={handleMultipleChoiceAnswer}
-                  onComplete={handleNextQuestion}
-                  className="mb-8"
-                />
-              ) : (
-                <div className="bg-white/90 backdrop-blur-sm rounded-xl border border-gray-100 shadow-soft p-6 mb-8">
-                  <div className="flex items-start mb-6">
-                    <div className="w-10 h-10 flex items-center justify-center rounded-full bg-greek-blue/20 text-greek-darkBlue mr-4">
-                      <UserRound size={24} />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-medium text-gray-900 mb-3">{currentQuestion.text}</h3>
-                      <p className="text-gray-600 mb-2">Это открытый вопрос. Напишите развернутый ответ.</p>
-                    </div>
-                  </div>
-                  
-                  <div className="mb-6">
-                    <textarea 
-                      value={currentAnswer}
-                      onChange={(e) => setCurrentAnswer(e.target.value)}
-                      className="w-full h-40 p-4 border border-gray-200 rounded-lg focus:ring-2 focus:ring-greek-blue focus:border-transparent"
-                      placeholder="Введите ваш ответ здесь..."
-                    />
-                  </div>
-                  
-                  <div className="flex justify-end">
-                    <Button 
-                      onClick={handleOpenEndedSubmit}
-                      className="bg-greek-darkBlue hover:bg-greek-darkBlue/90"
-                    >
-                      Отправить ответ
-                    </Button>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-          
-          {interviewComplete && (
-            <div className="max-w-3xl mx-auto">
-              <Card className="mb-8">
-                <CardHeader className="bg-greek-blue/5 border-b">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <CardTitle>Результаты практики</CardTitle>
-                      <CardDescription>Ваша подготовка к изучению Греции</CardDescription>
-                    </div>
-                    <div className="h-16 w-16 rounded-full bg-green-50 border-4 border-green-500 flex items-center justify-center text-xl font-bold text-green-700">
-                      {getCorrectAnswersCount()}/{getMultipleChoiceQuestionsCount()}
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-6">
-                  <h3 className="text-lg font-medium mb-4">Тестовые вопросы</h3>
-                  
-                  <div className="space-y-4 mb-8">
-                    {responses.filter(r => r.correct !== undefined).map((response, index) => {
-                      const question = activeQuestions.find(q => q.id === response.questionId);
-                      return (
-                        <div key={response.questionId} className={`p-4 rounded-lg border ${response.correct ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}`}>
-                          <div className="flex items-center">
-                            {response.correct ? (
-                              <CheckCircle className="h-5 w-5 text-green-500 mr-2" />
-                            ) : (
-                              <XCircle className="h-5 w-5 text-red-500 mr-2" />
-                            )}
-                            <span className="font-medium">{question?.text}</span>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  
-                  <Separator className="my-6" />
-                  
-                  <h3 className="text-lg font-medium mb-4">Открытые вопросы</h3>
-                  
-                  <div className="space-y-6">
-                    {responses.filter(r => r.correct === undefined).map((response) => {
-                      const question = activeQuestions.find(q => q.id === response.questionId);
-                      return (
-                        <div key={response.questionId} className="border border-gray-200 rounded-lg overflow-hidden">
-                          <div className="bg-gray-50 p-4 border-b">
-                            <span className="font-medium">{question?.text}</span>
-                          </div>
-                          <div className="p-4">
-                            <div className="flex items-start mb-4">
-                              <UserCircle className="h-5 w-5 text-gray-500 mr-2 mt-0.5" />
-                              <span className="text-gray-700">{response.response}</span>
-                            </div>
-                            
-                            <div className="bg-blue-50 border border-blue-100 rounded p-4">
-                              <div className="flex items-start">
-                                <MessageCircle className="h-5 w-5 text-blue-500 mr-2 mt-0.5" />
-                                <div>
-                                  <p className="text-sm font-medium text-blue-700 mb-1">Информация:</p>
-                                  <p className="text-blue-700">{question?.explanation}</p>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                  <Button variant="outline" onClick={restartInterview}>
-                    <RotateCw className="mr-2 h-4 w-4" /> Начать заново
-                  </Button>
-                  <Button onClick={() => navigate('/')}>
-                    Вернуться на главную
-                  </Button>
-                </CardFooter>
-              </Card>
-            </div>
-          )}
-        </div>
-      </main>
-      
-      <Footer />
-    </div>
-  );
-};
-
-export default Interview;
