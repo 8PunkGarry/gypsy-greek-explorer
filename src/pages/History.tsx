@@ -190,16 +190,14 @@ const History = () => {
           </Tabs>
           
           <div className="my-12 text-center">
-            <h3 className="text-2xl font-medium mb-6">Готовы проверить свои знания?</h3>
+            <h3 className="text-2xl font-medium mb-6">Хотите добавить свои вопросы?</h3>
             <button 
               className="px-8 py-3 bg-greek-darkBlue text-white rounded-full text-lg font-medium shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
               onClick={() => {
-                toast.success("Симулятор собеседования скоро будет доступен!", {
-                  description: "Мы работаем над этой функцией и скоро запустим ее."
-                });
+                window.location.href = "/questions";
               }}
             >
-              Начать симуляцию собеседования
+              Перейти к загрузке вопросов
             </button>
           </div>
         </div>

@@ -10,10 +10,6 @@ const WelcomeHero: React.FC = () => {
     navigate('/history');
   };
 
-  const handleInterviewSimulation = () => {
-    navigate('/interview');
-  };
-
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center py-20 overflow-hidden">
       <div className="container mx-auto px-4 text-center z-10">
@@ -37,12 +33,6 @@ const WelcomeHero: React.FC = () => {
             onClick={handleStartLearning}
           >
             Начать обучение
-          </button>
-          <button
-            className="px-8 py-3 bg-white text-greek-darkBlue border border-greek-darkBlue/20 rounded-full text-lg font-medium hover:bg-greek-blue/10 transform hover:-translate-y-1 transition-all duration-300"
-            onClick={handleInterviewSimulation}
-          >
-            Симуляция собеседования
           </button>
         </div>
       </div>

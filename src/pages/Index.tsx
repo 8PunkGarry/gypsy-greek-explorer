@@ -30,10 +30,6 @@ const Index = () => {
     navigate('/history');
   };
 
-  const handleInterviewSimulation = () => {
-    navigate('/interview');
-  };
-
   const handleNavigateToTopic = (topic: string) => {
     navigate(`/${topic}`);
   };
@@ -144,7 +140,7 @@ const Index = () => {
                 Эффективные методы подготовки
               </h2>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Используйте разнообразные инструменты, которые помогут вам лучше усвоить материа�� и подготовиться к собеседованию.
+                Используйте разнообразные инструменты, которые помогут вам лучше усвоить материал и подготовиться к собеседованию.
               </p>
             </div>
             
@@ -165,24 +161,24 @@ const Index = () => {
                   
                   <div className="flex items-start">
                     <div className="w-12 h-12 rounded-lg bg-greek-blue/20 text-greek-darkBlue flex items-center justify-center mr-4">
-                      <Users size={24} />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-medium text-gray-900 mb-2">Симулятор собеседования</h3>
-                      <p className="text-gray-600">
-                        Диалоговые сценарии с вопросами из реальных собеседований, чтобы вы могли практиковаться в безопасной среде.
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start">
-                    <div className="w-12 h-12 rounded-lg bg-greek-blue/20 text-greek-darkBlue flex items-center justify-center mr-4">
                       <Sparkles size={24} />
                     </div>
                     <div>
                       <h3 className="text-xl font-medium text-gray-900 mb-2">Интерактивные задания</h3>
                       <p className="text-gray-600">
                         Увлекательные упражнения, которые помогают закрепить знания в игровой форме и сделать обучение более увлекательным.
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start">
+                    <div className="w-12 h-12 rounded-lg bg-greek-blue/20 text-greek-darkBlue flex items-center justify-center mr-4">
+                      <Clock size={24} />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-medium text-gray-900 mb-2">Организация материала</h3>
+                      <p className="text-gray-600">
+                        Все материалы структурированы по темам и уровням сложности, что позволяет эффективно планировать процесс обучения.
                       </p>
                     </div>
                   </div>
@@ -226,9 +222,9 @@ const Index = () => {
                 </button>
                 <button 
                   className="px-8 py-3 bg-transparent border border-white text-white rounded-full text-lg font-medium hover:bg-white/10 transform hover:-translate-y-1 transition-all duration-300"
-                  onClick={handleInterviewSimulation}
+                  onClick={() => handleNavigateToTopic('questions')}
                 >
-                  Симуляция собеседования
+                  Загрузка вопросов
                 </button>
               </div>
             </div>
