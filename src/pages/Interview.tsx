@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
@@ -595,3 +596,234 @@ const Interview = () => {
                       className="rounded-full"
                       size="sm"
                     >
+                      География ({getCategoryQuestionsCount('geography')})
+                    </Button>
+                    <Button 
+                      variant={selectedCategory === 'culture' ? "default" : "outline"} 
+                      onClick={() => handleSelectCategory('culture')}
+                      className="rounded-full"
+                      size="sm"
+                    >
+                      Культура ({getCategoryQuestionsCount('culture')})
+                    </Button>
+                    <Button 
+                      variant={selectedCategory === 'politics' ? "default" : "outline"} 
+                      onClick={() => handleSelectCategory('politics')}
+                      className="rounded-full"
+                      size="sm"
+                    >
+                      Политика ({getCategoryQuestionsCount('politics')})
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                  <Card className="bg-white/90 hover:shadow-md transition-shadow duration-300">
+                    <CardHeader>
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-10 h-10 rounded-full bg-greek-blue/10 flex items-center justify-center text-greek-darkBlue">
+                          <CheckCircle size={24} />
+                        </div>
+                        <CardTitle className="text-xl">Проверьте свои знания</CardTitle>
+                      </div>
+                      <CardDescription>Ответьте на вопросы о Греции и подготовьтесь к собеседованию</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-gray-600 mb-6">
+                        Пройдите тест из {activeQuestions.length} вопросов и узнайте насколько хорошо вы знаете Грецию.
+                      </p>
+                      <Button 
+                        onClick={handleStartInterview}
+                        className="w-full"
+                      >
+                        Начать практику
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card className="bg-white/90 hover:shadow-md transition-shadow duration-300">
+                    <CardHeader>
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-10 h-10 rounded-full bg-greek-blue/10 flex items-center justify-center text-greek-darkBlue">
+                          <UserRound size={24} />
+                        </div>
+                        <CardTitle className="text-xl">Симуляция собеседования</CardTitle>
+                      </div>
+                      <CardDescription>Практикуйтесь отвечать на реальные вопросы собеседования</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-gray-600 mb-6">
+                        Потренируйтесь отвечать на вопросы, которые могут быть заданы на официальном собеседовании.
+                      </p>
+                      <Button 
+                        onClick={() => navigate('/questions')}
+                        variant="outline"
+                        className="w-full"
+                      >
+                        К вопросам собеседования
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card className="bg-white/90 hover:shadow-md transition-shadow duration-300">
+                    <CardHeader>
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="w-10 h-10 rounded-full bg-greek-blue/10 flex items-center justify-center text-greek-darkBlue">
+                          <Upload size={24} />
+                        </div>
+                        <CardTitle className="text-xl">Добавьте свои вопросы</CardTitle>
+                      </div>
+                      <CardDescription>Создайте свои вопросы для подготовки к собеседованию</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-gray-600 mb-6">
+                        Создавайте собственные вопросы и ответы, чтобы лучше подготовиться к собеседованию.
+                      </p>
+                      <Button 
+                        onClick={() => navigate('/questions')}
+                        variant="outline"
+                        className="w-full"
+                      >
+                        Создать вопросы
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </Button>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            </>
+          )}
+          
+          {interviewStarted && !interviewComplete && currentQuestion && (
+            <div className="max-w-3xl mx-auto">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <span className="text-sm text-gray-500">Категория: {
+                    currentQuestion.category === 'history' ? 'История' :
+                    currentQuestion.category === 'geography' ? 'География' :
+                    currentQuestion.category === 'culture' ? 'Культура' :
+                    'Политика'
+                  }</span>
+                  <h2 className="text-2xl font-heading font-medium text-gray-900">Вопрос {currentQuestionIndex + 1} из {activeQuestions.length}</h2>
+                </div>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => {
+                    setInterviewStarted(false);
+                    setCurrentQuestionIndex(0);
+                    setResponses([]);
+                  }}
+                >
+                  Вернуться
+                </Button>
+              </div>
+              
+              {currentQuestion.type === 'multiple-choice' && (
+                <TestCard 
+                  question={currentQuestion}
+                  onAnswer={handleMultipleChoiceAnswer}
+                  onComplete={handleNextQuestion}
+                  className="mb-6"
+                />
+              )}
+              
+              {currentQuestion.type === 'open-ended' && (
+                <Card className="mb-6">
+                  <CardHeader>
+                    <CardTitle>{currentQuestion.text}</CardTitle>
+                    <CardDescription>
+                      Ответьте на вопрос своими словами
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <textarea
+                      className="w-full min-h-[150px] p-4 border border-gray-200 rounded-lg"
+                      placeholder="Введите ваш ответ здесь..."
+                      value={currentAnswer}
+                      onChange={(e) => setCurrentAnswer(e.target.value)}
+                    />
+                    <div className="mt-4 p-4 rounded-lg bg-gray-50 border border-gray-200">
+                      <h4 className="font-medium text-gray-900 mb-2">Подсказка:</h4>
+                      <p className="text-gray-700">{currentQuestion.explanation}</p>
+                    </div>
+                  </CardContent>
+                  <CardFooter className="flex justify-end">
+                    <Button onClick={handleOpenEndedSubmit}>
+                      Отправить ответ
+                    </Button>
+                  </CardFooter>
+                </Card>
+              )}
+            </div>
+          )}
+          
+          {interviewComplete && (
+            <div className="max-w-3xl mx-auto">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Результаты теста</CardTitle>
+                  <CardDescription>
+                    Вы ответили на все вопросы! Вот ваши результаты:
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center justify-center py-8">
+                    <div className="w-32 h-32 rounded-full bg-gray-100 flex items-center justify-center text-4xl font-heading font-semibold relative">
+                      {getCorrectAnswersCount()}
+                      <span className="text-sm text-gray-500 absolute -bottom-8">из {getMultipleChoiceQuestionsCount()}</span>
+                    </div>
+                  </div>
+                  
+                  <Separator className="my-6" />
+                  
+                  <div className="space-y-6">
+                    <div>
+                      <h3 className="text-lg font-medium mb-3">Правильных ответов:</h3>
+                      <p className="text-gray-600">{getCorrectAnswersCount()} из {getMultipleChoiceQuestionsCount()} ({Math.round(getCorrectAnswersCount() / getMultipleChoiceQuestionsCount() * 100)}%)</p>
+                    </div>
+                    
+                    <div>
+                      <h3 className="text-lg font-medium mb-3">Пройденные вопросы:</h3>
+                      <p className="text-gray-600">{responses.length} из {activeQuestions.length}</p>
+                    </div>
+                    
+                    <div>
+                      <h3 className="text-lg font-medium mb-3">Категория:</h3>
+                      <p className="text-gray-600">{selectedCategory ? 
+                        selectedCategory === 'history' ? 'История' :
+                        selectedCategory === 'geography' ? 'География' :
+                        selectedCategory === 'culture' ? 'Культура' : 'Политика'
+                        : 'Все категории'}</p>
+                    </div>
+                  </div>
+                </CardContent>
+                <CardFooter className="flex justify-between">
+                  <Button 
+                    variant="outline"
+                    onClick={() => {
+                      setInterviewStarted(false);
+                      setInterviewComplete(false);
+                    }}
+                  >
+                    Вернуться
+                  </Button>
+                  <Button onClick={restartInterview}>
+                    <RotateCw className="mr-2 h-4 w-4" />
+                    Пройти снова
+                  </Button>
+                </CardFooter>
+              </Card>
+            </div>
+          )}
+        </div>
+      </main>
+      
+      <Footer />
+    </div>
+  );
+};
+
+export default Interview;
