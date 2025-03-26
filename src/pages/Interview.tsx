@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
@@ -12,12 +11,11 @@ import { toast } from "sonner";
 import TestCard from '@/components/ui/TestCard';
 import QuestionUploader from '@/components/ui/QuestionUploader';
 
-// Типы вопросов для симуляции собеседования
 interface InterviewQuestion {
   id: string;
   category: 'history' | 'geography' | 'culture' | 'politics';
   text: string;
-  options?: {
+  options: {
     id: string;
     text: string;
     isCorrect: boolean;
@@ -353,7 +351,6 @@ const Interview = () => {
   const hasQuestions = activeQuestions.length > 0;
   const currentQuestion = hasQuestions ? activeQuestions[currentQuestionIndex] : null;
 
-  // Загрузка пользовательских вопросов из localStorage
   useEffect(() => {
     const savedQuestions = localStorage.getItem('customInterviewQuestions');
     if (savedQuestions) {
@@ -369,9 +366,7 @@ const Interview = () => {
     }
   }, []);
 
-  // Определение активных вопросов на основе категории
   useEffect(() => {
-    // Проверяем текущий URL и устанавливаем категорию на основе него
     const currentPath = window.location.pathname;
     console.log('Current path:', currentPath);
     
@@ -387,7 +382,6 @@ const Interview = () => {
       categoryFromPath = 'politics';
     }
     
-    // Если пользователь находится на странице определенной категории, обновляем выбранную категорию
     if (categoryFromPath && selectedCategory !== categoryFromPath) {
       setSelectedCategory(categoryFromPath);
       console.log('Setting category from path:', categoryFromPath);
@@ -395,28 +389,39 @@ const Interview = () => {
     
     let filteredQuestions = [...interviewQuestions];
     
-    // Добавляем пользовательские вопросы
     const validCustomQuestions = customQuestions.filter(q => 
-      q.text && 
-      ((q.type === 'multiple-choice' && q.options && q.options.length > 0) || 
-       (q.type === 'open-ended' && q.correctAnswer)) && 
-      q.explanation
+      q.text && q.explanation && (
+        (q.type === 'multiple-choice' && q.options && q.options.length > 0) || 
+        (q.type === 'open-ended' && q.correctAnswer)
+      )
     );
     
     console.log('Valid custom questions:', validCustomQuestions);
+    
     filteredQuestions = [...filteredQuestions, ...validCustomQuestions];
     
-    // Фильтруем вопросы по категории, если она выбрана
     if (selectedCategory) {
       filteredQuestions = filteredQuestions.filter(q => q.category === selectedCategory);
-      console.log(`Filtered questions for category ${selectedCategory}:`, filteredQuestions);
     }
     
     console.log('Final filtered questions count:', filteredQuestions.length);
-    setActiveQuestions(filteredQuestions);
+    console.log('Questions after category filter:', filteredQuestions);
     
-    // Сбрасываем индекс, если необходимо
-    if (currentQuestionIndex >= filteredQuestions.length && filteredQuestions.length > 0) {
+    const processedQuestions = filteredQuestions.map(q => {
+      if (q.type === 'open-ended' && (!q.options || q.options.length === 0)) {
+        return {
+          ...q,
+          options: [
+            { id: 'hidden-option', text: '', isCorrect: true }
+          ]
+        };
+      }
+      return q;
+    });
+    
+    setActiveQuestions(processedQuestions);
+    
+    if (currentQuestionIndex >= processedQuestions.length && processedQuestions.length > 0) {
       setCurrentQuestionIndex(0);
     }
   }, [selectedCategory, interviewQuestions, customQuestions, currentQuestionIndex]);
