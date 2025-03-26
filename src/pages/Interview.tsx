@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
@@ -322,6 +323,7 @@ const defaultInterviewQuestions: InterviewQuestion[] = [
     id: 'open1',
     category: 'culture',
     text: 'Почему сохранение греческого языка и культуры важно для вас?',
+    options: [{ id: 'open1-option', text: '', isCorrect: true }],
     correctAnswer: 'Это открытый вопрос, направленный на ваше личное отношение к греческой культуре и языку.',
     explanation: 'На собеседовании важно показать искреннюю связь с греческой культурой и языком. Можно рассказать о личном интересе к истории Греции, значимости сохранения культурного наследия, желании передать традиции следующим поколениям.',
     type: 'open-ended'
@@ -330,6 +332,7 @@ const defaultInterviewQuestions: InterviewQuestion[] = [
     id: 'open2',
     category: 'politics',
     text: 'Как вы понимаете обязанности гражданина Греции?',
+    options: [{ id: 'open2-option', text: '', isCorrect: true }],
     correctAnswer: 'Этот вопрос проверяет ваше понимание гражданских обязанностей.',
     explanation: 'Хороший ответ включает: уважение к законам страны, участие в демократических процессах (голосование), уплата налогов, защита национальных интересов, сохранение культурного наследия, участие в общественной жизни.',
     type: 'open-ended'
@@ -357,7 +360,19 @@ const Interview = () => {
       try {
         const parsedQuestions = JSON.parse(savedQuestions);
         console.log('Loaded custom questions:', parsedQuestions);
-        setCustomQuestions(parsedQuestions);
+
+        // Обеспечим, чтобы все загруженные вопросы имели options
+        const processedCustomQuestions = parsedQuestions.map((q: any) => {
+          if (!q.options || q.options.length === 0) {
+            return {
+              ...q,
+              options: [{ id: `${q.id}-option`, text: '', isCorrect: true }]
+            };
+          }
+          return q;
+        });
+        
+        setCustomQuestions(processedCustomQuestions);
       } catch (e) {
         console.error("Error parsing saved questions:", e);
       }
@@ -367,11 +382,20 @@ const Interview = () => {
   }, []);
 
   useEffect(() => {
+    // Отображаем текущие значения для отладки
+    console.log('Current state:', {
+      selectedCategory,
+      interviewQuestions: interviewQuestions.length,
+      customQuestions: customQuestions.length,
+      activeQuestions: activeQuestions.length,
+    });
+    
     const currentPath = window.location.pathname;
     console.log('Current path:', currentPath);
     
     let categoryFromPath: string | null = null;
     
+    // Определяем категорию из URL
     if (currentPath.includes('/history')) {
       categoryFromPath = 'history';
     } else if (currentPath.includes('/geography')) {
@@ -380,48 +404,53 @@ const Interview = () => {
       categoryFromPath = 'culture';
     } else if (currentPath.includes('/politics')) {
       categoryFromPath = 'politics';
+    } else if (currentPath.includes('/practice')) {
+      // Для страницы практики используем выбранную категорию
+      categoryFromPath = selectedCategory;
     }
     
+    // Обновляем категорию, если она определена из URL
     if (categoryFromPath && selectedCategory !== categoryFromPath) {
-      setSelectedCategory(categoryFromPath);
       console.log('Setting category from path:', categoryFromPath);
+      setSelectedCategory(categoryFromPath);
+      return; // Выходим, т.к. изменение selectedCategory вызовет повторное выполнение useEffect
     }
     
-    let filteredQuestions = [...interviewQuestions];
+    // Собираем все вопросы
+    let allQuestions = [...interviewQuestions];
+    console.log('Default questions count:', interviewQuestions.length, 'history questions:', interviewQuestions.filter(q => q.category === 'history').length);
     
-    const validCustomQuestions = customQuestions.filter(q => 
-      q.text && q.explanation && (
-        (q.type === 'multiple-choice' && q.options && q.options.length > 0) || 
-        (q.type === 'open-ended' && q.correctAnswer)
-      )
-    );
-    
-    console.log('Valid custom questions:', validCustomQuestions);
-    
-    filteredQuestions = [...filteredQuestions, ...validCustomQuestions];
-    
-    if (selectedCategory) {
-      filteredQuestions = filteredQuestions.filter(q => q.category === selectedCategory);
-    }
-    
-    console.log('Final filtered questions count:', filteredQuestions.length);
-    console.log('Questions after category filter:', filteredQuestions);
-    
-    const processedQuestions = filteredQuestions.map(q => {
-      if (q.type === 'open-ended' && (!q.options || q.options.length === 0)) {
+    // Добавляем пользовательские вопросы, убедившись, что у каждого есть options
+    const validCustomQuestions = customQuestions.map(q => {
+      if (!q.options || q.options.length === 0) {
         return {
           ...q,
-          options: [
-            { id: 'hidden-option', text: '', isCorrect: true }
-          ]
+          options: [{ id: `${q.id}-option`, text: '', isCorrect: true }]
         };
       }
       return q;
     });
     
-    setActiveQuestions(processedQuestions);
+    allQuestions = [...allQuestions, ...validCustomQuestions];
+    console.log('All questions total:', allQuestions.length);
     
-    if (currentQuestionIndex >= processedQuestions.length && processedQuestions.length > 0) {
+    // Фильтруем по категории, если она выбрана
+    let filteredQuestions = allQuestions;
+    if (selectedCategory) {
+      filteredQuestions = allQuestions.filter(q => q.category === selectedCategory);
+      console.log(`Filtered questions for category ${selectedCategory}:`, filteredQuestions.length);
+      
+      // Выводим все вопросы по истории для отладки
+      if (selectedCategory === 'history') {
+        console.log('History questions:', filteredQuestions.map(q => q.id));
+      }
+    }
+    
+    // Устанавливаем активные вопросы
+    setActiveQuestions(filteredQuestions);
+    
+    // Сбрасываем индекс, если вышли за пределы
+    if (currentQuestionIndex >= filteredQuestions.length && filteredQuestions.length > 0) {
       setCurrentQuestionIndex(0);
     }
   }, [selectedCategory, interviewQuestions, customQuestions, currentQuestionIndex]);
@@ -566,6 +595,10 @@ const Interview = () => {
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl">
               Проверьте свои знания о Греции с помощью практических вопросов.
+              {selectedCategory === 'history' && ` Текущая категория: История (${activeQuestions.length} вопросов)`}
+              {selectedCategory === 'geography' && ` Текущая категория: География (${activeQuestions.length} вопросов)`}
+              {selectedCategory === 'culture' && ` Текущая категория: Культура (${activeQuestions.length} вопросов)`}
+              {selectedCategory === 'politics' && ` Текущая категория: Политика (${activeQuestions.length} вопросов)`}
             </p>
           </div>
           

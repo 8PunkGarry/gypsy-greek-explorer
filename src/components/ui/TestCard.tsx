@@ -55,7 +55,10 @@ const TestCard: React.FC<TestCardProps> = ({
     }
   };
   
-  // Ensure question has options to avoid rendering errors
+  // Пропускаем отображение опций для открытых вопросов
+  const isOpenEnded = question.type === 'open-ended';
+  
+  // Обеспечим наличие опций для отображения карточки
   if (!question || !question.options || question.options.length === 0) {
     console.error('Question without options:', question);
     return (
@@ -70,52 +73,58 @@ const TestCard: React.FC<TestCardProps> = ({
     <div className={`p-6 rounded-xl bg-white/90 border border-gray-100 shadow-soft ${className}`}>
       <h3 className="text-xl font-medium text-gray-900 mb-4">{question.text}</h3>
       
-      <div className="space-y-3 mb-6">
-        {question.options.map((option) => {
-          const isSelected = selectedOptionId === option.id;
-          const showCorrect = isSubmitted && option.isCorrect;
-          const showIncorrect = isSubmitted && isSelected && !option.isCorrect;
-          
-          return (
-            <div 
-              key={option.id}
-              onClick={() => handleOptionSelect(option.id)}
-              className={`p-4 rounded-lg border transition-all duration-300 cursor-pointer flex items-center ${
-                isSelected 
-                  ? 'border-greek-darkBlue bg-greek-blue/10' 
-                  : 'border-gray-200 hover:border-gray-300'
-              } ${
-                showCorrect 
-                  ? 'border-green-500 bg-green-50' 
-                  : showIncorrect 
-                    ? 'border-red-500 bg-red-50' 
-                    : ''
-              }`}
-            >
-              <div className={`w-5 h-5 rounded-full mr-3 flex items-center justify-center border ${
-                isSelected 
-                  ? 'border-greek-darkBlue' 
-                  : 'border-gray-300'
-              }`}>
-                {isSelected && !isSubmitted && (
-                  <div className="w-3 h-3 rounded-full bg-greek-darkBlue"></div>
-                )}
-                {showCorrect && <CheckCircle size={18} className="text-green-500" />}
-                {showIncorrect && <XCircle size={18} className="text-red-500" />}
+      {/* Не показываем варианты ответов для открытых вопросов */}
+      {!isOpenEnded && (
+        <div className="space-y-3 mb-6">
+          {question.options.map((option) => {
+            // Пропускаем пустые опции, которые используются для открытых вопросов
+            if (!option.text && isOpenEnded) return null;
+            
+            const isSelected = selectedOptionId === option.id;
+            const showCorrect = isSubmitted && option.isCorrect;
+            const showIncorrect = isSubmitted && isSelected && !option.isCorrect;
+            
+            return (
+              <div 
+                key={option.id}
+                onClick={() => handleOptionSelect(option.id)}
+                className={`p-4 rounded-lg border transition-all duration-300 cursor-pointer flex items-center ${
+                  isSelected 
+                    ? 'border-greek-darkBlue bg-greek-blue/10' 
+                    : 'border-gray-200 hover:border-gray-300'
+                } ${
+                  showCorrect 
+                    ? 'border-green-500 bg-green-50' 
+                    : showIncorrect 
+                      ? 'border-red-500 bg-red-50' 
+                      : ''
+                }`}
+              >
+                <div className={`w-5 h-5 rounded-full mr-3 flex items-center justify-center border ${
+                  isSelected 
+                    ? 'border-greek-darkBlue' 
+                    : 'border-gray-300'
+                }`}>
+                  {isSelected && !isSubmitted && (
+                    <div className="w-3 h-3 rounded-full bg-greek-darkBlue"></div>
+                  )}
+                  {showCorrect && <CheckCircle size={18} className="text-green-500" />}
+                  {showIncorrect && <XCircle size={18} className="text-red-500" />}
+                </div>
+                <span className={`${
+                  showCorrect 
+                    ? 'text-green-700' 
+                    : showIncorrect 
+                      ? 'text-red-700' 
+                      : 'text-gray-700'
+                }`}>
+                  {option.text}
+                </span>
               </div>
-              <span className={`${
-                showCorrect 
-                  ? 'text-green-700' 
-                  : showIncorrect 
-                    ? 'text-red-700' 
-                    : 'text-gray-700'
-              }`}>
-                {option.text}
-              </span>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      )}
       
       {isSubmitted && (
         <div className="mb-6 p-4 rounded-lg bg-gray-50 border border-gray-200">
