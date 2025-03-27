@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import BlurBackground from '@/components/ui/BlurBackground';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import { BookOpen, Map, Compass, LandPlot, Sparkles, BookCheck, Users, Clock } from 'lucide-react';
+import { BookOpen, Map, Compass, LandPlot, Sparkles, BookCheck, Clock } from 'lucide-react';
 import FeatureCard from '@/components/ui/card/FeatureCard';
 
 const Index = () => {
@@ -44,12 +44,6 @@ const Index = () => {
                   onClick={handleStartLearning}
                 >
                   Начать обучение
-                </button>
-                <button 
-                  className="px-8 py-3 bg-transparent border border-white text-white rounded-full text-lg font-medium hover:bg-white/10 transform hover:-translate-y-1 transition-all duration-300"
-                  onClick={() => handleNavigateToTopic('questions')}
-                >
-                  Загрузка вопросов
                 </button>
               </div>
             </div>

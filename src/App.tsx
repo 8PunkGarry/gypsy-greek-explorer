@@ -7,7 +7,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import History from "./pages/History";
-import QuestionUpload from "./pages/QuestionUpload";
 import Interview from "./pages/Interview";
 
 const queryClient = new QueryClient();
@@ -21,7 +20,6 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/history" element={<History />} />
-          <Route path="/questions" element={<QuestionUpload />} />
           <Route path="/practice" element={<Interview />} />
           {/* These routes will be implemented later */}
           <Route path="/geography" element={<NotFound />} />
