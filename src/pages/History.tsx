@@ -1,283 +1,361 @@
 
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import BlurBackground from '@/components/ui/BlurBackground';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from "@/components/ui/separator";
-import { BookOpen, CheckCircle, Clock, Lightbulb } from 'lucide-react';
-import { toast } from "sonner";
 import TestCard from '@/components/ui/TestCard';
+import { Button } from '@/components/ui/button';
+import { CheckCircle } from 'lucide-react';
+
+// Define the history questions directly in this component
+const historyQuestions = [
+  {
+    id: 'hist1',
+    category: 'history',
+    text: 'Когда Греция получила независимость от Османской империи?',
+    options: [
+      { id: 'h1a', text: '1821 (начало войны за независимость)', isCorrect: false },
+      { id: 'h1b', text: '1830 (Лондонский протокол)', isCorrect: true },
+      { id: 'h1c', text: '1832 (Константинопольский договор)', isCorrect: false },
+      { id: 'h1d', text: '1834 (перенос столицы в Афины)', isCorrect: false },
+    ],
+    explanation: 'Хотя Греческая война за независимость началась в 1821 году, официально независимость была признана в 1830 году с подписанием Лондонского протокола.',
+    type: 'multiple-choice'
+  },
+  {
+    id: 'hist2',
+    category: 'history',
+    text: 'Что означает "День Охи" (ΟΧΙ) и когда его отмечают?',
+    options: [
+      { id: 'h2a', text: '28 октября, день отказа Греции подчиниться фашистской Италии', isCorrect: true },
+      { id: 'h2b', text: '25 марта, начало восстания против османского владычества', isCorrect: false },
+      { id: 'h2c', text: '17 ноября, день восстания студентов против военной хунты', isCorrect: false },
+      { id: 'h2d', text: '3 сентября, день принятия первой конституции', isCorrect: false },
+    ],
+    explanation: '"День Охи" (День "Нет") отмечается 28 октября в память о решительном отказе премьер-министра Иоанниса Метаксаса подчиниться ультиматуму Муссолини в 1940 году.',
+    type: 'multiple-choice'
+  },
+  // Новые вопросы по истории
+  {
+    id: 'hist_civ1',
+    category: 'history',
+    text: 'Какие великие цивилизации Древней Греции вы знаете?',
+    options: [
+      { id: 'civ1a', text: 'Микенская, Минойская, Классическая и Эллинистическая', isCorrect: true },
+      { id: 'civ1b', text: 'Древнегреческая, Афинская, Спартанская и Коринфская', isCorrect: false },
+      { id: 'civ1c', text: 'Аргосская, Византийская, Александрийская и Пелопоннесская', isCorrect: false },
+      { id: 'civ1d', text: 'Троянская, Ионическая, Дорическая и Критская', isCorrect: false },
+    ],
+    explanation: 'Цивилизаций Древней Греции было четыре: Микенская (Пелопоннес), Минойская (Крит), классическая античность (Афины) и эллинистический период, во время которого греческая культура распространилась по всему тогдашнему миру.',
+    type: 'multiple-choice'
+  },
+  {
+    id: 'hist_state1',
+    category: 'history',
+    text: 'Была ли Греция в древности единым государством?',
+    options: [
+      { id: 'state1a', text: 'Нет, она была разделена на города-государства', isCorrect: true },
+      { id: 'state1b', text: 'Да, с единым правителем и законами', isCorrect: false },
+      { id: 'state1c', text: 'Только во время правления Александра Македонского', isCorrect: false },
+      { id: 'state1d', text: 'Только во время Римской империи', isCorrect: false },
+    ],
+    explanation: 'Древняя Греция была разделена на города-государства. Каждый город был отдельным государством со своим царём, монетами и законами. Самыми значительными городами были Афины, Спарта, Фивы, и между ними постоянно велись войны, например, Пелопоннесская война, длившаяся 27 лет.',
+    type: 'multiple-choice'
+  },
+  {
+    id: 'hist_athens1',
+    category: 'history',
+    text: 'Когда древние Афины достигли наивысшего расцвета?',
+    options: [
+      { id: 'athens1a', text: 'В 5-м веке до н.э. (золотой век Перикла)', isCorrect: true },
+      { id: 'athens1b', text: 'В 8-м веке до н.э. (эпоха Гомера)', isCorrect: false },
+      { id: 'athens1c', text: 'В 3-м веке до н.э. (эллинистический период)', isCorrect: false },
+      { id: 'athens1d', text: 'В 1-м веке н.э. (период Римской империи)', isCorrect: false },
+    ],
+    explanation: 'Афины достигли наивысшего расцвета в 5-м веке до н. э., который назвали золотым веком Перикла, принесшего демократию.',
+    type: 'multiple-choice'
+  },
+  {
+    id: 'hist_golden1',
+    category: 'history',
+    text: 'Почему период 5-го века до н.э. в Афинах назвали золотым веком?',
+    options: [
+      { id: 'golden1a', text: 'Из-за развития литературы, искусства и строительства Парфенона', isCorrect: true },
+      { id: 'golden1b', text: 'Из-за большого количества золота, добытого в это время', isCorrect: false },
+      { id: 'golden1c', text: 'Из-за побед в Пелопоннессской войне', isCorrect: false },
+      { id: 'golden1d', text: 'Из-за торговых связей с Персией', isCorrect: false },
+    ],
+    explanation: 'Этот период назвали золотым веком, потому что развивались литература и искусство, а главным достижением или шедевром стал Парфенон. Парфенон — это центральный храм на Акрополе, построенный после греко-персидских войн.',
+    type: 'multiple-choice'
+  },
+  {
+    id: 'hist_acropolis1',
+    category: 'history',
+    text: 'Что такое Акрополь?',
+    options: [
+      { id: 'acropolis1a', text: 'Священная скала с храмами, включая Парфенон', isCorrect: true },
+      { id: 'acropolis1b', text: 'Древнегреческий город на севере Греции', isCorrect: false },
+      { id: 'acropolis1c', text: 'Дворец, где жили правители Афин', isCorrect: false },
+      { id: 'acropolis1d', text: 'Место проведения Олимпийских игр', isCorrect: false },
+    ],
+    explanation: 'Акрополь — это священная скала афинян. Во многих городах был свой акрополь. На афинском Акрополе был построен Парфенон — храм в честь богини Афины.',
+    type: 'multiple-choice'
+  },
+  {
+    id: 'hist_writers1',
+    category: 'history',
+    text: 'Кто были величайшими древнегреческими поэтами и философами?',
+    options: [
+      { id: 'writers1a', text: 'Гомер, Эсхил, Софокл, Еврипид, Сократ, Платон, Аристотель', isCorrect: true },
+      { id: 'writers1b', text: 'Цезарь, Цицерон, Овидий, Гораций', isCorrect: false },
+      { id: 'writers1c', text: 'Геродот, Фукидид, Ксенофонт, Пиндар', isCorrect: false },
+      { id: 'writers1d', text: 'Александр Великий, Перикл, Фемистокл, Агамемнон', isCorrect: false },
+    ],
+    explanation: 'Первым был Гомер, написавший "Одиссею" и "Илиаду". В Афинах классического периода творили три выдающихся драматурга — Эсхил, Софокл и Еврипид. Самые известные философы — Сократ, его ученик Платон и ученик Платона Аристотель, который был учителем Александра Великого.',
+    type: 'multiple-choice'
+  },
+  {
+    id: 'hist_unite1',
+    category: 'history',
+    text: 'Кто объединил всех древних греков?',
+    options: [
+      { id: 'unite1a', text: 'Филипп Македонский и его сын Александр Великий', isCorrect: true },
+      { id: 'unite1b', text: 'Перикл из Афин', isCorrect: false },
+      { id: 'unite1c', text: 'Леонид из Спарты', isCorrect: false },
+      { id: 'unite1d', text: 'Клисфен, основатель демократии', isCorrect: false },
+    ],
+    explanation: 'Король Македонии Филипп, а затем его сын Александр Великий, объединили греков и распространили греческую культуру до Малой Азии и Индии. Александр получил прозвище Великий, потому что повсюду распространил греческий язык, культуру и традиции.',
+    type: 'multiple-choice'
+  },
+  {
+    id: 'hist_after_alex1',
+    category: 'history',
+    text: 'Что последовало за Александром Великим и эллинистической эпохой?',
+    options: [
+      { id: 'after_alex1a', text: 'Римская империя, затем Византия, затем Османская империя', isCorrect: true },
+      { id: 'after_alex1b', text: 'Персидская империя, затем Османская империя', isCorrect: false },
+      { id: 'after_alex1c', text: 'Период независимости до 19 века', isCorrect: false },
+      { id: 'after_alex1d', text: 'Возвращение к системе городов-государств', isCorrect: false },
+    ],
+    explanation: 'После Александра Великого и эллинистической эпохи наступила Римская империя, затем Византия, а после — Османская империя, начавшая свою историю в 1453 году.',
+    type: 'multiple-choice'
+  },
+  {
+    id: 'hist_revolution1',
+    category: 'history',
+    text: 'Когда произошла Греческая революция после 400 лет османского владычества?',
+    options: [
+      { id: 'revolution1a', text: '25 марта 1821 года', isCorrect: true },
+      { id: 'revolution1b', text: '12 июня 1812 года', isCorrect: false },
+      { id: 'revolution1c', text: '28 октября 1940 года', isCorrect: false },
+      { id: 'revolution1d', text: '17 ноября 1973 года', isCorrect: false },
+    ],
+    explanation: 'Греческая революция началась 25 марта 1821 года после почти 400 лет османского владычества.',
+    type: 'multiple-choice'
+  },
+  {
+    id: 'hist_heroes1',
+    category: 'history',
+    text: 'Каких героев Греческой революции 1821 года вы знаете?',
+    options: [
+      { id: 'heroes1a', text: 'Теодорос Колокотронис, Караискакис, Бубулина', isCorrect: true },
+      { id: 'heroes1b', text: 'Перикл, Фемистокл, Аристид', isCorrect: false },
+      { id: 'heroes1c', text: 'Метаксас, Венизелос, Каподистриас', isCorrect: false },
+      { id: 'heroes1d', text: 'Константин Палеолог, Константин I, Георг I', isCorrect: false },
+    ],
+    explanation: 'Героями Греческой революции 1821 года были Теодорос Колокотронис, Караискакис, Бубулина и многие другие, кто боролся за независимость Греции от Османской империи.',
+    type: 'multiple-choice'
+  },
+  {
+    id: 'hist_recognition1',
+    category: 'history',
+    text: 'Когда Греция была признана иностранными державами свободным государством?',
+    options: [
+      { id: 'recognition1a', text: 'В 1830 году по Лондонскому договору', isCorrect: true },
+      { id: 'recognition1b', text: 'В 1821 году с началом революции', isCorrect: false },
+      { id: 'recognition1c', text: 'В 1832 году по Константинопольскому договору', isCorrect: false },
+      { id: 'recognition1d', text: 'В 1913 году после Балканских войн', isCorrect: false },
+    ],
+    explanation: 'Греция была признана независимым государством в 1830 году согласно Лондонскому договору, подписанному Великобританией, Францией и Россией.',
+    type: 'multiple-choice'
+  },
+  {
+    id: 'hist_capital1',
+    category: 'history',
+    text: 'Какая была первая столица независимой Греции и кто был первым губернатором?',
+    options: [
+      { id: 'capital1a', text: 'Нафплион, Иоаннис Каподистриас', isCorrect: true },
+      { id: 'capital1b', text: 'Афины, Оттон Баварский', isCorrect: false },
+      { id: 'capital1c', text: 'Патры, Теодорос Колокотронис', isCorrect: false },
+      { id: 'capital1d', text: 'Салоники, Элефтериос Венизелос', isCorrect: false },
+    ],
+    explanation: 'Первой столицей независимой Греции был Нафплион, а первым губернатором — Иоаннис Каподистриас, который был убит через три года после назначения.',
+    type: 'multiple-choice'
+  },
+  {
+    id: 'hist_ruler1',
+    category: 'history',
+    text: 'Кто правил Грецией после Каподистриаса?',
+    options: [
+      { id: 'ruler1a', text: 'Оттон Баварский, который в 1843 году был вынужден дать Греции конституцию', isCorrect: true },
+      { id: 'ruler1b', text: 'Георг I из династии Глюксбургов', isCorrect: false },
+      { id: 'ruler1c', text: 'Элефтериос Венизелос как премьер-министр', isCorrect: false },
+      { id: 'ruler1d', text: 'Временное правительство Теодороса Колокотрониса', isCorrect: false },
+    ],
+    explanation: 'После Каподистриаса великие державы привели баварца Оттона в качестве правителя Греции. В 1834 году столицей стали Афины. В 1843 году греки восстали, и Оттон был вынужден дать Греции первую конституцию.',
+    type: 'multiple-choice'
+  },
+  {
+    id: 'hist_ministers1',
+    category: 'history',
+    text: 'Каких выдающихся премьер-министров Греции после Оттона вы знаете?',
+    options: [
+      { id: 'ministers1a', text: 'Харилаос Трикупис и Элефтериос Венизелос', isCorrect: true },
+      { id: 'ministers1b', text: 'Константин Караманлис и Андреас Папандреу', isCorrect: false },
+      { id: 'ministers1c', text: 'Иоаннис Метаксас и Георгиос Папандреу', isCorrect: false },
+      { id: 'ministers1d', text: 'Александрос Маврокордатос и Спиридон Трикупис', isCorrect: false },
+    ],
+    explanation: 'Среди выдающихся премьер-министров после Оттона были Харилаос Трикупис, создавший первую железнодорожную сеть Греции и Истм Коринфа, и Элефтериос Венизелос с его "Великой идеей" расширения границ Греции.',
+    type: 'multiple-choice'
+  },
+  {
+    id: 'hist_holiday1',
+    category: 'history',
+    text: 'Когда отмечается второй большой национальный праздник Греции после 25 марта?',
+    options: [
+      { id: 'holiday1a', text: '28 октября 1940 года ("День Охи")', isCorrect: true },
+      { id: 'holiday1b', text: '17 ноября 1973 года (восстание в Политехническом институте)', isCorrect: false },
+      { id: 'holiday1c', text: '12 октября 1944 года (освобождение Афин)', isCorrect: false },
+      { id: 'holiday1d', text: '23 июля 1974 года (падение военной хунты)', isCorrect: false },
+    ],
+    explanation: 'Второй большой национальный праздник отмечается 28 октября 1940 года. Греки празднуют "НЕТ" (Охи), которое премьер-министр Метаксас сказал итальянцам, не позволив им пройти через Грецию во время Второй мировой войны.',
+    type: 'multiple-choice'
+  },
+  {
+    id: 'hist_junta1',
+    category: 'history',
+    text: 'Что происходило в Греции с 1967 по 1974 годы?',
+    options: [
+      { id: 'junta1a', text: 'Военная диктатура (хунта)', isCorrect: true },
+      { id: 'junta1b', text: 'Гражданская война', isCorrect: false },
+      { id: 'junta1c', text: 'Экономический бум "греческого чуда"', isCorrect: false },
+      { id: 'junta1d', text: 'Правление короля Константина II', isCorrect: false },
+    ],
+    explanation: 'С 1967 по 1974 годы в Греции была военная диктатура (хунта). В память о сопротивлении диктатуре отмечается праздник Политехнио (17 ноября) в честь студенческого восстания 1973 года.',
+    type: 'multiple-choice'
+  },
+  {
+    id: 'hist_anthem1',
+    category: 'history',
+    text: 'Кто написал национальный гимн Греции?',
+    options: [
+      { id: 'anthem1a', text: 'Дионисиос Соломос (слова) и Николаос Мандзарос (музыка)', isCorrect: true },
+      { id: 'anthem1b', text: 'Адамантиос Кораис и Ригас Фереос', isCorrect: false },
+      { id: 'anthem1c', text: 'Константин Кавафис и Микис Теодоракис', isCorrect: false },
+      { id: 'anthem1d', text: 'Элефтериос Венизелос и Димитриос Митропулос', isCorrect: false },
+    ],
+    explanation: 'Национальный гимн Греции "Гимн свободе" написал поэт Дионисиос Соломос, а музыку сочинил композитор Николаос Мандзарос.',
+    type: 'multiple-choice'
+  },
+];
 
 const History = () => {
-  // Исторические вопросы для тестирования
-  const historyQuestions = [
-    {
-      id: 'h1',
-      text: 'В каком году началась Греческая война за независимость?',
-      options: [
-        { id: 'a', text: '1821', isCorrect: true },
-        { id: 'b', text: '1832', isCorrect: false },
-        { id: 'c', text: '1801', isCorrect: false },
-        { id: 'd', text: '1840', isCorrect: false },
-      ],
-      explanation: 'Греческая война за независимость началась в 1821 году и продолжалась до 1832 года, когда была признана независимость Греции от Османской империи.'
-    },
-    {
-      id: 'h2',
-      text: 'Кто был первым президентом независимой Греции?',
-      options: [
-        { id: 'a', text: 'Иоаннис Каподистрия', isCorrect: true },
-        { id: 'b', text: 'Теодорос Колокотронис', isCorrect: false },
-        { id: 'c', text: 'Георгиос Папандреу', isCorrect: false },
-        { id: 'd', text: 'Александрос Маврокордатос', isCorrect: false },
-      ],
-      explanation: 'Иоаннис Каподистрия был первым главой независимого греческого государства с 1828 по 1831 год, до своего убийства.'
-    },
-    {
-      id: 'h3',
-      text: 'Что такое "День Охи" и когда его отмечают?',
-      options: [
-        { id: 'a', text: '28 октября, день отказа Греции подчиниться ультиматуму Муссолини', isCorrect: true },
-        { id: 'b', text: '25 марта, день начала войны за независимость', isCorrect: false },
-        { id: 'c', text: '17 ноября, день восстания студентов против хунты', isCorrect: false },
-        { id: 'd', text: '1 января, день вступления Греции в ЕС', isCorrect: false },
-      ],
-      explanation: '"День Охи" (День "Нет") отмечается 28 октября в память о том, как в 1940 году греческий премьер-министр Метаксас ответил отказом на ультиматум Муссолини.'
-    }
-  ];
-
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [completedQuestions, setCompletedQuestions] = useState<string[]>([]);
+  const [correctAnswers, setCorrectAnswers] = useState(0);
+  const [totalAnswered, setTotalAnswered] = useState(0);
+  const [showResults, setShowResults] = useState(false);
+  
+  console.log('History page loaded with', historyQuestions.length, 'questions');
+
+  const handleAnswer = (wasCorrect: boolean) => {
+    setTotalAnswered(prev => prev + 1);
+    if (wasCorrect) {
+      setCorrectAnswers(prev => prev + 1);
+    }
+  };
 
   const handleNextQuestion = () => {
     if (currentQuestionIndex < historyQuestions.length - 1) {
       setCurrentQuestionIndex(prevIndex => prevIndex + 1);
     } else {
-      toast.success("Вы завершили все вопросы по истории!", {
-        description: "Вы можете продолжить изучение или перейти к другим темам."
-      });
+      setShowResults(true);
     }
   };
 
-  const handleQuestionCompleted = (questionId: string) => {
-    if (!completedQuestions.includes(questionId)) {
-      setCompletedQuestions(prev => [...prev, questionId]);
-    }
-    
-    setTimeout(() => {
-      handleNextQuestion();
-    }, 1500);
+  const resetQuiz = () => {
+    setCurrentQuestionIndex(0);
+    setCorrectAnswers(0);
+    setTotalAnswered(0);
+    setShowResults(false);
   };
+
+  const currentQuestion = historyQuestions[currentQuestionIndex];
 
   return (
     <div className="min-h-screen flex flex-col">
       <BlurBackground />
       <Navbar />
       
-      <main className="flex-grow pt-24 pb-16">
-        <div className="container mx-auto px-4">
-          <div className="mb-8">
-            <h1 className="text-3xl md:text-4xl font-heading font-semibold text-gray-900 mb-4">
-              История Греции
-            </h1>
-            <p className="text-xl text-gray-600 max-w-3xl">
-              От древних времён до современности — изучите ключевые исторические события, 
-              которые сформировали греческую идентичность и культуру.
-            </p>
-          </div>
-          
-          <Tabs defaultValue="learning" className="mb-12">
-            <TabsList className="mb-6">
-              <TabsTrigger value="learning" className="text-base">
-                <BookOpen className="w-4 h-4 mr-2" /> Обучение
-              </TabsTrigger>
-              <TabsTrigger value="practice" className="text-base">
-                <CheckCircle className="w-4 h-4 mr-2" /> Практика
-              </TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="learning" className="space-y-8">
-              {/* Блок с историческими периодами */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <HistoricalPeriodCard 
-                  title="Древняя Греция" 
-                  period="3000 до н.э. - 146 до н.э."
-                  description="Колыбель европейской цивилизации, эпоха полисов, философии и демократии."
-                  highlights={["Золотой век Афин (V век до н.э.)", "Александр Македонский", "Греко-персидские войны"]}
-                />
-                
-                <HistoricalPeriodCard 
-                  title="Византийский период" 
-                  period="330 - 1453"
-                  description="Греция как часть Византийской империи, распространение христианства."
-                  highlights={["Православие становится государственной религией", "Расцвет искусства и архитектуры", "Падение Константинополя"]}
-                />
-              </div>
-              
-              <Separator className="my-8" />
-              
-              {/* Ключевые события современной истории */}
-              <div>
-                <h3 className="text-2xl font-medium mb-6">Ключевые события современной истории</h3>
-                
-                <div className="space-y-6">
-                  <HistoricalEventCard 
-                    year="1821-1832"
-                    title="Греческая война за независимость"
-                    description="Восстание против Османской империи привело к созданию современного греческого государства."
-                    importance="Это событие отмечается как День независимости Греции 25 марта. Оно символизирует возрождение греческой нации после почти 400 лет османского владычества."
-                  />
-                  
-                  <HistoricalEventCard 
-                    year="1940-1941"
-                    title="День Охи и Итало-греческая война"
-                    description="28 октября 1940 года премьер-министр Метаксас ответил 'Охи' (Нет) на ультиматум Муссолини."
-                    importance="День Охи — один из важнейших национальных праздников, символизирующий сопротивление фашизму и национальную гордость греков."
-                  />
-                  
-                  <HistoricalEventCard 
-                    year="1967-1974"
-                    title="Режим 'черных полковников'"
-                    description="Военная хунта, свергнувшая правительство и установившая диктатуру."
-                    importance="Падение хунты 24 июля 1974 года отмечается как восстановление демократии в Греции. 17 ноября — день памяти восстания в Афинском Политехническом университете против диктатуры."
-                  />
-                  
-                  <HistoricalEventCard 
-                    year="1981"
-                    title="Вступление в Европейское Экономическое Сообщество"
-                    description="Греция присоединилась к ЕЭС (предшественнику ЕС)."
-                    importance="Это событие обозначило новую эпоху в истории страны, интеграцию с Европой и экономические перспективы."
-                  />
-                </div>
-              </div>
-            </TabsContent>
-            
-            <TabsContent value="practice" className="space-y-8">
-              <div className="bg-white/80 backdrop-blur-sm rounded-lg shadow-soft p-6 mb-6">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center">
-                    <CheckCircle className="w-5 h-5 text-greek-darkBlue mr-2" />
-                    <h3 className="text-xl font-medium">Проверьте свои знания</h3>
-                  </div>
-                  <div className="text-sm font-medium text-gray-500">
-                    Вопрос {currentQuestionIndex + 1} из {historyQuestions.length}
-                  </div>
-                </div>
-                
-                <TestCard 
-                  question={historyQuestions[currentQuestionIndex]}
-                  onComplete={() => handleQuestionCompleted(historyQuestions[currentQuestionIndex].id)}
-                />
-              </div>
-              
-              <div className="bg-gray-50 rounded-lg p-6 border border-gray-100">
-                <div className="flex items-start">
-                  <div className="w-10 h-10 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mr-4">
-                    <Lightbulb size={20} />
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-medium mb-2">Совет для собеседования</h4>
-                    <p className="text-gray-600">
-                      Помните, что во время собеседования важно не только знать даты, но и понимать 
-                      значение исторических событий для греческой идентичности. Будьте готовы объяснить, 
-                      почему День Охи или Война за независимость важны для современных греков.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </TabsContent>
-          </Tabs>
-          
-          <div className="my-12 text-center">
-            <h3 className="text-2xl font-medium mb-6">Хотите добавить свои вопросы?</h3>
-            <button 
-              className="px-8 py-3 bg-greek-darkBlue text-white rounded-full text-lg font-medium shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
-              onClick={() => {
-                window.location.href = "/questions";
-              }}
-            >
-              Перейти к загрузке вопросов
-            </button>
-          </div>
+      <main className="flex-grow container mx-auto px-4 py-8 pt-24">
+        <div className="mb-8">
+          <h1 className="text-3xl md:text-4xl font-heading font-bold text-gray-900 mb-4">
+            История Греции
+          </h1>
+          <p className="text-lg text-gray-600 max-w-3xl">
+            Узнайте больше о богатой и древней истории Греции, от древних цивилизаций до современного государства.
+          </p>
         </div>
+        
+        {!showResults ? (
+          <div className="max-w-3xl mx-auto">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-heading font-medium text-gray-900">
+                Проверьте свои знания
+              </h2>
+              <div className="text-sm text-gray-500">
+                Вопрос {currentQuestionIndex + 1} из {historyQuestions.length}
+              </div>
+            </div>
+            
+            {currentQuestion && (
+              <TestCard 
+                question={currentQuestion}
+                onAnswer={handleAnswer}
+                onComplete={handleNextQuestion}
+                className="mb-6"
+              />
+            )}
+          </div>
+        ) : (
+          <div className="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-soft">
+            <div className="text-center mb-6">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-greek-blue/10 text-greek-darkBlue mb-4">
+                <CheckCircle size={32} />
+              </div>
+              <h2 className="text-2xl font-heading font-bold text-gray-900 mb-2">
+                Результаты теста
+              </h2>
+              <p className="text-gray-600">
+                Вы ответили правильно на {correctAnswers} из {totalAnswered} вопросов
+              </p>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button onClick={resetQuiz} className="flex-1 sm:flex-none">
+                Пройти тест снова
+              </Button>
+              <Button variant="outline" className="flex-1 sm:flex-none" asChild>
+                <Link to="/practice">
+                  Больше практики
+                </Link>
+              </Button>
+            </div>
+          </div>
+        )}
       </main>
       
       <Footer />
-    </div>
-  );
-};
-
-// Компонент карточки исторического периода
-const HistoricalPeriodCard = ({ 
-  title, 
-  period, 
-  description, 
-  highlights 
-}: { 
-  title: string;
-  period: string;
-  description: string;
-  highlights: string[];
-}) => {
-  return (
-    <div className="bg-white/80 backdrop-blur-sm rounded-lg shadow-soft p-6 hover:shadow-medium transition-all duration-300">
-      <div className="flex items-center mb-4">
-        <div className="w-12 h-12 rounded-full bg-greek-blue/20 text-greek-darkBlue flex items-center justify-center mr-4">
-          <Clock size={24} />
-        </div>
-        <div>
-          <h3 className="text-xl font-medium text-gray-900">{title}</h3>
-          <p className="text-sm text-gray-500">{period}</p>
-        </div>
-      </div>
-      
-      <p className="text-gray-600 mb-4">{description}</p>
-      
-      <h4 className="text-sm font-medium text-gray-700 mb-2">Ключевые события:</h4>
-      <ul className="space-y-1">
-        {highlights.map((highlight, index) => (
-          <li key={index} className="flex items-start">
-            <span className="text-greek-darkBlue mr-2">•</span>
-            <span className="text-gray-600">{highlight}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
-
-// Компонент карточки исторического события
-const HistoricalEventCard = ({ 
-  year, 
-  title, 
-  description, 
-  importance 
-}: { 
-  year: string;
-  title: string;
-  description: string;
-  importance: string;
-}) => {
-  return (
-    <div className="bg-white/80 backdrop-blur-sm rounded-lg shadow-soft p-6">
-      <div className="flex flex-col md:flex-row md:items-center">
-        <div className="md:w-1/5 mb-4 md:mb-0">
-          <div className="inline-block px-4 py-2 rounded-full bg-greek-blue/10 text-greek-darkBlue font-semibold">
-            {year}
-          </div>
-        </div>
-        
-        <div className="md:w-4/5">
-          <h4 className="text-xl font-medium text-gray-900 mb-2">{title}</h4>
-          <p className="text-gray-600 mb-4">{description}</p>
-          
-          <div className="bg-gray-50 rounded p-4 border-l-4 border-greek-darkBlue">
-            <h5 className="text-sm font-medium uppercase text-gray-500 mb-1">Почему это важно:</h5>
-            <p className="text-gray-700">{importance}</p>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

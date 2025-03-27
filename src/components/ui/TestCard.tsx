@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { CheckCircle, XCircle } from 'lucide-react';
 
@@ -31,6 +30,8 @@ const TestCard: React.FC<TestCardProps> = ({
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   
+  console.log('TestCard rendering with question:', question);
+  
   const handleOptionSelect = (optionId: string) => {
     if (!isSubmitted) {
       setSelectedOptionId(optionId);
@@ -55,10 +56,8 @@ const TestCard: React.FC<TestCardProps> = ({
     }
   };
   
-  // Check for question type
   const isOpenEnded = question.type === 'open-ended';
   
-  // Safety check for missing options
   if (!question.options || question.options.length === 0) {
     console.error('Question without options:', question);
     return (
@@ -73,11 +72,9 @@ const TestCard: React.FC<TestCardProps> = ({
     <div className={`p-6 rounded-xl bg-white/90 border border-gray-100 shadow-soft ${className}`}>
       <h3 className="text-xl font-medium text-gray-900 mb-4">{question.text}</h3>
       
-      {/* Don't show options for open-ended questions */}
       {!isOpenEnded && (
         <div className="space-y-3 mb-6">
           {question.options.map((option) => {
-            // Skip empty options that might be used for open-ended questions
             if (!option.text && isOpenEnded) return null;
             
             const isSelected = selectedOptionId === option.id;
