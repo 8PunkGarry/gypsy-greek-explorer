@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { CheckCircle, XCircle } from 'lucide-react';
 
@@ -29,8 +30,6 @@ const TestCard: React.FC<TestCardProps> = ({
 }) => {
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  
-  console.log('TestCard rendering with question:', question);
   
   const handleOptionSelect = (optionId: string) => {
     if (!isSubmitted) {
