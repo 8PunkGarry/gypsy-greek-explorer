@@ -3,7 +3,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { UserAuthDialog } from './UserAuthDialog';
-import { ProgressDashboard } from './ProgressDashboard';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 
@@ -64,14 +63,6 @@ const WelcomeHero: React.FC = () => {
             </div>
           )}
         </div>
-        
-        {isAuthenticated && (
-          <div className="mt-16 max-w-3xl mx-auto animate-fade-in" style={{
-            animationDelay: '1200ms'
-          }}>
-            <ProgressDashboard />
-          </div>
-        )}
       </div>
     </section>
   );

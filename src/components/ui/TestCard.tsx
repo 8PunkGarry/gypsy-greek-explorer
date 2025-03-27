@@ -28,21 +28,15 @@ const TestCard: React.FC<TestCardProps> = ({
 }) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [showExplanation, setShowExplanation] = useState(false);
-  const { isAuthenticated, updateProgress } = useAuth();
+  const { isAuthenticated } = useAuth();
   const { t } = useLanguage();
 
   const handleOptionClick = (optionId: string) => {
     if (selectedOption) return; // Prevent changing answer after selection
     setSelectedOption(optionId);
     
-    // Only update progress if user is authenticated
-    const isCorrect = question.options.find(o => o.id === optionId)?.isCorrect || false;
-    
-    if (isAuthenticated) {
-      updateProgress(question.category, question.id, isCorrect);
-    }
-    
     // Call onAnswer callback if provided
+    const isCorrect = question.options.find(o => o.id === optionId)?.isCorrect || false;
     if (onAnswer) {
       onAnswer(isCorrect);
     }

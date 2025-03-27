@@ -103,7 +103,7 @@ const Interview = () => {
                 </CardHeader>
                 <CardContent className="text-center">
                   <p className="mb-6">
-                    Создав аккаунт, вы сможете отслеживать свой прогресс в подготовке к собеседованию
+                    Создав аккаунт, вы сможете пройти все тесты подготовки к собеседованию
                   </p>
                   <div className="flex flex-col sm:flex-row justify-center gap-4">
                     <Button onClick={redirectToHome} variant="outline" className="mb-4">
