@@ -15,6 +15,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { UserRound, LogOut } from 'lucide-react';
+import { useToast } from "@/components/ui/use-toast";
 
 const formSchema = z.object({
   username: z.string().min(3, 'Имя пользователя должно быть не менее 3 символов')
@@ -23,6 +24,7 @@ const formSchema = z.object({
 export const UserAuthDialog = () => {
   const { user, isAuthenticated, login, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -35,23 +37,42 @@ export const UserAuthDialog = () => {
     login(values.username);
     setIsOpen(false);
     form.reset();
+    
+    toast({
+      title: "Аккаунт создан",
+      description: "Теперь вы можете отслеживать свой прогресс обучения",
+      variant: "default",
+    });
   };
 
   const handleLogout = () => {
     logout();
     setIsOpen(false);
+    toast({
+      title: "Выход из аккаунта",
+      description: "Вы успешно вышли из системы",
+      variant: "default",
+    });
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button 
-          variant="outline" 
-          size="icon" 
-          className="rounded-full"
-        >
-          <UserRound className={isAuthenticated ? "text-greek-darkBlue" : "text-gray-500"} />
-        </Button>
+        {isAuthenticated ? (
+          <Button 
+            variant="outline" 
+            size="icon" 
+            className="rounded-full"
+          >
+            <UserRound className="text-greek-darkBlue" />
+          </Button>
+        ) : (
+          <Button 
+            className="px-6 py-2 bg-greek-darkBlue text-white rounded-lg hover:bg-greek-blue transition-colors"
+          >
+            Создать аккаунт
+          </Button>
+        )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

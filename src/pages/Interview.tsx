@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import TestCard from '@/components/ui/TestCard';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { UserAuthDialog } from '@/components/ui/UserAuthDialog';
 
 const Interview = () => {
   const [score, setScore] = useState(0);
@@ -95,18 +96,21 @@ const Interview = () => {
             <div className="max-w-3xl mx-auto">
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-2xl font-medium text-center">Создайте аккаунт</CardTitle>
+                  <CardTitle className="text-2xl font-medium text-center">Требуется аккаунт</CardTitle>
                   <CardDescription className="text-center">
-                    Для отслеживания прогресса необходимо создать аккаунт
+                    Для доступа к тестам необходимо создать аккаунт
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="text-center">
                   <p className="mb-6">
                     Создав аккаунт, вы сможете отслеживать свой прогресс в подготовке к собеседованию
                   </p>
-                  <Button onClick={redirectToHome} className="mb-4">
-                    Вернуться на главную страницу
-                  </Button>
+                  <div className="flex flex-col sm:flex-row justify-center gap-4">
+                    <Button onClick={redirectToHome} variant="outline" className="mb-4">
+                      Вернуться на главную страницу
+                    </Button>
+                    <UserAuthDialog />
+                  </div>
                 </CardContent>
               </Card>
             </div>
