@@ -2,6 +2,7 @@
 import React from 'react';
 import { ArrowDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { Button } from "@/components/ui/button";
 
 const WelcomeHero: React.FC = () => {
   const navigate = useNavigate();
@@ -28,12 +29,12 @@ const WelcomeHero: React.FC = () => {
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in" style={{ animationDelay: '900ms' }}>
-          <button
+          <Button
             className="px-8 py-3 bg-greek-darkBlue text-white rounded-full text-lg font-medium shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
             onClick={handleStartLearning}
           >
             Начать обучение
-          </button>
+          </Button>
         </div>
       </div>
       

@@ -7,6 +7,7 @@ import Footer from '@/components/layout/Footer';
 import { BookOpen, Map, Compass, LandPlot, Sparkles, BookCheck, Clock } from 'lucide-react';
 import FeatureCard from '@/components/ui/card/FeatureCard';
 import WelcomeHero from '@/components/ui/WelcomeHero';
+import { Button } from "@/components/ui/button";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -73,7 +74,7 @@ const Index = () => {
           </div>
         </section>
         
-        {/* Learning Methods Section - Simplified */}
+        {/* Learning Methods Section */}
         <section className="py-20 relative">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
@@ -124,15 +125,6 @@ const Index = () => {
                   </p>
                 </div>
               </div>
-            </div>
-            
-            <div className="mt-12 text-center">
-              <button 
-                className="px-8 py-3 bg-greek-darkBlue text-white rounded-full text-lg font-medium shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
-                onClick={() => navigate('/history')}
-              >
-                Начать обучение
-              </button>
             </div>
           </div>
         </section>
