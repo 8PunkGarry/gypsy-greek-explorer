@@ -84,12 +84,72 @@ const historyQuestions: Question[] = [
     text: "Какое событие привело к вступлению США во Вторую мировую войну?",
     options: [
       { id: "a", text: "Нападение на Перл-Харбор", isCorrect: true },
-      { id: "b", text: "На��адение Германии на Польшу", isCorrect: false },
+      { id: "b", text: "Нападение Германии на Польшу", isCorrect: false },
       { id: "c", text: "Битва за Британию", isCorrect: false },
       { id: "d", text: "Вторжение в Нормандию", isCorrect: false },
     ],
     explanation: "Нападение японской авиации на Перл-Харбор 7 декабря 1941 года привело к вступлению США во Вторую мировую войну.",
   },
+  {
+    id: "6",
+    category: "history",
+    text: "В каком году была основана первая греческая цивилизация?",
+    options: [
+      { id: "a", text: "3000 до н.э.", isCorrect: true },
+      { id: "b", text: "1500 до н.э.", isCorrect: false },
+      { id: "c", text: "800 до н.э.", isCorrect: false },
+      { id: "d", text: "500 до н.э.", isCorrect: false },
+    ],
+    explanation: "Первая греческая цивилизация, известная как минойская, была основана примерно в 3000 году до нашей эры на острове Крит.",
+  },
+  {
+    id: "7",
+    category: "history",
+    text: "Кто был основателем древнегреческой философии?",
+    options: [
+      { id: "a", text: "Фалес Милетский", isCorrect: true },
+      { id: "b", text: "Сократ", isCorrect: false },
+      { id: "c", text: "Платон", isCorrect: false },
+      { id: "d", text: "Аристотель", isCorrect: false },
+    ],
+    explanation: "Фалес Милетский (624-546 до н.э.) считается первым философом в западной традиции и основателем ионийской школы философии.",
+  },
+  {
+    id: "8",
+    category: "history",
+    text: "Когда произошло сражение при Фермопилах?",
+    options: [
+      { id: "a", text: "480 до н.э.", isCorrect: true },
+      { id: "b", text: "430 до н.э.", isCorrect: false },
+      { id: "c", text: "323 до н.э.", isCorrect: false },
+      { id: "d", text: "146 до н.э.", isCorrect: false },
+    ],
+    explanation: "Сражение при Фермопилах произошло в 480 году до н.э. во время греко-персидских войн.",
+  },
+  {
+    id: "9",
+    category: "history",
+    text: "Кто построил Парфенон в Афинах?",
+    options: [
+      { id: "a", text: "Перикл", isCorrect: true },
+      { id: "b", text: "Александр Македонский", isCorrect: false },
+      { id: "c", text: "Леонид", isCorrect: false },
+      { id: "d", text: "Солон", isCorrect: false },
+    ],
+    explanation: "Парфенон был построен по инициативе афинского государственного деятеля Перикла в V веке до н.э.",
+  },
+  {
+    id: "10",
+    category: "history",
+    text: "Когда произошла битва при Марафоне?",
+    options: [
+      { id: "a", text: "490 до н.э.", isCorrect: true },
+      { id: "b", text: "480 до н.э.", isCorrect: false },
+      { id: "c", text: "431 до н.э.", isCorrect: false },
+      { id: "d", text: "338 до н.э.", isCorrect: false },
+    ],
+    explanation: "Битва при Марафоне произошла в 490 году до н.э. между персидской армией и греческими силами.",
+  }
 ];
 
 const History = () => {
