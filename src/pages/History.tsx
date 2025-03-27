@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from "sonner";
@@ -244,6 +245,8 @@ const History = () => {
           <TestCard
             question={data[currentQuestionIndex]}
             onNext={handleNextQuestion}
+            currentQuestionNumber={currentQuestionIndex + 1}
+            totalQuestions={data.length}
           />
         )}
       </div>

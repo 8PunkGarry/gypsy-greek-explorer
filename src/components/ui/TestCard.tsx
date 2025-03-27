@@ -13,9 +13,18 @@ interface TestCardProps {
   onNext: () => void;
   onAnswer?: (wasCorrect: boolean) => void;
   onComplete?: () => void;
+  currentQuestionNumber?: number;
+  totalQuestions?: number;
 }
 
-const TestCard: React.FC<TestCardProps> = ({ question, onNext, onAnswer, onComplete }) => {
+const TestCard: React.FC<TestCardProps> = ({ 
+  question, 
+  onNext, 
+  onAnswer, 
+  onComplete, 
+  currentQuestionNumber = 1, 
+  totalQuestions = 1 
+}) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [showExplanation, setShowExplanation] = useState(false);
   const { isAuthenticated, updateProgress } = useAuth();
@@ -79,7 +88,12 @@ const TestCard: React.FC<TestCardProps> = ({ question, onNext, onAnswer, onCompl
   return (
     <Card className="w-full max-w-3xl shadow-soft animate-fadeIn">
       <CardHeader>
-        <CardTitle className="text-xl font-medium text-greek-darkBlue">{question.text}</CardTitle>
+        <div className="flex justify-between items-center">
+          <CardTitle className="text-xl font-medium text-greek-darkBlue">{question.text}</CardTitle>
+          <span className="text-sm font-medium text-gray-500">
+            Вопрос {currentQuestionNumber} из {totalQuestions}
+          </span>
+        </div>
       </CardHeader>
       <CardContent className="space-y-4">
         {!isAuthenticated && (
