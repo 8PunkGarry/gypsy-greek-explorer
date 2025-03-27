@@ -11,7 +11,10 @@ const WelcomeHero: React.FC = () => {
   const { isAuthenticated } = useAuth();
   
   const handleStartLearning = () => {
-    navigate('/history');
+    const learningBlocksSection = document.getElementById('features');
+    if (learningBlocksSection) {
+      learningBlocksSection.scrollIntoView({ behavior: 'smooth' });
+    }
   };
   
   return (

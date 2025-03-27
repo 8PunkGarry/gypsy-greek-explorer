@@ -8,12 +8,19 @@ import { BookOpen, Map, Compass, LandPlot, Sparkles, BookCheck, Clock } from 'lu
 import FeatureCard from '@/components/ui/card/FeatureCard';
 import WelcomeHero from '@/components/ui/WelcomeHero';
 import { Button } from "@/components/ui/button";
+import { useAuth } from '@/contexts/AuthContext';
 
 const Index = () => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   const handleNavigateToTopic = (topic: string) => {
-    navigate(`/${topic}`);
+    if (isAuthenticated) {
+      navigate(`/${topic}`);
+    } else {
+      // Scroll back to top where they can register
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   return (
@@ -33,10 +40,12 @@ const Index = () => {
                 <span>Ключевые блоки обучения</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-heading font-semibold text-gray-900 mb-6 max-w-3xl mx-auto">
-                Всестороннее погружение в греческую культуру
+                Выберите раздел для изучения
               </h2>
               <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Наша программа охватывает все аспекты, необходимые для успешного прохождения собеседования на греческое гражданство.
+                {isAuthenticated 
+                  ? "Нажмите на любой из блоков, чтобы начать обучение по этой теме" 
+                  : "Создайте аккаунт, чтобы получить доступ к материалам для подготовки к собеседованию"}
               </p>
             </div>
             
@@ -71,6 +80,15 @@ const Index = () => {
                 onClick={() => handleNavigateToTopic('politics')}
               />
             </div>
+            
+            {!isAuthenticated && (
+              <div className="mt-12 text-center">
+                <p className="text-gray-700 mb-4">Для доступа к материалам необходимо создать аккаунт</p>
+                <Button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="bg-greek-darkBlue hover:bg-greek-blue/90">
+                  Создать аккаунт
+                </Button>
+              </div>
+            )}
           </div>
         </section>
         
