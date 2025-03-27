@@ -7,12 +7,13 @@ import BlurBackground from '@/components/ui/BlurBackground';
 import TestCard from '@/components/ui/TestCard';
 import { Button } from '@/components/ui/button';
 import { CheckCircle } from 'lucide-react';
+import { Question } from '@/types/questions';
 
 // Define the history questions directly in this component
-const historyQuestions = [
+const historyQuestions: Question[] = [
   {
     id: 'hist1',
-    category: 'history',
+    category: "history",
     text: 'Когда Греция получила независимость от Османской империи?',
     options: [
       { id: 'h1a', text: '1821 (начало войны за независимость)', isCorrect: false },
