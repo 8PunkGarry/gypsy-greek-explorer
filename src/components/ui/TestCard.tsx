@@ -10,9 +10,11 @@ import { UserAuthDialog } from './UserAuthDialog';
 interface TestCardProps {
   question: Question;
   onNext: () => void;
+  onAnswer?: (wasCorrect: boolean) => void;
+  onComplete?: () => void;
 }
 
-const TestCard: React.FC<TestCardProps> = ({ question, onNext }) => {
+const TestCard: React.FC<TestCardProps> = ({ question, onNext, onAnswer, onComplete }) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [showExplanation, setShowExplanation] = useState(false);
   const { isAuthenticated, updateProgress } = useAuth();
@@ -22,9 +24,15 @@ const TestCard: React.FC<TestCardProps> = ({ question, onNext }) => {
     setSelectedOption(optionId);
     
     // Only update progress if user is authenticated
+    const isCorrect = question.options.find(o => o.id === optionId)?.isCorrect || false;
+    
     if (isAuthenticated) {
-      const isCorrect = question.options.find(o => o.id === optionId)?.isCorrect || false;
       updateProgress(question.category, question.id, isCorrect);
+    }
+    
+    // Call onAnswer callback if provided
+    if (onAnswer) {
+      onAnswer(isCorrect);
     }
   };
 
@@ -58,6 +66,13 @@ const TestCard: React.FC<TestCardProps> = ({ question, onNext }) => {
     }
     
     return null;
+  };
+
+  const handleNext = () => {
+    onNext();
+    if (onComplete) {
+      onComplete();
+    }
   };
 
   return (
@@ -111,7 +126,7 @@ const TestCard: React.FC<TestCardProps> = ({ question, onNext }) => {
       </CardContent>
       <CardFooter>
         <Button 
-          onClick={onNext} 
+          onClick={handleNext} 
           className="w-full bg-greek-darkBlue hover:bg-greek-blue text-white"
           disabled={!selectedOption}
         >
