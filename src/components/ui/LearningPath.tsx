@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { CheckCircle, Circle } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface StepProps {
   number: number;
@@ -50,39 +51,41 @@ const Step: React.FC<StepProps> = ({
 };
 
 const LearningPath: React.FC = () => {
+  const { t } = useLanguage();
+  
   return (
     <div className="px-4 py-8 rounded-xl bg-white/80 backdrop-blur-sm border border-gray-100 shadow-soft max-w-lg mx-auto">
-      <h3 className="text-2xl font-medium text-gray-900 mb-6 text-center">Ваш путь обучения</h3>
+      <h3 className="text-2xl font-medium text-gray-900 mb-6 text-center">{t('yourLearningPath')}</h3>
       
       <div className="space-y-2">
         <Step 
           number={1} 
-          title="История Греции" 
-          description="Ключевые события и их значение для современной Греции" 
+          title={t('greekHistory')} 
+          description={t('keyEvents')} 
           isActive={true}
           isComplete={false}
         />
         
         <Step 
           number={2} 
-          title="География Греции" 
-          description="Города, острова и их культурное значение"
+          title={t('greekGeography')} 
+          description={t('citiesIslands')}
           isActive={false}
           isComplete={false}
         />
         
         <Step 
           number={3} 
-          title="Культура Греции" 
-          description="Традиции, искусство и национальная идентичность"
+          title={t('greekCulture')} 
+          description={t('traditionsArt')}
           isActive={false}
           isComplete={false}
         />
         
         <Step 
           number={4} 
-          title="Политическое устройство" 
-          description="Государственная система современной Греции"
+          title={t('politicalSystem')} 
+          description={t('stateSystem')}
           isActive={false}
           isComplete={false}
         />
@@ -90,7 +93,7 @@ const LearningPath: React.FC = () => {
       
       <div className="mt-8 text-center">
         <button className="px-6 py-2 bg-greek-darkBlue text-white rounded-full text-sm font-medium shadow-sm hover:shadow-md transform hover:-translate-y-0.5 transition-all duration-300">
-          Продолжить обучение
+          {t('continueLearning')}
         </button>
       </div>
     </div>

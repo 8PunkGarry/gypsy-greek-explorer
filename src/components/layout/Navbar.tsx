@@ -3,10 +3,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { UserAuthDialog } from '@/components/ui/UserAuthDialog';
+import LanguageSelector from '@/components/ui/LanguageSelector';
 
 const Navbar = () => {
   const { isAuthenticated } = useAuth();
+  const { t } = useLanguage();
 
   return (
     <header className="bg-white/80 backdrop-blur-sm border-b border-gray-100 py-4 sticky top-0 z-50">
@@ -19,27 +22,28 @@ const Navbar = () => {
           
           <nav className="hidden md:flex items-center space-x-6">
             <Link to="/history" className="text-gray-700 hover:text-greek-darkBlue transition-colors">
-              История
+              {t('history')}
             </Link>
             <Link to="/geography" className="text-gray-700 hover:text-greek-darkBlue transition-colors">
-              География
+              {t('geography')}
             </Link>
             <Link to="/culture" className="text-gray-700 hover:text-greek-darkBlue transition-colors">
-              Культура
+              {t('culture')}
             </Link>
             <Link to="/politics" className="text-gray-700 hover:text-greek-darkBlue transition-colors">
-              Политика
+              {t('politics')}
             </Link>
             <Link to="/practice" className="text-gray-700 hover:text-greek-darkBlue transition-colors">
-              Практика
+              {t('practice')}
             </Link>
           </nav>
           
           <div className="flex items-center space-x-4">
+            <LanguageSelector />
             <UserAuthDialog />
             <Button asChild size="sm" className="bg-greek-darkBlue hover:bg-greek-blue/90 text-white">
               <Link to="/practice">
-                Практика
+                {t('practice')}
               </Link>
             </Button>
           </div>
