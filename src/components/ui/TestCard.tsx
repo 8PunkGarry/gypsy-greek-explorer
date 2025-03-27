@@ -1,18 +1,8 @@
 
 import React, { useState } from 'react';
 import { CheckCircle, XCircle } from 'lucide-react';
-
-interface Question {
-  id: string;
-  text: string;
-  options: {
-    id: string;
-    text: string;
-    isCorrect: boolean;
-  }[];
-  explanation: string;
-  category: 'history' | 'geography' | 'culture' | 'politics';
-}
+import { useAuth } from '@/contexts/AuthContext';
+import { Question } from '@/types/questions';
 
 interface TestCardProps {
   question: Question;
@@ -29,6 +19,7 @@ const TestCard: React.FC<TestCardProps> = ({
 }) => {
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { isAuthenticated, updateProgress } = useAuth();
   
   const handleOptionSelect = (optionId: string) => {
     if (!isSubmitted) {
@@ -40,8 +31,15 @@ const TestCard: React.FC<TestCardProps> = ({
     if (selectedOptionId) {
       setIsSubmitted(true);
       const selectedOption = question.options.find(opt => opt.id === selectedOptionId);
-      if (selectedOption && onAnswer) {
-        onAnswer(selectedOption.isCorrect);
+      const isCorrect = !!selectedOption?.isCorrect;
+      
+      if (onAnswer) {
+        onAnswer(isCorrect);
+      }
+      
+      // Обновляем прогресс пользователя, если он авторизован
+      if (isAuthenticated) {
+        updateProgress(question.category, question.id, isCorrect);
       }
     }
   };
