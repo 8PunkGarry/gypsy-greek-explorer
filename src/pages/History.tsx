@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from "sonner";
@@ -9,7 +8,7 @@ import { Question } from '@/types/questions';
 import { UserAuthDialog } from '@/components/ui/UserAuthDialog';
 import { useAuth } from '@/contexts/AuthContext';
 import { Link } from 'react-router-dom';
-import { ChevronRight, Home } from 'lucide-react';
+import { ChevronRight, Home, Book, Map, Compass, LandPlot } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import {
   Breadcrumb,
@@ -19,6 +18,15 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 
 const historyQuestions: Question[] = [
   {
@@ -75,7 +83,7 @@ const historyQuestions: Question[] = [
     text: "Какое событие привело к вступлению США во Вторую мировую войну?",
     options: [
       { id: "a", text: "Нападение на Перл-Харбор", isCorrect: true },
-      { id: "b", text: "Нападение Германии на Польшу", isCorrect: false },
+      { id: "b", text: "На��адение Германии на Польшу", isCorrect: false },
       { id: "c", text: "Битва за Британию", isCorrect: false },
       { id: "d", text: "Вторжение в Нормандию", isCorrect: false },
     ],
@@ -190,6 +198,41 @@ const History = () => {
             <p className="text-lg text-gray-600">Ключевые события и их значение для греческой идентичности</p>
           </div>
           <div className="flex items-center gap-4">
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger>Перейти к блоку</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <div className="grid w-[400px] gap-3 p-4">
+                      <NavigationMenuLink asChild>
+                        <Link to="/history" className="flex items-center gap-2 p-2 rounded hover:bg-greek-blue/10">
+                          <Book size={16} />
+                          <span>История</span>
+                        </Link>
+                      </NavigationMenuLink>
+                      <NavigationMenuLink asChild>
+                        <Link to="/geography" className="flex items-center gap-2 p-2 rounded hover:bg-greek-blue/10">
+                          <Map size={16} />
+                          <span>География</span>
+                        </Link>
+                      </NavigationMenuLink>
+                      <NavigationMenuLink asChild>
+                        <Link to="/culture" className="flex items-center gap-2 p-2 rounded hover:bg-greek-blue/10">
+                          <Compass size={16} />
+                          <span>Культура</span>
+                        </Link>
+                      </NavigationMenuLink>
+                      <NavigationMenuLink asChild>
+                        <Link to="/politics" className="flex items-center gap-2 p-2 rounded hover:bg-greek-blue/10">
+                          <LandPlot size={16} />
+                          <span>Политика</span>
+                        </Link>
+                      </NavigationMenuLink>
+                    </div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
             <Button asChild variant="outline" size="sm">
               <Link to="/">На главную</Link>
             </Button>

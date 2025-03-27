@@ -1,10 +1,12 @@
+
 import React, { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, XCircle, HelpCircle } from 'lucide-react';
+import { CheckCircle2, XCircle, HelpCircle, Home } from 'lucide-react';
 import { Question } from '@/types/questions';
 import { useAuth } from '@/contexts/AuthContext';
 import { UserAuthDialog } from './UserAuthDialog';
+import { Link } from 'react-router-dom';
 
 interface TestCardProps {
   question: Question;
@@ -123,14 +125,24 @@ const TestCard: React.FC<TestCardProps> = ({ question, onNext, onAnswer, onCompl
           </div>
         )}
       </CardContent>
-      <CardFooter>
-        <Button 
-          onClick={handleNext} 
-          className="w-full bg-greek-darkBlue hover:bg-greek-blue text-white"
-          disabled={!selectedOption}
-        >
-          Следующий вопрос
-        </Button>
+      <CardFooter className="flex flex-col gap-3">
+        <div className="w-full flex justify-between items-center">
+          <Button 
+            asChild
+            variant="outline" 
+            size="sm"
+            className="text-gray-600"
+          >
+            <Link to="/"><Home className="mr-1" size={16} /> На главную</Link>
+          </Button>
+          <Button 
+            onClick={handleNext} 
+            className="bg-greek-darkBlue hover:bg-greek-blue text-white"
+            disabled={!selectedOption}
+          >
+            Следующий вопрос
+          </Button>
+        </div>
       </CardFooter>
     </Card>
   );
