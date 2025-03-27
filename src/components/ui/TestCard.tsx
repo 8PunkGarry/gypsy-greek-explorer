@@ -7,6 +7,7 @@ import { Question } from '@/types/questions';
 import { useAuth } from '@/contexts/AuthContext';
 import { UserAuthDialog } from './UserAuthDialog';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface TestCardProps {
   question: Question;
@@ -28,6 +29,7 @@ const TestCard: React.FC<TestCardProps> = ({
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [showExplanation, setShowExplanation] = useState(false);
   const { isAuthenticated, updateProgress } = useAuth();
+  const { t } = useLanguage();
 
   const handleOptionClick = (optionId: string) => {
     if (selectedOption) return; // Prevent changing answer after selection
@@ -85,13 +87,17 @@ const TestCard: React.FC<TestCardProps> = ({
     }
   };
 
+  // Translate question and options
+  const translatedQuestion = t(`history_question_${question.id}`) || question.text;
+  const translatedExplanation = t(`history_explanation_${question.id}`) || question.explanation;
+
   return (
     <Card className="w-full max-w-3xl shadow-soft animate-fadeIn">
       <CardHeader>
         <div className="flex justify-between items-center">
-          <CardTitle className="text-xl font-medium text-greek-darkBlue">{question.text}</CardTitle>
+          <CardTitle className="text-xl font-medium text-greek-darkBlue">{translatedQuestion}</CardTitle>
           <span className="text-sm font-medium text-gray-500">
-            Вопрос {currentQuestionNumber} из {totalQuestions}
+            {t('question')} {currentQuestionNumber} {t('of')} {totalQuestions}
           </span>
         </div>
       </CardHeader>
@@ -101,7 +107,7 @@ const TestCard: React.FC<TestCardProps> = ({
             <div className="flex gap-2 items-center">
               <HelpCircle className="text-amber-500" size={20} />
               <p className="text-amber-800 text-sm">
-                Войдите в систему, чтобы сохранять свой прогресс:
+                {t('logInToSave')}
               </p>
               <UserAuthDialog />
             </div>
@@ -109,16 +115,19 @@ const TestCard: React.FC<TestCardProps> = ({
         )}
       
         <div className="space-y-3">
-          {question.options.map((option) => (
-            <div
-              key={option.id}
-              className={`p-4 border rounded-lg flex justify-between items-center transition-all ${getOptionClass(option.id)}`}
-              onClick={() => handleOptionClick(option.id)}
-            >
-              <span>{option.text}</span>
-              {getOptionIcon(option.id)}
-            </div>
-          ))}
+          {question.options.map((option) => {
+            const translatedOption = t(`history_answer_${question.id}_${option.id.replace('a', '1').replace('b', '2').replace('c', '3').replace('d', '4')}`) || option.text;
+            return (
+              <div
+                key={option.id}
+                className={`p-4 border rounded-lg flex justify-between items-center transition-all ${getOptionClass(option.id)}`}
+                onClick={() => handleOptionClick(option.id)}
+              >
+                <span>{translatedOption}</span>
+                {getOptionIcon(option.id)}
+              </div>
+            );
+          })}
         </div>
         
         {selectedOption && (
@@ -128,12 +137,12 @@ const TestCard: React.FC<TestCardProps> = ({
               onClick={() => setShowExplanation(!showExplanation)}
               className="text-greek-darkBlue hover:text-greek-blue hover:bg-greek-blue/10"
             >
-              {showExplanation ? 'Скрыть объяснение' : 'Показать объяснение'}
+              {showExplanation ? t('hideExplanation') : t('showExplanation')}
             </Button>
             
             {showExplanation && (
               <div className="mt-2 p-4 bg-gray-50 rounded-lg">
-                <p className="text-gray-700">{question.explanation}</p>
+                <p className="text-gray-700">{translatedExplanation}</p>
               </div>
             )}
           </div>
@@ -147,14 +156,14 @@ const TestCard: React.FC<TestCardProps> = ({
             size="sm"
             className="text-gray-600"
           >
-            <Link to="/"><Home className="mr-1" size={16} /> На главную</Link>
+            <Link to="/"><Home className="mr-1" size={16} /> {t('home')}</Link>
           </Button>
           <Button 
             onClick={handleNext} 
             className="bg-greek-darkBlue hover:bg-greek-blue text-white"
             disabled={!selectedOption}
           >
-            Следующий вопрос
+            {t('nextQuestion')}
           </Button>
         </div>
       </CardFooter>

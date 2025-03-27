@@ -2,15 +2,16 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from "sonner";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import TestCard from "@/components/ui/TestCard";
 import { Question } from '@/types/questions';
 import { UserAuthDialog } from '@/components/ui/UserAuthDialog';
 import { useAuth } from '@/contexts/AuthContext';
 import { Link } from 'react-router-dom';
-import { ChevronRight, Home, Book, Map, Compass, LandPlot } from 'lucide-react';
+import { Home, Book, Map, Compass, LandPlot } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
+import { useLanguage } from '@/contexts/LanguageContext';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -27,7 +28,6 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu";
 
 const historyQuestions: Question[] = [
   {
@@ -263,7 +263,8 @@ const historyQuestions: Question[] = [
 const History = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [isTestComplete, setIsTestComplete] = useState(false);
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated } = useAuth();
+  const { t } = useLanguage();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['historyQuestions'],
@@ -307,15 +308,15 @@ const History = () => {
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>История</BreadcrumbPage>
+                <BreadcrumbPage>{t('history')}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
 
           <div className="flex justify-between items-center mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-greek-darkBlue">История Греции</h1>
-              <p className="text-lg text-gray-600">Ключевые события и их значение для греческой идентичности</p>
+              <h1 className="text-3xl font-bold text-greek-darkBlue">{t('greekHistory')}</h1>
+              <p className="text-lg text-gray-600">{t('keyEvents')}</p>
             </div>
             <div className="flex items-center gap-4">
               <UserAuthDialog />
@@ -323,17 +324,17 @@ const History = () => {
           </div>
           <Card className="w-full max-w-3xl mx-auto shadow-soft animate-fadeIn">
             <CardContent className="text-center py-8">
-              <h2 className="text-2xl font-semibold text-green-500 mb-4">Тест завершен!</h2>
-              <p className="text-gray-700 mb-4">Вы успешно прошли все вопросы по истории Греции.</p>
+              <h2 className="text-2xl font-semibold text-green-500 mb-4">{t('testComplete')}</h2>
+              <p className="text-gray-700 mb-4">{t('testCompleteMessage')}</p>
               <div className="flex gap-3 justify-center mt-6">
                 <Button asChild variant="outline">
-                  <Link to="/">На главную</Link>
+                  <Link to="/">{t('home')}</Link>
                 </Button>
                 <Button onClick={() => {
                   setCurrentQuestionIndex(0);
                   setIsTestComplete(false);
                 }}>
-                  Пройти тест снова
+                  {t('retakeTest')}
                 </Button>
               </div>
             </CardContent>
@@ -356,45 +357,45 @@ const History = () => {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage>История</BreadcrumbPage>
+              <BreadcrumbPage>{t('history')}</BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
 
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-greek-darkBlue">История Греции</h1>
-            <p className="text-lg text-gray-600">Ключевые события и их значение для греческой идентичности</p>
+            <h1 className="text-3xl font-bold text-greek-darkBlue">{t('greekHistory')}</h1>
+            <p className="text-lg text-gray-600">{t('keyEvents')}</p>
           </div>
           <div className="flex items-center gap-4">
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger>Перейти к блоку</NavigationMenuTrigger>
+                  <NavigationMenuTrigger>{t('practice')}</NavigationMenuTrigger>
                   <NavigationMenuContent>
                     <div className="grid w-[400px] gap-3 p-4">
                       <NavigationMenuLink asChild>
                         <Link to="/history" className="flex items-center gap-2 p-2 rounded hover:bg-greek-blue/10">
                           <Book size={16} />
-                          <span>История</span>
+                          <span>{t('history')}</span>
                         </Link>
                       </NavigationMenuLink>
                       <NavigationMenuLink asChild>
                         <Link to="/geography" className="flex items-center gap-2 p-2 rounded hover:bg-greek-blue/10">
                           <Map size={16} />
-                          <span>География</span>
+                          <span>{t('geography')}</span>
                         </Link>
                       </NavigationMenuLink>
                       <NavigationMenuLink asChild>
                         <Link to="/culture" className="flex items-center gap-2 p-2 rounded hover:bg-greek-blue/10">
                           <Compass size={16} />
-                          <span>Культура</span>
+                          <span>{t('culture')}</span>
                         </Link>
                       </NavigationMenuLink>
                       <NavigationMenuLink asChild>
                         <Link to="/politics" className="flex items-center gap-2 p-2 rounded hover:bg-greek-blue/10">
                           <LandPlot size={16} />
-                          <span>Политика</span>
+                          <span>{t('politics')}</span>
                         </Link>
                       </NavigationMenuLink>
                     </div>
@@ -403,7 +404,7 @@ const History = () => {
               </NavigationMenuList>
             </NavigationMenu>
             <Button asChild variant="outline" size="sm">
-              <Link to="/">На главную</Link>
+              <Link to="/">{t('home')}</Link>
             </Button>
             <UserAuthDialog />
           </div>
