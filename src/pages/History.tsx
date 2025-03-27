@@ -8,6 +8,17 @@ import TestCard from "@/components/ui/TestCard";
 import { Question } from '@/types/questions';
 import { UserAuthDialog } from '@/components/ui/UserAuthDialog';
 import { useAuth } from '@/contexts/AuthContext';
+import { Link } from 'react-router-dom';
+import { ChevronRight, Home } from 'lucide-react';
+import Navbar from '@/components/layout/Navbar';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 const historyQuestions: Question[] = [
   {
@@ -108,7 +119,22 @@ const History = () => {
   if (isTestComplete) {
     return (
       <div className="relative min-h-screen">
+        <Navbar />
         <div className="container mx-auto px-4 py-8">
+          <Breadcrumb className="mb-4">
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link to="/"><Home className="h-4 w-4" /></Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>История</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+
           <div className="flex justify-between items-center mb-8">
             <div>
               <h1 className="text-3xl font-bold text-greek-darkBlue">История Греции</h1>
@@ -121,7 +147,18 @@ const History = () => {
           <Card className="w-full max-w-3xl mx-auto shadow-soft animate-fadeIn">
             <CardContent className="text-center py-8">
               <h2 className="text-2xl font-semibold text-green-500 mb-4">Тест завершен!</h2>
-              <p className="text-gray-700">Вы успешно прошли все вопросы по истории Греции.</p>
+              <p className="text-gray-700 mb-4">Вы успешно прошли все вопросы по истории Греции.</p>
+              <div className="flex gap-3 justify-center mt-6">
+                <Button asChild variant="outline">
+                  <Link to="/">На главную</Link>
+                </Button>
+                <Button onClick={() => {
+                  setCurrentQuestionIndex(0);
+                  setIsTestComplete(false);
+                }}>
+                  Пройти тест снова
+                </Button>
+              </div>
             </CardContent>
           </Card>
         </div>
@@ -131,13 +168,31 @@ const History = () => {
 
   return (
     <div className="relative min-h-screen">
+      <Navbar />
       <div className="container mx-auto px-4 py-8">
+        <Breadcrumb className="mb-4">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link to="/"><Home className="h-4 w-4" /></Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>История</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold text-greek-darkBlue">История Греции</h1>
             <p className="text-lg text-gray-600">Ключевые события и их значение для греческой идентичности</p>
           </div>
           <div className="flex items-center gap-4">
+            <Button asChild variant="outline" size="sm">
+              <Link to="/">На главную</Link>
+            </Button>
             <UserAuthDialog />
           </div>
         </div>
