@@ -11,7 +11,7 @@ interface Question {
     isCorrect: boolean;
   }[];
   explanation: string;
-  category?: 'history' | 'geography' | 'culture' | 'politics';
+  category: 'history' | 'geography' | 'culture' | 'politics';
 }
 
 interface TestCardProps {

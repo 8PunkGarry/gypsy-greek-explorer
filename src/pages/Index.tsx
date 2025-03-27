@@ -6,6 +6,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { BookOpen, Map, Compass, LandPlot, Sparkles, BookCheck, Clock } from 'lucide-react';
 import FeatureCard from '@/components/ui/card/FeatureCard';
+import WelcomeHero from '@/components/ui/WelcomeHero';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -14,42 +15,15 @@ const Index = () => {
     navigate(`/${topic}`);
   };
 
-  const handleStartLearning = () => {
-    navigate('/history');
-  };
-
   return (
     <div className="min-h-screen flex flex-col">
       <BlurBackground />
       <Navbar />
       
       <main className="flex-grow">
-        {/* Hero Section with Call to Action */}
-        <section className="py-20 relative">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto p-8 md:p-12 rounded-2xl bg-gradient-to-r from-greek-darkBlue to-[#1D3D61] text-white text-center shadow-medium overflow-hidden relative">
-              <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAwIiBoZWlnaHQ9IjYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTAwIDEwMEw1MDAgNTAwIiBzdHJva2U9IndoaXRlIiBzdHJva2Utb3BhY2l0eT0iMC4wNSIgc3Ryb2tlLXdpZHRoPSI1Ii8+PHBhdGggZD0iTTUwMCAxMDBMMTAwIDUwMCIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLW9wYWNpdHk9IjAuMDUiIHN0cm9rZS13aWR0aD0iNSIvPjwvc3ZnPg==')] opacity-20"></div>
-              
-              <h2 className="text-3xl md:text-4xl font-heading font-semibold mb-6 relative z-10">
-                Начните свое путешествие к греческому гражданству сегодня
-              </h2>
-              
-              <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto relative z-10">
-                Присоединяйтесь к нашей платформе и подготовьтесь к собеседованию с уверенностью и глубоким пониманием греческой культуры.
-              </p>
-              
-              <div className="flex flex-col sm:flex-row gap-4 justify-center relative z-10">
-                <button 
-                  className="px-8 py-3 bg-white text-greek-darkBlue rounded-full text-lg font-medium shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
-                  onClick={handleStartLearning}
-                >
-                  Начать обучение
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-                
+        {/* Hero Section */}
+        <WelcomeHero />
+        
         {/* Features Section */}
         <section id="features" className="py-20 bg-greek-offWhite relative">
           <div className="container mx-auto px-4">
@@ -65,7 +39,7 @@ const Index = () => {
               </p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <FeatureCard 
                 icon={BookOpen}
                 title="История Греции"
@@ -99,7 +73,7 @@ const Index = () => {
           </div>
         </section>
         
-        {/* Learning Tools Section */}
+        {/* Learning Methods Section - Simplified */}
         <section className="py-20 relative">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
@@ -155,7 +129,7 @@ const Index = () => {
             <div className="mt-12 text-center">
               <button 
                 className="px-8 py-3 bg-greek-darkBlue text-white rounded-full text-lg font-medium shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300"
-                onClick={handleStartLearning}
+                onClick={() => navigate('/history')}
               >
                 Начать обучение
               </button>

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { ArrowDown } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const WelcomeHero: React.FC = () => {
   const navigate = useNavigate();
@@ -43,8 +43,6 @@ const WelcomeHero: React.FC = () => {
           <ArrowDown size={20} />
         </a>
       </div>
-      
-      <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-greek-blue/5 to-transparent"></div>
     </section>
   );
 };
