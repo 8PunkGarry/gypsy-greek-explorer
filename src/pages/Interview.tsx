@@ -6,12 +6,16 @@ import Footer from '@/components/layout/Footer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import TestCard from '@/components/ui/TestCard';
+import { useAuth } from '@/contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Interview = () => {
   const [score, setScore] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [showResults, setShowResults] = useState(false);
   const [answeredQuestions, setAnsweredQuestions] = useState(0);
+  const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   
   // Example practice questions
   const practiceQuestions = [
@@ -60,7 +64,7 @@ const Interview = () => {
     setAnsweredQuestions(prev => prev + 1);
   };
 
-  const handleComplete = () => {
+  const handleNext = () => {
     const nextIndex = currentQuestionIndex + 1;
     if (nextIndex < practiceQuestions.length) {
       setCurrentQuestionIndex(nextIndex);
@@ -75,6 +79,44 @@ const Interview = () => {
     setShowResults(false);
     setAnsweredQuestions(0);
   };
+
+  const redirectToHome = () => {
+    navigate('/');
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <BlurBackground />
+        <Navbar />
+        
+        <main className="flex-grow pt-28 pb-20">
+          <div className="container mx-auto px-4">
+            <div className="max-w-3xl mx-auto">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-2xl font-medium text-center">Создайте аккаунт</CardTitle>
+                  <CardDescription className="text-center">
+                    Для отслеживания прогресса необходимо создать аккаунт
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="text-center">
+                  <p className="mb-6">
+                    Создав аккаунт, вы сможете отслеживать свой прогресс в подготовке к собеседованию
+                  </p>
+                  <Button onClick={redirectToHome} className="mb-4">
+                    Вернуться на главную страницу
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </main>
+        
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -122,8 +164,9 @@ const Interview = () => {
                 
                 <TestCard
                   question={practiceQuestions[currentQuestionIndex]}
+                  onNext={handleNext}
                   onAnswer={handleAnswer}
-                  onComplete={handleComplete}
+                  onComplete={() => {}}
                 />
               </>
             )}

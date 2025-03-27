@@ -42,12 +42,22 @@ const WelcomeHero: React.FC = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in" style={{
           animationDelay: '900ms'
         }}>
-          <Button 
-            className="px-8 py-3 bg-greek-darkBlue text-white rounded-full text-lg font-medium shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300" 
-            onClick={handleStartLearning}
-          >
-            Начать обучение
-          </Button>
+          {isAuthenticated ? (
+            <Button 
+              className="px-8 py-3 bg-greek-darkBlue text-white rounded-full text-lg font-medium shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300" 
+              onClick={handleStartLearning}
+            >
+              Начать обучение
+            </Button>
+          ) : (
+            <div className="flex flex-col sm:flex-row items-center gap-4 bg-white p-6 rounded-xl shadow-md">
+              <div className="text-gray-700 text-lg">
+                <h3 className="font-medium text-xl mb-2 text-greek-darkBlue">Создайте аккаунт</h3>
+                <p className="mb-4">Сохраняйте свой прогресс и отслеживайте успехи</p>
+                <UserAuthDialog />
+              </div>
+            </div>
+          )}
         </div>
         
         {isAuthenticated && (
