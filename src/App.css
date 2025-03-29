@@ -36,7 +36,8 @@
 
 .card {
   padding: 2em;
-  background-color: rgba(250, 250, 250, 0.9);
+  background-color: rgba(250, 250, 250, 0.92);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .read-the-docs {
