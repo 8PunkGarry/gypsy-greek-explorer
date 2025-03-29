@@ -3,35 +3,38 @@ import React from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Progress } from '@/components/ui/progress';
 import { Clock, BookOpen, MapPin, Landmark, Users } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export const ProgressDashboard = () => {
-  const { isAuthenticated, userProgress, getCategoryProgress } = useAuth();
+  const { isAuthenticated } = useAuth();
+  const { t } = useLanguage();
   
-  if (!isAuthenticated || !userProgress) {
+  // Since we removed progress tracking, we'll use static demo values
+  const historyProgress = 25;
+  const geographyProgress = 40;
+  const cultureProgress = 15;
+  const politicsProgress = 30;
+  
+  // Calculate overall progress based on static values
+  const totalProgress = Math.floor((historyProgress + geographyProgress + cultureProgress + politicsProgress) / 4);
+  
+  if (!isAuthenticated) {
     return (
       <div className="p-6 rounded-xl bg-white/90 backdrop-blur-sm border border-gray-100 shadow-soft">
-        <h3 className="text-2xl font-medium text-gray-900 mb-4 text-center">Ваш прогресс</h3>
-        <p className="text-center text-gray-500">Войдите в систему, чтобы отслеживать свой прогресс обучения</p>
+        <h3 className="text-2xl font-medium text-gray-900 mb-4 text-center">{t('yourProgress')}</h3>
+        <p className="text-center text-gray-500">{t('loginToTrackProgress')}</p>
       </div>
     );
   }
   
-  const historyProgress = getCategoryProgress('history');
-  const geographyProgress = getCategoryProgress('geography');
-  const cultureProgress = getCategoryProgress('culture');
-  const politicsProgress = getCategoryProgress('politics');
-  
-  // Общий прогресс по всем категориям
-  const totalProgress = Math.floor((historyProgress + geographyProgress + cultureProgress + politicsProgress) / 4);
-  
   return (
     <div className="p-6 rounded-xl bg-white/90 backdrop-blur-sm border border-gray-100 shadow-soft">
-      <h3 className="text-2xl font-medium text-gray-900 mb-6 text-center">Ваш прогресс</h3>
+      <h3 className="text-2xl font-medium text-gray-900 mb-6 text-center">{t('yourProgress')}</h3>
       
       <div className="space-y-6">
         <div className="space-y-2">
           <div className="flex justify-between items-center mb-1">
-            <h4 className="font-medium text-gray-900">Общий прогресс</h4>
+            <h4 className="font-medium text-gray-900">{t('overallProgress')}</h4>
             <span className="text-sm font-medium text-gray-700">{totalProgress}%</span>
           </div>
           <Progress value={totalProgress} className="h-2" />
@@ -44,7 +47,7 @@ export const ProgressDashboard = () => {
                 <BookOpen size={16} />
               </div>
               <div className="flex justify-between items-center w-full">
-                <h4 className="text-sm font-medium text-gray-700">История</h4>
+                <h4 className="text-sm font-medium text-gray-700">{t('history')}</h4>
                 <span className="text-xs font-medium text-gray-500">{historyProgress}%</span>
               </div>
             </div>
@@ -57,7 +60,7 @@ export const ProgressDashboard = () => {
                 <MapPin size={16} />
               </div>
               <div className="flex justify-between items-center w-full">
-                <h4 className="text-sm font-medium text-gray-700">География</h4>
+                <h4 className="text-sm font-medium text-gray-700">{t('geography')}</h4>
                 <span className="text-xs font-medium text-gray-500">{geographyProgress}%</span>
               </div>
             </div>
@@ -70,7 +73,7 @@ export const ProgressDashboard = () => {
                 <Landmark size={16} />
               </div>
               <div className="flex justify-between items-center w-full">
-                <h4 className="text-sm font-medium text-gray-700">Культура</h4>
+                <h4 className="text-sm font-medium text-gray-700">{t('culture')}</h4>
                 <span className="text-xs font-medium text-gray-500">{cultureProgress}%</span>
               </div>
             </div>
@@ -83,7 +86,7 @@ export const ProgressDashboard = () => {
                 <Users size={16} />
               </div>
               <div className="flex justify-between items-center w-full">
-                <h4 className="text-sm font-medium text-gray-700">Политика</h4>
+                <h4 className="text-sm font-medium text-gray-700">{t('politics')}</h4>
                 <span className="text-xs font-medium text-gray-500">{politicsProgress}%</span>
               </div>
             </div>
@@ -93,7 +96,7 @@ export const ProgressDashboard = () => {
         
         <div className="pt-2 text-center">
           <p className="text-sm text-gray-500 flex items-center justify-center gap-1">
-            <Clock size={14} /> Прогресс автоматически сохраняется
+            <Clock size={14} /> {t('progressAutoSaved')}
           </p>
         </div>
       </div>
