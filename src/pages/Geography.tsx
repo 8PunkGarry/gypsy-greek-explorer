@@ -5,7 +5,7 @@ import BlurBackground from '@/components/ui/BlurBackground';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Map } from 'lucide-react';
 import TestCard from '@/components/ui/TestCard';
 import { Question } from '@/types/questions';
@@ -28,6 +28,7 @@ const Geography = () => {
     const geographyQuestions: Question[] = [
       {
         id: 'geo1',
+        category: "geography",
         text: 'Где находится Греция? И каковы ее границы?',
         options: [
           {
@@ -69,6 +70,7 @@ const Geography = () => {
       },
       {
         id: 'geo2',
+        category: "geography",
         text: 'Каковы ее моря и каковы группы островов в них?',
         options: [
           {
@@ -121,6 +123,7 @@ const Geography = () => {
       },
       {
         id: 'geo3',
+        category: "geography",
         text: 'Каковы географические области Греции?',
         options: [
           {
@@ -171,6 +174,7 @@ const Geography = () => {
       },
       {
         id: 'geo4',
+        category: "geography",
         text: 'Какие реки и озера Греции вы знаете?',
         options: [
           {
@@ -223,6 +227,7 @@ const Geography = () => {
       },
       {
         id: 'geo5',
+        category: "geography",
         text: 'Какие самые большие города в Греции?',
         options: [
           {
@@ -285,6 +290,7 @@ const Geography = () => {
       },
       {
         id: 'geo6',
+        category: "geography",
         text: 'Какой мыс является самым северным, а какой — самым южным?',
         options: [
           {
@@ -341,6 +347,7 @@ const Geography = () => {
       },
       {
         id: 'geo7',
+        category: "geography",
         text: 'Что такое греческий флаг?',
         options: [
           {
@@ -394,6 +401,7 @@ const Geography = () => {
       },
       {
         id: 'geo8',
+        category: "geography",
         text: 'Какие великие археологические памятники Греции вы знаете?',
         options: [
           {
@@ -493,7 +501,7 @@ const Geography = () => {
       toast({
         title: "Правильный ответ!",
         description: "Вы ответили верно.",
-        variant: "success"
+        variant: "default"
       });
     } else {
       toast({
@@ -611,3 +619,4 @@ const Geography = () => {
 };
 
 export default Geography;
+
