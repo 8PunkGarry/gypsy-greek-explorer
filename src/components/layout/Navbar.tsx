@@ -12,28 +12,28 @@ const Navbar = () => {
   const { t } = useLanguage();
 
   return (
-    <header className="bg-white/80 backdrop-blur-sm border-b border-gray-100 py-4 sticky top-0 z-50">
+    <header className="bg-[#2A3441]/80 backdrop-blur-sm border-b border-gray-700/30 py-4 sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           <Link to="/" className="flex items-center">
             <img src="/placeholder.svg" alt="Logo" className="w-8 h-8 mr-2" />
-            <span className="font-heading font-semibold text-xl text-greek-darkBlue">Greek Citizenship</span>
+            <span className="font-heading font-semibold text-xl text-blue-300">Greek Citizenship</span>
           </Link>
           
           <nav className="hidden md:flex items-center space-x-6">
-            <Link to="/history" className="text-gray-700 hover:text-greek-darkBlue transition-colors">
+            <Link to="/history" className="text-gray-300 hover:text-blue-300 transition-colors">
               {t('history')}
             </Link>
-            <Link to="/geography" className="text-gray-700 hover:text-greek-darkBlue transition-colors">
+            <Link to="/geography" className="text-gray-300 hover:text-blue-300 transition-colors">
               {t('geography')}
             </Link>
-            <Link to="/culture" className="text-gray-700 hover:text-greek-darkBlue transition-colors">
+            <Link to="/culture" className="text-gray-300 hover:text-blue-300 transition-colors">
               {t('culture')}
             </Link>
-            <Link to="/politics" className="text-gray-700 hover:text-greek-darkBlue transition-colors">
+            <Link to="/politics" className="text-gray-300 hover:text-blue-300 transition-colors">
               {t('politics')}
             </Link>
-            <Link to="/practice" className="text-gray-700 hover:text-greek-darkBlue transition-colors">
+            <Link to="/practice" className="text-gray-300 hover:text-blue-300 transition-colors">
               {t('practice')}
             </Link>
           </nav>
@@ -41,7 +41,7 @@ const Navbar = () => {
           <div className="flex items-center space-x-4">
             <LanguageSelector />
             <UserAuthDialog />
-            <Button asChild size="sm" className="bg-greek-darkBlue hover:bg-greek-blue/90 text-white">
+            <Button asChild size="sm" className="bg-blue-600 hover:bg-blue-700 text-white">
               <Link to="/practice">
                 {t('practice')}
               </Link>
