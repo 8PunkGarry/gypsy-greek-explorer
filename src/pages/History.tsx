@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from "sonner";
@@ -467,4 +468,101 @@ const historyQuestions: Question[] = [
     text: "Η περίοδος της σύγχρονης ελληνικής ιστορίας, μετά την πτώση της δικτατορίας τον Ιούλιο του 1974, ονομάζεται:",
     options: [
       { id: "a", text: "Μεταπολίτευση", isCorrect: true },
-      { id: "b
+      { id: "b", text: "Ελληνική Επανάσταση", isCorrect: false },
+      { id: "c", text: "Περσικοί Πόλεμοι", isCorrect: false },
+      { id: "d", text: "Βυζαντινή περίοδος", isCorrect: false },
+    ],
+    explanation: "Η περίοδος της σύγχρονης ελληνικής ιστορίας, μετά την πτώση της δικτατορίας τον Ιούλιο του 1974, ονομάζεται Μεταπολίτευση.",
+  },
+];
+
+const History = () => {
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [answeredCorrectly, setAnsweredCorrectly] = useState<number>(0);
+  const [testCompleted, setTestCompleted] = useState<boolean>(false);
+  const { isAuthenticated } = useAuth();
+  const { t } = useLanguage();
+
+  const handleNextQuestion = () => {
+    if (currentQuestionIndex < historyQuestions.length - 1) {
+      setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+    } else {
+      setTestCompleted(true);
+    }
+  };
+
+  const handleAnswer = (wasCorrect: boolean) => {
+    if (wasCorrect) {
+      setAnsweredCorrectly((prev) => prev + 1);
+    }
+  };
+
+  const restartTest = () => {
+    setCurrentQuestionIndex(0);
+    setAnsweredCorrectly(0);
+    setTestCompleted(false);
+  };
+
+  return (
+    <main className="min-h-screen bg-slate-50">
+      <Navbar />
+
+      <div className="container mx-auto px-4 py-8">
+        <Breadcrumb className="mb-6">
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">
+                <Home className="h-3.5 w-3.5 mr-1" />
+                <span>Home</span>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>History</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+
+        <div className="flex flex-col items-center mb-10">
+          <h1 className="text-3xl font-bold text-center text-greek-darkBlue mb-4">
+            {t('greekHistory')}
+          </h1>
+          <p className="text-center text-gray-600 max-w-2xl mb-8">
+            {t('keyEvents')}
+          </p>
+
+          {testCompleted ? (
+            <Card className="w-full max-w-3xl shadow-soft">
+              <CardContent className="pt-6">
+                <div className="text-center space-y-4">
+                  <h2 className="text-2xl font-bold text-greek-blue">
+                    {t('testComplete')}
+                  </h2>
+                  <p className="text-lg">
+                    {t('testCompleteMessage')}
+                  </p>
+                  <p className="text-xl font-medium">
+                    {answeredCorrectly} / {historyQuestions.length} {answeredCorrectly === 1 ? 'question' : 'questions'} answered correctly
+                  </p>
+                  <Button onClick={restartTest} className="mt-4 bg-greek-darkBlue hover:bg-greek-blue text-white">
+                    {t('retakeTest')}
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          ) : (
+            <TestCard
+              question={historyQuestions[currentQuestionIndex]}
+              onNext={handleNextQuestion}
+              onAnswer={handleAnswer}
+              currentQuestionNumber={currentQuestionIndex + 1}
+              totalQuestions={historyQuestions.length}
+            />
+          )}
+        </div>
+      </div>
+    </main>
+  );
+};
+
+export default History;
