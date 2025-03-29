@@ -55,7 +55,7 @@ const TestCard: React.FC<TestCardProps> = ({
         : 'border-red-500 bg-red-50';
     }
     
-    return isCorrectOption(optionId) 
+    return isCorrectOption(optionId) && selectedOption 
       ? 'border-green-500 bg-green-50' 
       : 'border-gray-200';
   };
@@ -63,7 +63,7 @@ const TestCard: React.FC<TestCardProps> = ({
   const getOptionIcon = (optionId: string) => {
     if (!selectedOption) return null;
     
-    if (isCorrectOption(optionId)) {
+    if (isCorrectOption(optionId) && selectedOption) {
       return <CheckCircle2 className="text-green-500" />;
     }
     
@@ -76,7 +76,9 @@ const TestCard: React.FC<TestCardProps> = ({
 
   const handleNext = () => {
     onNext();
-    if (onComplete) {
+    setSelectedOption(null); // Reset selection for next question
+    setShowExplanation(false); // Reset explanation visibility
+    if (currentQuestionNumber === totalQuestions && onComplete) {
       onComplete();
     }
   };
