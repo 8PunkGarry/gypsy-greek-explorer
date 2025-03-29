@@ -18,43 +18,43 @@ const Interview = () => {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   
-  // Example practice questions
+  // Simple practice questions
   const practiceQuestions = [
     {
       id: "practice-1",
-      text: "Какой была основная форма правления в Древней Греции?",
+      text: "Вопрос 1",
       options: [
-        { id: "p1-a", text: "Монархия", isCorrect: false },
-        { id: "p1-b", text: "Демократия", isCorrect: true },
-        { id: "p1-c", text: "Коммунизм", isCorrect: false },
-        { id: "p1-d", text: "Теократия", isCorrect: false },
+        { id: "a", text: "Вариант A", isCorrect: false },
+        { id: "b", text: "Вариант B", isCorrect: true },
+        { id: "c", text: "Вариант C", isCorrect: false },
+        { id: "d", text: "Вариант D", isCorrect: false },
       ],
-      explanation: "Древняя Греция, особенно Афины, известна как колыбель демократии. Хотя там существовали и другие формы правления, демократия была инновационной формой, которая оказала огромное влияние на современные политические системы.",
+      explanation: "Объяснение к вопросу 1",
       category: "history" as "history" | "geography" | "culture" | "politics"
     },
     {
       id: "practice-2",
-      text: "Какой греческий остров является самым большим?",
+      text: "Вопрос 2",
       options: [
-        { id: "p2-a", text: "Санторини", isCorrect: false },
-        { id: "p2-b", text: "Миконос", isCorrect: false },
-        { id: "p2-c", text: "Крит", isCorrect: true },
-        { id: "p2-d", text: "Родос", isCorrect: false },
+        { id: "a", text: "Вариант A", isCorrect: false },
+        { id: "b", text: "Вариант B", isCorrect: false },
+        { id: "c", text: "Вариант C", isCorrect: true },
+        { id: "d", text: "Вариант D", isCorrect: false },
       ],
-      explanation: "Крит — самый большой греческий остров с площадью около 8,336 км². Он известен своей древней минойской цивилизацией и богатым историческим наследием.",
-      category: "geography" as "history" | "geography" | "culture" | "politics"
+      explanation: "Объяснение к вопросу 2",
+      category: "history" as "history" | "geography" | "culture" | "politics"
     },
     {
       id: "practice-3",
-      text: "Кто из следующих НЕ является греческим философом?",
+      text: "Вопрос 3",
       options: [
-        { id: "p3-a", text: "Сократ", isCorrect: false },
-        { id: "p3-b", text: "Платон", isCorrect: false },
-        { id: "p3-c", text: "Цицерон", isCorrect: true },
-        { id: "p3-d", text: "Аристотель", isCorrect: false },
+        { id: "a", text: "Вариант A", isCorrect: false },
+        { id: "b", text: "Вариант B", isCorrect: false },
+        { id: "c", text: "Вариант C", isCorrect: false },
+        { id: "d", text: "Вариант D", isCorrect: true },
       ],
-      explanation: "Цицерон был древнеримским государственным деятелем, оратором и философом, а не греческим философом. Сократ, Платон и Аристотель — знаменитые древнегреческие философы.",
-      category: "culture" as "history" | "geography" | "culture" | "politics"
+      explanation: "Объяснение к вопросу 3",
+      category: "history" as "history" | "geography" | "culture" | "politics"
     }
   ];
 
@@ -171,6 +171,8 @@ const Interview = () => {
                   onNext={handleNext}
                   onAnswer={handleAnswer}
                   onComplete={() => {}}
+                  currentQuestionNumber={currentQuestionIndex + 1}
+                  totalQuestions={practiceQuestions.length}
                 />
               </>
             )}

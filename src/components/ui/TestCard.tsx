@@ -83,15 +83,11 @@ const TestCard: React.FC<TestCardProps> = ({
     }
   };
 
-  // Make sure we have proper fallbacks for translations
-  const translatedQuestion = t(`history_question_${question.id}`) || question.text;
-  const translatedExplanation = t(`history_explanation_${question.id}`) || question.explanation;
-
   return (
     <Card className="w-full max-w-3xl shadow-soft animate-fadeIn">
       <CardHeader>
         <div className="flex justify-between items-center">
-          <CardTitle className="text-xl font-medium text-greek-darkBlue">{translatedQuestion}</CardTitle>
+          <CardTitle className="text-xl font-medium text-greek-darkBlue">{question.text}</CardTitle>
           <span className="text-sm font-medium text-gray-500">
             {t('question')} {currentQuestionNumber} {t('of')} {totalQuestions}
           </span>
@@ -111,23 +107,16 @@ const TestCard: React.FC<TestCardProps> = ({
         )}
       
         <div className="space-y-3">
-          {question.options.map((option) => {
-            // Better fallback for translated options
-            const optionIdNum = option.id.replace('a', '1').replace('b', '2').replace('c', '3').replace('d', '4');
-            const translationKey = `history_answer_${question.id}_${optionIdNum}`;
-            const translatedOption = t(translationKey) || option.text;
-            
-            return (
-              <div
-                key={option.id}
-                className={`p-4 border rounded-lg flex justify-between items-center transition-all ${getOptionClass(option.id)}`}
-                onClick={() => handleOptionClick(option.id)}
-              >
-                <span>{translatedOption}</span>
-                {getOptionIcon(option.id)}
-              </div>
-            );
-          })}
+          {question.options.map((option) => (
+            <div
+              key={option.id}
+              className={`p-4 border rounded-lg flex justify-between items-center transition-all ${getOptionClass(option.id)}`}
+              onClick={() => handleOptionClick(option.id)}
+            >
+              <span>{option.text}</span>
+              {getOptionIcon(option.id)}
+            </div>
+          ))}
         </div>
         
         {selectedOption && (
@@ -142,7 +131,7 @@ const TestCard: React.FC<TestCardProps> = ({
             
             {showExplanation && (
               <div className="mt-2 p-4 bg-gray-50 rounded-lg">
-                <p className="text-gray-700">{translatedExplanation}</p>
+                <p className="text-gray-700">{question.explanation}</p>
               </div>
             )}
           </div>
