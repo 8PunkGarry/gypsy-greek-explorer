@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserAuthDialog } from '@/components/ui/UserAuthDialog';
 import { useLanguage } from '@/contexts/LanguageContext';
 
-const Interview = () => {
+const Politics = () => {
   const [score, setScore] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [showResults, setShowResults] = useState(false);
@@ -20,46 +20,6 @@ const Interview = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
   
-  // Simple practice questions
-  const practiceQuestions = [
-    {
-      id: "practice-1",
-      text: "Вопрос 1",
-      options: [
-        { id: "a", text: "Вариант A", isCorrect: false },
-        { id: "b", text: "Вариант B", isCorrect: true },
-        { id: "c", text: "Вариант C", isCorrect: false },
-        { id: "d", text: "Вариант D", isCorrect: false },
-      ],
-      explanation: "Объяснение к вопросу 1",
-      category: "history" as "history" | "geography" | "culture" | "politics"
-    },
-    {
-      id: "practice-2",
-      text: "Вопрос 2",
-      options: [
-        { id: "a", text: "Вариант A", isCorrect: false },
-        { id: "b", text: "Вариант B", isCorrect: false },
-        { id: "c", text: "Вариант C", isCorrect: true },
-        { id: "d", text: "Вариант D", isCorrect: false },
-      ],
-      explanation: "Объяснение к вопросу 2",
-      category: "history" as "history" | "geography" | "culture" | "politics"
-    },
-    {
-      id: "practice-3",
-      text: "Вопрос 3",
-      options: [
-        { id: "a", text: "Вариант A", isCorrect: false },
-        { id: "b", text: "Вариант B", isCorrect: false },
-        { id: "c", text: "Вариант C", isCorrect: false },
-        { id: "d", text: "Вариант D", isCorrect: true },
-      ],
-      explanation: "Объяснение к вопросу 3",
-      category: "history" as "history" | "geography" | "culture" | "politics"
-    }
-  ];
-
   // Politics questions
   const politicsQuestions = [
     {
@@ -277,7 +237,7 @@ const Interview = () => {
                 </CardHeader>
                 <CardContent className="text-center">
                   <p className="mb-6">
-                    Создав аккаунт, вы сможете пройти все тесты подготовки к собеседованию
+                    Создав аккаунт, вы сможете пройти все тесты по политике Греции
                   </p>
                   <div className="flex flex-col sm:flex-row justify-center gap-4">
                     <Button onClick={redirectToHome} variant="outline" className="mb-4">
@@ -307,7 +267,7 @@ const Interview = () => {
             {showResults ? (
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-2xl font-medium text-center">Результаты практики</CardTitle>
+                  <CardTitle className="text-2xl font-medium text-center">Результаты теста</CardTitle>
                   <CardDescription className="text-center">
                     Вы ответили правильно на {score} из {politicsQuestions.length} вопросов
                   </CardDescription>
@@ -325,7 +285,7 @@ const Interview = () => {
             ) : (
               <>
                 <div className="flex justify-between items-center mb-6">
-                  <h1 className="text-3xl font-medium text-gray-900">Политика - Практика</h1>
+                  <h1 className="text-3xl font-medium text-gray-900">Политическое устройство Греции</h1>
                   <div className="text-gray-600">
                     Вопрос {currentQuestionIndex + 1} из {politicsQuestions.length}
                   </div>
@@ -359,4 +319,4 @@ const Interview = () => {
   );
 };
 
-export default Interview;
+export default Politics;

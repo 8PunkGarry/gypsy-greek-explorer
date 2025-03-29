@@ -9,7 +9,7 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import History from "./pages/History";
-import Interview from "./pages/Interview";
+import Politics from "./pages/Politics";
 
 const queryClient = new QueryClient();
 
@@ -24,11 +24,10 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/history" element={<History />} />
-              <Route path="/practice" element={<Interview />} />
+              <Route path="/politics" element={<Politics />} />
               {/* These routes will be implemented later */}
               <Route path="/geography" element={<NotFound />} />
               <Route path="/culture" element={<NotFound />} />
-              <Route path="/politics" element={<NotFound />} />
               
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
