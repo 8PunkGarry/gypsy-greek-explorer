@@ -12,36 +12,36 @@ const Navbar = () => {
   const { t } = useLanguage();
 
   return (
-    <header className="bg-white/5 backdrop-blur-md border-b border-white/10 py-3 sticky top-0 z-50">
+    <header className="bg-white/80 backdrop-blur-sm border-b border-gray-100 py-4 sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           <Link to="/" className="flex items-center">
-            <img src="/placeholder.svg" alt="Logo" className="w-7 h-7 mr-2" />
-            <span className="font-heading font-medium text-lg text-blue-300">Greek Citizenship</span>
+            <img src="/placeholder.svg" alt="Logo" className="w-8 h-8 mr-2" />
+            <span className="font-heading font-semibold text-xl text-greek-darkBlue">Greek Citizenship</span>
           </Link>
           
-          <nav className="hidden md:flex items-center space-x-8">
-            <Link to="/history" className="text-gray-300 hover:text-blue-300 transition-colors text-sm">
+          <nav className="hidden md:flex items-center space-x-6">
+            <Link to="/history" className="text-gray-700 hover:text-greek-darkBlue transition-colors">
               {t('history')}
             </Link>
-            <Link to="/geography" className="text-gray-300 hover:text-blue-300 transition-colors text-sm">
+            <Link to="/geography" className="text-gray-700 hover:text-greek-darkBlue transition-colors">
               {t('geography')}
             </Link>
-            <Link to="/culture" className="text-gray-300 hover:text-blue-300 transition-colors text-sm">
+            <Link to="/culture" className="text-gray-700 hover:text-greek-darkBlue transition-colors">
               {t('culture')}
             </Link>
-            <Link to="/politics" className="text-gray-300 hover:text-blue-300 transition-colors text-sm">
+            <Link to="/politics" className="text-gray-700 hover:text-greek-darkBlue transition-colors">
               {t('politics')}
             </Link>
-            <Link to="/practice" className="text-gray-300 hover:text-blue-300 transition-colors text-sm">
+            <Link to="/practice" className="text-gray-700 hover:text-greek-darkBlue transition-colors">
               {t('practice')}
             </Link>
           </nav>
           
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-4">
             <LanguageSelector />
             <UserAuthDialog />
-            <Button asChild size="sm" className="bg-gradient-to-r from-blue-500/90 to-indigo-600/90 hover:from-blue-600/90 hover:to-indigo-700/90 border border-white/10 text-white text-sm">
+            <Button asChild size="sm" className="bg-greek-darkBlue hover:bg-greek-blue/90 text-white">
               <Link to="/practice">
                 {t('practice')}
               </Link>

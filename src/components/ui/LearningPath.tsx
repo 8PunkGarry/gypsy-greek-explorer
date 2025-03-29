@@ -23,26 +23,28 @@ const Step: React.FC<StepProps> = ({
       <div className="flex flex-col items-center mr-4">
         <div className={`flex items-center justify-center w-10 h-10 rounded-full ${
           isComplete 
-            ? 'bg-blue-500/80 text-white' 
+            ? 'bg-greek-darkBlue text-white' 
             : isActive 
-              ? 'bg-white/10 text-blue-300 ring-2 ring-blue-400/50' 
-              : 'bg-white/5 text-gray-400'
+              ? 'bg-greek-blue text-greek-darkBlue' 
+              : 'bg-gray-100 text-gray-400'
+        } border-2 ${
+          isActive ? 'border-greek-darkBlue' : 'border-transparent'
         } transition-all duration-300`}>
           {isComplete ? <CheckCircle size={20} /> : <span>{number}</span>}
         </div>
         {number < 4 && (
           <div className={`w-0.5 h-full ${
-            isComplete ? 'bg-blue-500/50' : 'bg-white/10'
+            isComplete ? 'bg-greek-darkBlue' : 'bg-gray-200'
           } transition-colors duration-300`}></div>
         )}
       </div>
       <div className="pt-1 pb-8">
         <h4 className={`font-medium text-lg mb-1 ${
-          isActive || isComplete ? 'text-white' : 'text-gray-300'
+          isActive || isComplete ? 'text-gray-900' : 'text-gray-500'
         }`}>
           {title}
         </h4>
-        <p className="text-gray-200">{description}</p>
+        <p className="text-gray-600">{description}</p>
       </div>
     </div>
   );
@@ -52,8 +54,8 @@ const LearningPath: React.FC = () => {
   const { t } = useLanguage();
   
   return (
-    <div className="px-4 py-8 rounded-xl bg-[#2A3441]/60 backdrop-blur-sm border border-white/10 shadow-md max-w-lg mx-auto">
-      <h3 className="text-2xl font-medium text-white mb-6 text-center">{t('yourLearningPath')}</h3>
+    <div className="px-4 py-8 rounded-xl bg-white/80 backdrop-blur-sm border border-gray-100 shadow-soft max-w-lg mx-auto">
+      <h3 className="text-2xl font-medium text-gray-900 mb-6 text-center">{t('yourLearningPath')}</h3>
       
       <div className="space-y-2">
         <Step 
@@ -90,7 +92,7 @@ const LearningPath: React.FC = () => {
       </div>
       
       <div className="mt-8 text-center">
-        <button className="px-6 py-2 bg-gradient-to-r from-blue-500/90 to-indigo-600/90 hover:from-blue-600/90 hover:to-indigo-700/90 text-white rounded-full text-sm font-medium shadow-sm hover:shadow-md transform hover:-translate-y-0.5 transition-all duration-300">
+        <button className="px-6 py-2 bg-greek-darkBlue text-white rounded-full text-sm font-medium shadow-sm hover:shadow-md transform hover:-translate-y-0.5 transition-all duration-300">
           {t('continueLearning')}
         </button>
       </div>

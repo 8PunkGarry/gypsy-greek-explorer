@@ -33,23 +33,23 @@ const Index = () => {
         <WelcomeHero />
         
         {/* Features Section */}
-        <section id="features" className="py-16 bg-[#1A2331] relative">
+        <section id="features" className="py-20 bg-greek-offWhite relative">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <div className="inline-block mb-3 px-3 py-1 rounded-full bg-blue-900/20 text-blue-300 text-sm font-medium">
+            <div className="text-center mb-16">
+              <div className="inline-block mb-4 px-4 py-1.5 rounded-full bg-greek-blue/10 text-greek-darkBlue font-medium">
                 <span>Ключевые блоки обучения</span>
               </div>
-              <h2 className="text-2xl md:text-3xl font-heading font-medium text-gray-100 mb-4 max-w-2xl mx-auto">
+              <h2 className="text-3xl md:text-4xl font-heading font-semibold text-gray-900 mb-6 max-w-3xl mx-auto">
                 Выберите раздел для изучения
               </h2>
-              <p className="text-gray-400 max-w-xl mx-auto">
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
                 {isAuthenticated 
                   ? "Нажмите на любой из блоков, чтобы начать обучение по этой теме" 
                   : "Создайте аккаунт, чтобы получить доступ к материалам для подготовки к собеседованию"}
               </p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <FeatureCard 
                 icon={BookOpen}
                 title="История Греции"
@@ -82,10 +82,9 @@ const Index = () => {
             </div>
             
             {!isAuthenticated && (
-              <div className="mt-10 text-center">
-                <p className="text-gray-400 mb-4">Для доступа к материалам необходимо создать аккаунт</p>
-                <Button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} 
-                  className="bg-blue-600/80 hover:bg-blue-700 text-white text-sm">
+              <div className="mt-12 text-center">
+                <p className="text-gray-700 mb-4">Для доступа к материалам необходимо создать аккаунт</p>
+                <Button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="bg-greek-darkBlue hover:bg-greek-blue/90">
                   Создать аккаунт
                 </Button>
               </div>
@@ -94,49 +93,55 @@ const Index = () => {
         </section>
         
         {/* Learning Methods Section */}
-        <section className="py-16 bg-[#1B2432] relative">
+        <section className="py-20 relative">
           <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <div className="inline-block mb-3 px-3 py-1 rounded-full bg-blue-900/20 text-blue-300 text-sm font-medium">
+            <div className="text-center mb-16">
+              <div className="inline-block mb-4 px-4 py-1.5 rounded-full bg-greek-blue/10 text-greek-darkBlue font-medium">
                 <span>Наш подход</span>
               </div>
-              <h2 className="text-2xl md:text-3xl font-heading font-medium text-gray-100 mb-4 max-w-2xl mx-auto">
+              <h2 className="text-3xl md:text-4xl font-heading font-semibold text-gray-900 mb-6 max-w-3xl mx-auto">
                 Эффективные методы подготовки
               </h2>
-              <p className="text-gray-400 max-w-xl mx-auto">
-                Используйте разнообразные инструменты для лучшего усвоения материала
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                Используйте разнообразные инструменты, которые помогут вам лучше усвоить материал и подготовиться к собеседованию.
               </p>
             </div>
             
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="bg-[#2A3441]/50 border border-gray-700/20 rounded-lg p-5">
-                <div className="w-10 h-10 rounded-md bg-blue-900/20 text-blue-300 flex items-center justify-center mb-4">
-                  <BookCheck size={20} />
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <div className="flex items-start">
+                <div className="w-12 h-12 rounded-lg bg-greek-blue/20 text-greek-darkBlue flex items-center justify-center mr-4">
+                  <BookCheck size={24} />
                 </div>
-                <h3 className="text-lg font-medium text-gray-100 mb-2">Тесты с обратной связью</h3>
-                <p className="text-gray-400 text-sm">
-                  После каждого ответа вы получаете не только оценку, но и полезное пояснение.
-                </p>
+                <div>
+                  <h3 className="text-xl font-medium text-gray-900 mb-2">Тесты с обратной связью</h3>
+                  <p className="text-gray-600">
+                    После каждого ответа вы получаете не только оценку, но и полезное пояснение.
+                  </p>
+                </div>
               </div>
               
-              <div className="bg-[#2A3441]/50 border border-gray-700/20 rounded-lg p-5">
-                <div className="w-10 h-10 rounded-md bg-blue-900/20 text-blue-300 flex items-center justify-center mb-4">
-                  <Sparkles size={20} />
+              <div className="flex items-start">
+                <div className="w-12 h-12 rounded-lg bg-greek-blue/20 text-greek-darkBlue flex items-center justify-center mr-4">
+                  <Sparkles size={24} />
                 </div>
-                <h3 className="text-lg font-medium text-gray-100 mb-2">Интерактивные задания</h3>
-                <p className="text-gray-400 text-sm">
-                  Увлекательные упражнения, которые помогают закрепить знания в игровой форме.
-                </p>
+                <div>
+                  <h3 className="text-xl font-medium text-gray-900 mb-2">Интерактивные задания</h3>
+                  <p className="text-gray-600">
+                    Увлекательные упражнения, которые помогают закрепить знания в игровой форме.
+                  </p>
+                </div>
               </div>
               
-              <div className="bg-[#2A3441]/50 border border-gray-700/20 rounded-lg p-5">
-                <div className="w-10 h-10 rounded-md bg-blue-900/20 text-blue-300 flex items-center justify-center mb-4">
-                  <Clock size={20} />
+              <div className="flex items-start">
+                <div className="w-12 h-12 rounded-lg bg-greek-blue/20 text-greek-darkBlue flex items-center justify-center mr-4">
+                  <Clock size={24} />
                 </div>
-                <h3 className="text-lg font-medium text-gray-100 mb-2">Организация материала</h3>
-                <p className="text-gray-400 text-sm">
-                  Все материалы структурированы по темам и уровням сложности для эффективного обучения.
-                </p>
+                <div>
+                  <h3 className="text-xl font-medium text-gray-900 mb-2">Организация материала</h3>
+                  <p className="text-gray-600">
+                    Все материалы структурированы по темам и уровням сложности для эффективного обучения.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
