@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import BlurBackground from '@/components/ui/BlurBackground';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
@@ -9,16 +10,19 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { UserAuthDialog } from '@/components/ui/UserAuthDialog';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { Question } from '@/types/questions';
 
 const Politics = () => {
   const [score, setScore] = useState(0);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [showResults, setShowResults] = useState(false);
   const [answeredQuestions, setAnsweredQuestions] = useState(0);
+  const [shuffledQuestions, setShuffledQuestions] = useState<Question[]>([]);
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const { t } = useLanguage();
   
+  // Original questions data
   const politicsQuestions = [
     {
       id: "politics-1",
@@ -190,6 +194,34 @@ const Politics = () => {
     }
   ];
 
+  // Function to shuffle an array using Fisher-Yates algorithm
+  const shuffleArray = <T,>(array: T[]): T[] => {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+  };
+
+  // Shuffle questions and their options on component mount
+  useEffect(() => {
+    // Create a deep copy of questions with shuffled options
+    const questionsWithShuffledOptions = politicsQuestions.map(question => ({
+      ...question,
+      options: shuffleArray([...question.options])
+    }));
+
+    // Shuffle the questions themselves
+    setShuffledQuestions(shuffleArray(questionsWithShuffledOptions));
+    
+    // Reset states
+    setCurrentQuestionIndex(0);
+    setScore(0);
+    setShowResults(false);
+    setAnsweredQuestions(0);
+  }, []);
+
   const handleAnswer = (wasCorrect: boolean) => {
     if (wasCorrect) {
       setScore(prevScore => prevScore + 1);
@@ -199,7 +231,7 @@ const Politics = () => {
 
   const handleNext = () => {
     const nextIndex = currentQuestionIndex + 1;
-    if (nextIndex < politicsQuestions.length) {
+    if (nextIndex < shuffledQuestions.length) {
       setCurrentQuestionIndex(nextIndex);
     } else {
       setShowResults(true);
@@ -207,6 +239,14 @@ const Politics = () => {
   };
 
   const restartTest = () => {
+    // Re-shuffle questions and options when restarting
+    const questionsWithShuffledOptions = politicsQuestions.map(question => ({
+      ...question,
+      options: shuffleArray([...question.options])
+    }));
+    setShuffledQuestions(shuffleArray(questionsWithShuffledOptions));
+    
+    // Reset states
     setScore(0);
     setCurrentQuestionIndex(0);
     setShowResults(false);
@@ -254,6 +294,27 @@ const Politics = () => {
     );
   }
 
+  // Guard clause for when questions haven't been shuffled yet
+  if (shuffledQuestions.length === 0) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <BlurBackground />
+        <Navbar />
+        <main className="flex-grow flex items-center justify-center">
+          <Card className="w-full max-w-md">
+            <CardContent className="p-8">
+              <div className="flex justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-greek-darkBlue"></div>
+              </div>
+              <p className="text-center mt-4">Загрузка вопросов...</p>
+            </CardContent>
+          </Card>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <BlurBackground />
@@ -267,12 +328,12 @@ const Politics = () => {
                 <CardHeader>
                   <CardTitle className="text-2xl font-medium text-center">Результаты теста</CardTitle>
                   <CardDescription className="text-center">
-                    Вы ответили правильно на {score} из {politicsQuestions.length} вопросов
+                    Вы ответили правильно на {score} из {shuffledQuestions.length} вопросов
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="text-center">
                   <p className="text-4xl font-bold text-greek-darkBlue mb-6">
-                    {Math.round((score / politicsQuestions.length) * 100)}%
+                    {Math.round((score / shuffledQuestions.length) * 100)}%
                   </p>
                   
                   <Button onClick={restartTest} className="mt-4">
@@ -285,7 +346,7 @@ const Politics = () => {
                 <div className="flex justify-between items-center mb-6">
                   <h1 className="text-3xl font-medium text-gray-900">Политическое устройство Греции</h1>
                   <div className="text-gray-600">
-                    Вопрос {currentQuestionIndex + 1} из {politicsQuestions.length}
+                    Вопрос {currentQuestionIndex + 1} из {shuffledQuestions.length}
                   </div>
                 </div>
                 
@@ -293,18 +354,18 @@ const Politics = () => {
                   <div className="w-full bg-gray-200 rounded-full h-2.5">
                     <div 
                       className="bg-greek-darkBlue h-2.5 rounded-full transition-all duration-300" 
-                      style={{ width: `${(currentQuestionIndex / politicsQuestions.length) * 100}%` }}
+                      style={{ width: `${(currentQuestionIndex / shuffledQuestions.length) * 100}%` }}
                     ></div>
                   </div>
                 </div>
                 
                 <TestCard
-                  question={politicsQuestions[currentQuestionIndex]}
+                  question={shuffledQuestions[currentQuestionIndex]}
                   onNext={handleNext}
                   onAnswer={handleAnswer}
                   onComplete={() => {}}
                   currentQuestionNumber={currentQuestionIndex + 1}
-                  totalQuestions={politicsQuestions.length}
+                  totalQuestions={shuffledQuestions.length}
                 />
               </>
             )}
@@ -318,3 +379,4 @@ const Politics = () => {
 };
 
 export default Politics;
+
