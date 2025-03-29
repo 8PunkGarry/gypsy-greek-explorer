@@ -20,11 +20,11 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
   return (
     <div 
       onClick={onClick}
-      className={`relative overflow-hidden p-6 rounded-lg bg-[#2A3441]/80 border border-gray-700/20 shadow-md hover:shadow-lg transition-all duration-500 hover:-translate-y-1 group ${className} ${onClick ? 'cursor-pointer' : ''}`}
+      className={`relative overflow-hidden p-6 rounded-lg bg-[#2A3441]/80 border border-white/5 shadow-md hover:shadow-lg transition-all duration-500 hover:-translate-y-1 group ${className} ${onClick ? 'cursor-pointer' : ''}`}
     >
-      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-blue-400/40 to-blue-600/40 transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500"></div>
+      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-blue-400/40 via-indigo-400/30 to-transparent transform scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500"></div>
       
-      <div className="mb-4 inline-flex items-center justify-center w-10 h-10 rounded-md bg-blue-900/20 text-blue-300 group-hover:bg-blue-800/30 transition-colors duration-300">
+      <div className="mb-4 inline-flex items-center justify-center w-10 h-10 rounded-md bg-white/10 text-blue-300 group-hover:bg-white/15 transition-colors duration-300">
         <Icon size={20} />
       </div>
       

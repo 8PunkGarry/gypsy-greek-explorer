@@ -47,28 +47,28 @@ const TestCard: React.FC<TestCardProps> = ({
   };
 
   const getOptionClass = (optionId: string) => {
-    if (!selectedOption) return 'border-gray-200 hover:border-greek-blue cursor-pointer';
+    if (!selectedOption) return 'border-white/10 hover:border-blue-400/40 cursor-pointer bg-white/5';
     
     if (optionId === selectedOption) {
       return isCorrectOption(optionId) 
-        ? 'border-green-500 bg-green-50' 
-        : 'border-red-500 bg-red-50';
+        ? 'border-green-500/70 bg-green-500/10' 
+        : 'border-red-500/70 bg-red-500/10';
     }
     
     return isCorrectOption(optionId) && selectedOption 
-      ? 'border-green-500 bg-green-50' 
-      : 'border-gray-200';
+      ? 'border-green-500/70 bg-green-500/10' 
+      : 'border-white/10 bg-white/5';
   };
 
   const getOptionIcon = (optionId: string) => {
     if (!selectedOption) return null;
     
     if (isCorrectOption(optionId) && selectedOption) {
-      return <CheckCircle2 className="text-green-500" />;
+      return <CheckCircle2 className="text-green-400" />;
     }
     
     if (optionId === selectedOption && !isCorrectOption(optionId)) {
-      return <XCircle className="text-red-500" />;
+      return <XCircle className="text-red-400" />;
     }
     
     return null;
@@ -84,21 +84,21 @@ const TestCard: React.FC<TestCardProps> = ({
   };
 
   return (
-    <Card className="w-full max-w-3xl shadow-soft animate-fadeIn">
+    <Card className="w-full max-w-3xl shadow-md glass-light animate-fadeIn">
       <CardHeader>
         <div className="flex justify-between items-center">
-          <CardTitle className="text-xl font-medium text-greek-darkBlue">{question.text}</CardTitle>
-          <span className="text-sm font-medium text-gray-500">
+          <CardTitle className="text-xl font-medium text-gray-100">{question.text}</CardTitle>
+          <span className="text-sm font-medium text-gray-400">
             {t('question')} {currentQuestionNumber} {t('of')} {totalQuestions}
           </span>
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
         {!isAuthenticated && (
-          <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 mb-4">
+          <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-4 mb-4">
             <div className="flex gap-2 items-center">
-              <HelpCircle className="text-amber-500" size={20} />
-              <p className="text-amber-800 text-sm">
+              <HelpCircle className="text-amber-300" size={20} />
+              <p className="text-amber-200 text-sm">
                 {t('logInToSave')}
               </p>
               <UserAuthDialog />
@@ -113,7 +113,7 @@ const TestCard: React.FC<TestCardProps> = ({
               className={`p-4 border rounded-lg flex justify-between items-center transition-all ${getOptionClass(option.id)}`}
               onClick={() => handleOptionClick(option.id)}
             >
-              <span>{option.text}</span>
+              <span className="text-gray-200">{option.text}</span>
               {getOptionIcon(option.id)}
             </div>
           ))}
@@ -124,15 +124,15 @@ const TestCard: React.FC<TestCardProps> = ({
             <Button 
               variant="ghost" 
               onClick={() => setShowExplanation(!showExplanation)}
-              className="text-greek-darkBlue hover:text-greek-blue hover:bg-greek-blue/10"
+              className="text-blue-300 hover:text-blue-200 hover:bg-blue-500/10"
             >
               {showExplanation ? t('hideExplanation') : t('showExplanation')}
             </Button>
             
             {showExplanation && (
-              <div className="mt-2 p-4 bg-gray-50 rounded-lg">
+              <div className="mt-2 p-4 bg-white/5 border border-white/10 rounded-lg">
                 <div 
-                  className="text-gray-700 prose prose-sm max-w-none"
+                  className="text-gray-300 prose prose-sm max-w-none"
                   dangerouslySetInnerHTML={{ __html: question.explanation }}
                 />
               </div>
@@ -146,13 +146,13 @@ const TestCard: React.FC<TestCardProps> = ({
             asChild
             variant="outline" 
             size="sm"
-            className="text-gray-600"
+            className="text-gray-300 border-white/10 hover:bg-white/5 hover:text-blue-300"
           >
             <Link to="/"><Home className="mr-1" size={16} /> {t('home')}</Link>
           </Button>
           <Button 
             onClick={handleNext} 
-            className="bg-greek-darkBlue hover:bg-greek-blue text-white"
+            className="bg-gradient-to-r from-blue-500/90 to-indigo-600/90 hover:from-blue-600/90 hover:to-indigo-700/90 border border-white/10 text-white"
             disabled={!selectedOption}
           >
             {t('nextQuestion')}

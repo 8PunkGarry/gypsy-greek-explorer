@@ -5,12 +5,12 @@ import { Mail, Phone, Map, Heart } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-[#1E2532] border-t border-gray-800/30 pt-12 pb-6">
+    <footer className="bg-[#1A212C] border-t border-white/5 pt-12 pb-6">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
           <div>
             <div className="flex items-center mb-5">
-              <div className="w-8 h-8 rounded-md bg-blue-900/30 text-blue-300 flex items-center justify-center font-heading font-medium text-lg mr-3">
+              <div className="w-8 h-8 rounded-md bg-white/10 text-blue-300 flex items-center justify-center font-heading font-medium text-lg mr-3">
                 G
               </div>
               <span className="font-heading font-medium text-lg text-gray-100">GreekSpark</span>
@@ -54,24 +54,24 @@ const Footer: React.FC = () => {
             <h4 className="font-medium text-base mb-4 text-gray-200">Контакты</h4>
             <ul className="space-y-3">
               <li className="flex items-start">
-                <Mail size={16} className="text-blue-400 mr-3 mt-1" />
+                <Mail size={16} className="text-blue-300 mr-3 mt-1" />
                 <span className="text-gray-400 text-sm">support@greekspark.com</span>
               </li>
               <li className="flex items-start">
-                <Phone size={16} className="text-blue-400 mr-3 mt-1" />
+                <Phone size={16} className="text-blue-300 mr-3 mt-1" />
                 <span className="text-gray-400 text-sm">+30 210 123 4567</span>
               </li>
               <li className="flex items-start">
-                <Map size={16} className="text-blue-400 mr-3 mt-1" />
+                <Map size={16} className="text-blue-300 mr-3 mt-1" />
                 <span className="text-gray-400 text-sm">Афины, Греция</span>
               </li>
             </ul>
           </div>
         </div>
         
-        <div className="pt-6 border-t border-gray-800/40 text-center text-gray-500 text-xs">
+        <div className="pt-6 border-t border-white/5 text-center text-gray-500 text-xs">
           <p className="flex items-center justify-center">
-            Создано с <Heart size={12} className="text-red-500 mx-1 inline" /> для поддержки тех, кто стремится стать гражданином Греции
+            Создано с <Heart size={12} className="text-red-400 mx-1 inline" /> для поддержки тех, кто стремится стать гражданином Греции
           </p>
           <p className="mt-2">
             &copy; {new Date().getFullYear()} GreekSpark. Все права защищены.
@@ -101,7 +101,7 @@ const SocialIcon: React.FC<{ icon: string }> = ({ icon }) => {
       href={`https://${icon}.com`} 
       target="_blank" 
       rel="noopener noreferrer"
-      className="w-8 h-8 rounded-full bg-gray-800/50 flex items-center justify-center text-gray-400 hover:bg-blue-900/30 hover:text-blue-300 transition-colors duration-300"
+      className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-blue-500/10 hover:text-blue-300 transition-colors duration-300"
     >
       <i className={`fab fa-${icon}`}></i>
       {/* Simple placeholder for social icons */}

@@ -7,32 +7,32 @@
 
 @layer base {
   :root {
-    --background: 215 30% 12%;
+    --background: 215 22% 18%;
     --foreground: 210 40% 98%;
 
-    --card: 215 30% 14%;
+    --card: 215 22% 20%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 215 30% 14%;
+    --popover: 215 22% 20%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 60% 60%;
+    --primary: 210 65% 65%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 217 22% 24%;
+    --secondary: 217 19% 27%;
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 217 22% 24%;
-    --muted-foreground: 215 16.3% 70%;
+    --muted: 217 19% 27%;
+    --muted-foreground: 215 16.3% 80%;
 
-    --accent: 217 22% 24%;
+    --accent: 217 19% 27%;
     --accent-foreground: 210 40% 98%;
 
     --destructive: 0 62.8% 50.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 217.2 32.6% 22.5%;
-    --input: 217.2 32.6% 22.5%;
+    --border: 217.2 32.6% 30%;
+    --input: 217.2 32.6% 30%;
     --ring: 212.7 26.8% 83.9%;
 
     --radius: 0.5rem;
@@ -47,10 +47,10 @@
   }
 
   body {
-    @apply bg-[#1B2432] text-foreground font-sans;
+    @apply bg-[#212835] text-foreground font-sans;
     background-image: 
-      radial-gradient(circle at 20% 20%, rgba(40, 60, 95, 0.15) 0%, transparent 25%),
-      radial-gradient(circle at 80% 50%, rgba(60, 75, 90, 0.1) 0%, transparent 20%);
+      radial-gradient(circle at 20% 20%, rgba(100, 130, 180, 0.07) 0%, transparent 25%),
+      radial-gradient(circle at 80% 50%, rgba(120, 140, 160, 0.05) 0%, transparent 20%);
     background-attachment: fixed;
   }
   
@@ -85,11 +85,15 @@
 
 @layer components {
   .glass {
-    @apply bg-[#2A3441]/70 backdrop-blur-md border border-gray-700/40 shadow-md;
+    @apply bg-[#2A3441]/80 backdrop-blur-md border border-white/5 shadow-md;
+  }
+  
+  .glass-light {
+    @apply bg-[#ffffff]/15 backdrop-blur-md border border-white/10 shadow-md;
   }
   
   .glass-dark {
-    @apply bg-black/40 backdrop-blur-md border border-gray-700/20 shadow-md;
+    @apply bg-black/30 backdrop-blur-md border border-gray-700/10 shadow-md;
   }
   
   .button-animation {
@@ -102,6 +106,18 @@
   
   .card-hover {
     @apply transition-all duration-300 ease-out hover:shadow-lg hover:translate-y-[-2px];
+  }
+  
+  .accent-gradient {
+    @apply bg-gradient-to-r from-blue-400/80 to-indigo-500/80 text-white;
+  }
+  
+  .light-card {
+    @apply bg-white/10 backdrop-blur-md border border-white/10 rounded-xl shadow-sm;
+  }
+  
+  .dark-card {
+    @apply bg-[#2A3441]/80 backdrop-blur-md border border-white/5 rounded-xl shadow-md;
   }
 }
 
@@ -116,12 +132,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(100, 120, 160, 0.3);
+  background: rgba(120, 140, 180, 0.3);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(100, 120, 160, 0.5);
+  background: rgba(120, 140, 180, 0.5);
 }
 
 /* Smooth reveal animation */

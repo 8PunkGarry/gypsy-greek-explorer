@@ -23,18 +23,16 @@ const Step: React.FC<StepProps> = ({
       <div className="flex flex-col items-center mr-4">
         <div className={`flex items-center justify-center w-10 h-10 rounded-full ${
           isComplete 
-            ? 'bg-blue-600 text-white' 
+            ? 'bg-blue-500/80 text-white' 
             : isActive 
-              ? 'bg-blue-900/50 text-blue-300' 
-              : 'bg-gray-800 text-gray-400'
-        } border-2 ${
-          isActive ? 'border-blue-500' : 'border-transparent'
+              ? 'bg-white/10 text-blue-300 ring-2 ring-blue-400/50' 
+              : 'bg-white/5 text-gray-400'
         } transition-all duration-300`}>
           {isComplete ? <CheckCircle size={20} /> : <span>{number}</span>}
         </div>
         {number < 4 && (
           <div className={`w-0.5 h-full ${
-            isComplete ? 'bg-blue-600' : 'bg-gray-700'
+            isComplete ? 'bg-blue-500/50' : 'bg-white/10'
           } transition-colors duration-300`}></div>
         )}
       </div>
@@ -54,7 +52,7 @@ const LearningPath: React.FC = () => {
   const { t } = useLanguage();
   
   return (
-    <div className="px-4 py-8 rounded-xl bg-[#2A3441]/80 backdrop-blur-sm border border-gray-700/30 shadow-soft max-w-lg mx-auto">
+    <div className="px-4 py-8 rounded-xl bg-[#2A3441]/60 backdrop-blur-sm border border-white/10 shadow-md max-w-lg mx-auto">
       <h3 className="text-2xl font-medium text-gray-100 mb-6 text-center">{t('yourLearningPath')}</h3>
       
       <div className="space-y-2">
@@ -92,7 +90,7 @@ const LearningPath: React.FC = () => {
       </div>
       
       <div className="mt-8 text-center">
-        <button className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full text-sm font-medium shadow-sm hover:shadow-md transform hover:-translate-y-0.5 transition-all duration-300">
+        <button className="px-6 py-2 bg-gradient-to-r from-blue-500/90 to-indigo-600/90 hover:from-blue-600/90 hover:to-indigo-700/90 text-white rounded-full text-sm font-medium shadow-sm hover:shadow-md transform hover:-translate-y-0.5 transition-all duration-300">
           {t('continueLearning')}
         </button>
       </div>
