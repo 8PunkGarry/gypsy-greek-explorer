@@ -131,7 +131,10 @@ const TestCard: React.FC<TestCardProps> = ({
             
             {showExplanation && (
               <div className="mt-2 p-4 bg-gray-50 rounded-lg">
-                <p className="text-gray-700">{question.explanation}</p>
+                <div 
+                  className="text-gray-700 prose prose-sm max-w-none"
+                  dangerouslySetInnerHTML={{ __html: question.explanation }}
+                />
               </div>
             )}
           </div>
