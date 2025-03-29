@@ -9,6 +9,7 @@ import TestCard from '@/components/ui/TestCard';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { UserAuthDialog } from '@/components/ui/UserAuthDialog';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Interview = () => {
   const [score, setScore] = useState(0);
@@ -17,6 +18,7 @@ const Interview = () => {
   const [answeredQuestions, setAnsweredQuestions] = useState(0);
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const { t } = useLanguage();
   
   // Simple practice questions
   const practiceQuestions = [
@@ -58,6 +60,178 @@ const Interview = () => {
     }
   ];
 
+  // Politics questions
+  const politicsQuestions = [
+    {
+      id: "politics-1",
+      text: "Что такое Конституция?",
+      options: [
+        { 
+          id: "a", 
+          text: "Конституция — это высший Закон государства. Все остальные законы должны соответствовать ей. В ней 120 статей.", 
+          isCorrect: true 
+        },
+        { 
+          id: "b", 
+          text: "Конституция — это свод правил поведения граждан.", 
+          isCorrect: false 
+        },
+        { 
+          id: "c", 
+          text: "Конституция — это договор между гражданами и президентом.", 
+          isCorrect: false 
+        },
+        { 
+          id: "d", 
+          text: "Конституция — это документ, определяющий только права граждан.", 
+          isCorrect: false 
+        },
+      ],
+      explanation: "Конституция — это высший Закон государства. Все остальные законы должны соответствовать ей. В ней 120 статей.",
+      category: "politics" as "history" | "geography" | "culture" | "politics"
+    },
+    {
+      id: "politics-2",
+      text: "Какое у Греции устройство государства и как вы его понимаете? Опишите его.",
+      options: [
+        { 
+          id: "a", 
+          text: "Наше устройство государства — это Республика с парламентской системой правления. Это означает, что у нас есть Президент Республики, который является высшим должностным лицом, избираемым Парламентом. Также есть Парламент, состоящий из 300 депутатов, которые выбираются народом и затем голосуют за Президента и законы. Имеется также Демократия, так как именно мы, народ, избираем депутатов.", 
+          isCorrect: true 
+        },
+        { 
+          id: "b", 
+          text: "Греция — это президентская республика, где президент имеет всю полноту власти.", 
+          isCorrect: false 
+        },
+        { 
+          id: "c", 
+          text: "Греция — это конституционная монархия с парламентом.", 
+          isCorrect: false 
+        },
+        { 
+          id: "d", 
+          text: "Греция — это федеративное государство, состоящее из автономных регионов.", 
+          isCorrect: false 
+        },
+      ],
+      explanation: "Наше устройство государства — это Республика с парламентской системой правления. Это означает, что у нас есть Президент Республики, который является высшим должностным лицом, избираемым Парламентом. Также есть Парламент, состоящий из 300 депутатов, которые выбираются народом и затем голосуют за Президента и законы. Имеется также Демократия, так как именно мы, народ, избираем депутатов.",
+      category: "politics" as "history" | "geography" | "culture" | "politics"
+    },
+    {
+      id: "politics-3",
+      text: "Сколько видов выборов существует?",
+      options: [
+        { 
+          id: "a", 
+          text: "а) Президентские — Парламент выбирает Президента. б) Национальные (или парламентские) — народ выбирает депутатов. в) Муниципальные — народ выбирает мэров и губернаторов регионов. г) Европарламентские — народ выбирает 24 наших европейских депутата.", 
+          isCorrect: true 
+        },
+        { 
+          id: "b", 
+          text: "Существует только два вида выборов: парламентские и президентские.", 
+          isCorrect: false 
+        },
+        { 
+          id: "c", 
+          text: "Существует только один вид выборов - всенародные выборы.", 
+          isCorrect: false 
+        },
+        { 
+          id: "d", 
+          text: "В Греции не проводятся выборы, все должностные лица назначаются.", 
+          isCorrect: false 
+        },
+      ],
+      explanation: "а) Президентские — Парламент выбирает Президента. б) Национальные (или парламентские) — народ выбирает депутатов. в) Муниципальные — народ выбирает мэров и губернаторов регионов. г) Европарламентские — народ выбирает 24 наших европейских депутата.",
+      category: "politics" as "history" | "geography" | "culture" | "politics"
+    },
+    {
+      id: "politics-4",
+      text: "Какие высшие суды существуют в государстве?",
+      options: [
+        { 
+          id: "a", 
+          text: "— Верховный суд 'Ареопаг' для гражданских дел. — Совет госбезопасности для административных вопросов. — Контролирующий совет для финансовых вопросов.", 
+          isCorrect: true 
+        },
+        { 
+          id: "b", 
+          text: "В Греции существует только один Верховный суд.", 
+          isCorrect: false 
+        },
+        { 
+          id: "c", 
+          text: "Европейский суд по правам человека является высшим судом Греции.", 
+          isCorrect: false 
+        },
+        { 
+          id: "d", 
+          text: "В Греции нет высших судов, все судебные решения принимает парламент.", 
+          isCorrect: false 
+        },
+      ],
+      explanation: "— Верховный суд 'Ареопаг' для гражданских дел. — Совет госбезопасности для административных вопросов. — Контролирующий совет для финансовых вопросов.",
+      category: "politics" as "history" | "geography" | "culture" | "politics"
+    },
+    {
+      id: "politics-5",
+      text: "За кого мы голосуем, и как появляется Премьер-министр?",
+      options: [
+        { 
+          id: "a", 
+          text: "Мы голосуем за депутатов, и та партия, которая получает 151 место в Парламенте, формирует Премьер-министра.", 
+          isCorrect: true 
+        },
+        { 
+          id: "b", 
+          text: "Мы голосуем напрямую за Премьер-министра.", 
+          isCorrect: false 
+        },
+        { 
+          id: "c", 
+          text: "Премьер-министра назначает Президент Республики.", 
+          isCorrect: false 
+        },
+        { 
+          id: "d", 
+          text: "Премьер-министра выбирают судьи Верховного суда.", 
+          isCorrect: false 
+        },
+      ],
+      explanation: "Мы голосуем за депутатов, и та партия, которая получает 151 место в Парламенте, формирует Премьер-министра.",
+      category: "politics" as "history" | "geography" | "culture" | "politics"
+    },
+    {
+      id: "politics-6",
+      text: "Кто наш Премьер-министр и кто Президент Республики?",
+      options: [
+        { 
+          id: "a", 
+          text: "Премьер-министром является Кириакос Мицотакис, а Президентом — госпожа Сакелларопулу.", 
+          isCorrect: true 
+        },
+        { 
+          id: "b", 
+          text: "Премьер-министром является Алексис Ципрас, а Президентом — Прокопис Павлопулос.", 
+          isCorrect: false 
+        },
+        { 
+          id: "c", 
+          text: "Премьер-министром является Костас Караманлис, а Президентом — Костис Стефанопулос.", 
+          isCorrect: false 
+        },
+        { 
+          id: "d", 
+          text: "Премьер-министром является Антонис Самарас, а Президентом — Каролос Папульяс.", 
+          isCorrect: false 
+        },
+      ],
+      explanation: "Премьер-министром является Кириакос Мицотакис, а Президентом — госпожа Сакелларопулу.",
+      category: "politics" as "history" | "geography" | "culture" | "politics"
+    }
+  ];
+
   const handleAnswer = (wasCorrect: boolean) => {
     if (wasCorrect) {
       setScore(prevScore => prevScore + 1);
@@ -67,7 +241,7 @@ const Interview = () => {
 
   const handleNext = () => {
     const nextIndex = currentQuestionIndex + 1;
-    if (nextIndex < practiceQuestions.length) {
+    if (nextIndex < politicsQuestions.length) {
       setCurrentQuestionIndex(nextIndex);
     } else {
       setShowResults(true);
@@ -135,12 +309,12 @@ const Interview = () => {
                 <CardHeader>
                   <CardTitle className="text-2xl font-medium text-center">Результаты практики</CardTitle>
                   <CardDescription className="text-center">
-                    Вы ответили правильно на {score} из {practiceQuestions.length} вопросов
+                    Вы ответили правильно на {score} из {politicsQuestions.length} вопросов
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="text-center">
                   <p className="text-4xl font-bold text-greek-darkBlue mb-6">
-                    {Math.round((score / practiceQuestions.length) * 100)}%
+                    {Math.round((score / politicsQuestions.length) * 100)}%
                   </p>
                   
                   <Button onClick={restartTest} className="mt-4">
@@ -151,9 +325,9 @@ const Interview = () => {
             ) : (
               <>
                 <div className="flex justify-between items-center mb-6">
-                  <h1 className="text-3xl font-medium text-gray-900">Практика</h1>
+                  <h1 className="text-3xl font-medium text-gray-900">Политика - Практика</h1>
                   <div className="text-gray-600">
-                    Вопрос {currentQuestionIndex + 1} из {practiceQuestions.length}
+                    Вопрос {currentQuestionIndex + 1} из {politicsQuestions.length}
                   </div>
                 </div>
                 
@@ -161,18 +335,18 @@ const Interview = () => {
                   <div className="w-full bg-gray-200 rounded-full h-2.5">
                     <div 
                       className="bg-greek-darkBlue h-2.5 rounded-full transition-all duration-300" 
-                      style={{ width: `${(currentQuestionIndex / practiceQuestions.length) * 100}%` }}
+                      style={{ width: `${(currentQuestionIndex / politicsQuestions.length) * 100}%` }}
                     ></div>
                   </div>
                 </div>
                 
                 <TestCard
-                  question={practiceQuestions[currentQuestionIndex]}
+                  question={politicsQuestions[currentQuestionIndex]}
                   onNext={handleNext}
                   onAnswer={handleAnswer}
                   onComplete={() => {}}
                   currentQuestionNumber={currentQuestionIndex + 1}
-                  totalQuestions={practiceQuestions.length}
+                  totalQuestions={politicsQuestions.length}
                 />
               </>
             )}
