@@ -55,27 +55,27 @@
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-heading tracking-tight text-gray-100;
+    @apply font-heading tracking-tight;
   }
   
   h1 {
-    @apply text-4xl sm:text-5xl md:text-6xl font-semibold;
+    @apply text-4xl sm:text-5xl md:text-6xl font-semibold text-transparent bg-gradient-to-r from-blue-200 via-blue-100 to-indigo-100 bg-clip-text;
   }
   
   h2 {
-    @apply text-3xl sm:text-4xl font-semibold;
+    @apply text-3xl sm:text-4xl font-semibold text-blue-100;
   }
   
   h3 {
-    @apply text-2xl sm:text-3xl font-medium;
+    @apply text-2xl sm:text-3xl font-medium text-blue-200;
   }
   
   h4 {
-    @apply text-xl sm:text-2xl font-medium;
+    @apply text-xl sm:text-2xl font-medium text-indigo-200;
   }
   
   p {
-    @apply leading-relaxed text-gray-300;
+    @apply leading-relaxed text-gray-200;
   }
   
   .container {
@@ -118,6 +118,18 @@
   
   .dark-card {
     @apply bg-[#2A3441]/80 backdrop-blur-md border border-white/5 rounded-xl shadow-md;
+  }
+
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-blue-200 via-blue-300 to-indigo-200 bg-clip-text text-transparent;
+  }
+  
+  .text-gradient-gold {
+    @apply bg-gradient-to-r from-amber-200 via-yellow-300 to-amber-200 bg-clip-text text-transparent;
+  }
+  
+  .text-gradient-teal {
+    @apply bg-gradient-to-r from-teal-200 via-cyan-300 to-sky-200 bg-clip-text text-transparent;
   }
 }
 
