@@ -7,33 +7,33 @@
 
 @layer base {
   :root {
-    --background: 215 22% 18%;
-    --foreground: 210 40% 98%;
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
 
-    --card: 215 22% 20%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
 
-    --popover: 215 22% 20%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
 
-    --primary: 210 65% 65%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 221 83% 53%;
+    --primary-foreground: 210 40% 98%;
 
-    --secondary: 217 19% 27%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222 47% 11%;
 
-    --muted: 217 19% 27%;
-    --muted-foreground: 215 16.3% 80%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 217 19% 27%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222 47% 11%;
 
-    --destructive: 0 62.8% 50.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 30%;
-    --input: 217.2 32.6% 30%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221 83% 53%;
 
     --radius: 0.5rem;
   }
@@ -47,10 +47,10 @@
   }
 
   body {
-    @apply bg-[#212835] text-foreground font-sans;
+    @apply bg-white text-foreground font-sans;
     background-image: 
-      radial-gradient(circle at 20% 20%, rgba(100, 130, 180, 0.07) 0%, transparent 25%),
-      radial-gradient(circle at 80% 50%, rgba(120, 140, 160, 0.05) 0%, transparent 20%);
+      radial-gradient(circle at 20% 20%, rgba(239, 246, 255, 0.7) 0%, transparent 25%),
+      radial-gradient(circle at 80% 50%, rgba(236, 246, 255, 0.5) 0%, transparent 20%);
     background-attachment: fixed;
   }
   
@@ -59,23 +59,23 @@
   }
   
   h1 {
-    @apply text-4xl sm:text-5xl md:text-6xl font-semibold text-transparent bg-gradient-to-r from-blue-200 via-blue-100 to-indigo-100 bg-clip-text;
+    @apply text-4xl sm:text-5xl md:text-6xl font-semibold text-gray-900;
   }
   
   h2 {
-    @apply text-3xl sm:text-4xl font-semibold text-blue-100;
+    @apply text-3xl sm:text-4xl font-semibold text-gray-800;
   }
   
   h3 {
-    @apply text-2xl sm:text-3xl font-medium text-blue-200;
+    @apply text-2xl sm:text-3xl font-medium text-gray-800;
   }
   
   h4 {
-    @apply text-xl sm:text-2xl font-medium text-indigo-200;
+    @apply text-xl sm:text-2xl font-medium text-gray-700;
   }
   
   p {
-    @apply leading-relaxed text-gray-200;
+    @apply leading-relaxed text-gray-600;
   }
   
   .container {
@@ -85,15 +85,15 @@
 
 @layer components {
   .glass {
-    @apply bg-[#2A3441]/80 backdrop-blur-md border border-white/5 shadow-md;
+    @apply bg-white/90 backdrop-blur-md border border-gray-200 shadow-md;
   }
   
   .glass-light {
-    @apply bg-[#ffffff]/15 backdrop-blur-md border border-white/10 shadow-md;
+    @apply bg-white/95 backdrop-blur-md border border-gray-100 shadow-md;
   }
   
   .glass-dark {
-    @apply bg-black/30 backdrop-blur-md border border-gray-700/10 shadow-md;
+    @apply bg-gray-800/90 backdrop-blur-md border border-gray-700/10 shadow-md;
   }
   
   .button-animation {
@@ -109,27 +109,27 @@
   }
   
   .accent-gradient {
-    @apply bg-gradient-to-r from-blue-400/80 to-indigo-500/80 text-white;
+    @apply bg-gradient-to-r from-blue-600 to-indigo-500 text-white;
   }
   
   .light-card {
-    @apply bg-white/10 backdrop-blur-md border border-white/10 rounded-xl shadow-sm;
+    @apply bg-white/95 backdrop-blur-md border border-gray-200 rounded-xl shadow-sm;
   }
   
   .dark-card {
-    @apply bg-[#2A3441]/80 backdrop-blur-md border border-white/5 rounded-xl shadow-md;
+    @apply bg-gray-800/90 backdrop-blur-md border border-gray-700/10 rounded-xl shadow-md;
   }
 
   .text-gradient-blue {
-    @apply bg-gradient-to-r from-blue-200 via-blue-300 to-indigo-200 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-500 bg-clip-text text-transparent;
   }
   
   .text-gradient-gold {
-    @apply bg-gradient-to-r from-amber-200 via-yellow-300 to-amber-200 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-400 bg-clip-text text-transparent;
   }
   
   .text-gradient-teal {
-    @apply bg-gradient-to-r from-teal-200 via-cyan-300 to-sky-200 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-teal-500 via-cyan-500 to-sky-500 bg-clip-text text-transparent;
   }
 }
 
@@ -140,16 +140,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(120, 140, 180, 0.3);
+  background: rgba(59, 130, 246, 0.3);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(120, 140, 180, 0.5);
+  background: rgba(59, 130, 246, 0.5);
 }
 
 /* Smooth reveal animation */
