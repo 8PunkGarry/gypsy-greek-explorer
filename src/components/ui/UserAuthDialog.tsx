@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { 
@@ -73,7 +74,7 @@ export const UserAuthDialog = () => {
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] bg-white/85 backdrop-blur-sm">
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
             {isAuthenticated ? 'Ваш профиль' : 'Вход в систему'}

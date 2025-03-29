@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { CheckCircle, Circle } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -53,7 +54,7 @@ const LearningPath: React.FC = () => {
   const { t } = useLanguage();
   
   return (
-    <div className="px-4 py-8 rounded-xl bg-white/70 backdrop-blur-sm border border-gray-100 shadow-soft max-w-lg mx-auto">
+    <div className="px-4 py-8 rounded-xl bg-white/80 backdrop-blur-sm border border-gray-100 shadow-soft max-w-lg mx-auto">
       <h3 className="text-2xl font-medium text-gray-900 mb-6 text-center">{t('yourLearningPath')}</h3>
       
       <div className="space-y-2">
