@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import BlurBackground from '@/components/ui/BlurBackground';
 import Navbar from '@/components/layout/Navbar';
@@ -20,7 +19,6 @@ const Politics = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
   
-  // Politics questions
   const politicsQuestions = [
     {
       id: "politics-1",
@@ -112,7 +110,7 @@ const Politics = () => {
       options: [
         { 
           id: "a", 
-          text: "— Верховный суд 'Ареопаг' для гражданских дел. — Совет госбезопасности для административных вопросов. — Контролирующий совет для финансовых вопросов.", 
+          text: "— Верховный суд 'Ареопаг' для гражданских дел.\n— Совет госбезопасности для административных вопросов.\n— Контролирующий совет для финансовых вопросов.", 
           isCorrect: true 
         },
         { 
@@ -131,7 +129,7 @@ const Politics = () => {
           isCorrect: false 
         },
       ],
-      explanation: "— Верховный суд 'Ареопаг' для гражданских дел. — Совет госбезопасности для административных вопросов. — Контролирующий совет для финансовых вопросов.",
+      explanation: "<div className='space-y-2'><p className='font-medium'>В Греции существуют три высших суда:</p><ul className='list-disc pl-5 space-y-1'><li><span className='font-medium'>Верховный суд 'Ареопаг'</span> — для гражданских и уголовных дел</li><li><span className='font-medium'>Совет госбезопасности</span> — для административных вопросов</li><li><span className='font-medium'>Контролирующий совет</span> — для финансовых вопросов</li></ul></div>",
       category: "politics" as "history" | "geography" | "culture" | "politics"
     },
     {
