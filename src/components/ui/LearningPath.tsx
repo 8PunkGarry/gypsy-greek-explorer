@@ -38,11 +38,11 @@ const Step: React.FC<StepProps> = ({
       </div>
       <div className="pt-1 pb-8">
         <h4 className={`font-medium text-lg mb-1 ${
-          isActive || isComplete ? 'text-gray-100' : 'text-gray-400'
+          isActive || isComplete ? 'text-white' : 'text-gray-300'
         }`}>
           {title}
         </h4>
-        <p className="text-gray-400">{description}</p>
+        <p className="text-gray-200">{description}</p>
       </div>
     </div>
   );
@@ -53,7 +53,7 @@ const LearningPath: React.FC = () => {
   
   return (
     <div className="px-4 py-8 rounded-xl bg-[#2A3441]/60 backdrop-blur-sm border border-white/10 shadow-md max-w-lg mx-auto">
-      <h3 className="text-2xl font-medium text-gray-100 mb-6 text-center">{t('yourLearningPath')}</h3>
+      <h3 className="text-2xl font-medium text-white mb-6 text-center">{t('yourLearningPath')}</h3>
       
       <div className="space-y-2">
         <Step 

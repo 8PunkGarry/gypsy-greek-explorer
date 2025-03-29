@@ -87,8 +87,8 @@ const TestCard: React.FC<TestCardProps> = ({
     <Card className="w-full max-w-3xl shadow-md glass-light animate-fadeIn">
       <CardHeader>
         <div className="flex justify-between items-center">
-          <CardTitle className="text-xl font-medium text-gray-100">{question.text}</CardTitle>
-          <span className="text-sm font-medium text-gray-400">
+          <CardTitle className="text-xl font-medium text-white">{question.text}</CardTitle>
+          <span className="text-sm font-medium text-gray-300">
             {t('question')} {currentQuestionNumber} {t('of')} {totalQuestions}
           </span>
         </div>
@@ -113,7 +113,7 @@ const TestCard: React.FC<TestCardProps> = ({
               className={`p-4 border rounded-lg flex justify-between items-center transition-all ${getOptionClass(option.id)}`}
               onClick={() => handleOptionClick(option.id)}
             >
-              <span className="text-gray-200">{option.text}</span>
+              <span className="text-white">{option.text}</span>
               {getOptionIcon(option.id)}
             </div>
           ))}
@@ -132,7 +132,7 @@ const TestCard: React.FC<TestCardProps> = ({
             {showExplanation && (
               <div className="mt-2 p-4 bg-white/5 border border-white/10 rounded-lg">
                 <div 
-                  className="text-gray-300 prose prose-sm max-w-none"
+                  className="text-white prose prose-sm max-w-none"
                   dangerouslySetInnerHTML={{ __html: question.explanation }}
                 />
               </div>
@@ -146,7 +146,7 @@ const TestCard: React.FC<TestCardProps> = ({
             asChild
             variant="outline" 
             size="sm"
-            className="text-gray-300 border-white/10 hover:bg-white/5 hover:text-blue-300"
+            className="text-gray-200 border-white/10 hover:bg-white/5 hover:text-blue-300"
           >
             <Link to="/"><Home className="mr-1" size={16} /> {t('home')}</Link>
           </Button>

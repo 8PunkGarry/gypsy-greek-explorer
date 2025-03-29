@@ -28,12 +28,12 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
         <Icon size={20} />
       </div>
       
-      <h3 className="text-lg font-medium text-gray-100 mb-2 group-hover:text-blue-300 transition-colors duration-300">{title}</h3>
+      <h3 className="text-lg font-medium text-white mb-2 group-hover:text-blue-300 transition-colors duration-300">{title}</h3>
       
-      <p className="text-gray-400 text-sm">{description}</p>
+      <p className="text-gray-200 text-sm">{description}</p>
       
       {onClick && (
-        <div className="mt-4 text-blue-400 font-medium text-sm flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="mt-4 text-blue-300 font-medium text-sm flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <span className="mr-1">Подробнее</span>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transform group-hover:translate-x-1 transition-transform duration-300">
             <path d="M5 12h14"></path>

@@ -28,9 +28,9 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
         <Icon size={20} />
       </div>
       
-      <h3 className="text-lg font-medium text-gradient-blue mb-2 group-hover:text-blue-300 transition-colors duration-300">{title}</h3>
+      <h3 className="text-lg font-medium text-white mb-2 group-hover:text-blue-300 transition-colors duration-300">{title}</h3>
       
-      <p className="text-gray-300 text-sm bg-opacity-90">{description}</p>
+      <p className="text-gray-200 text-sm bg-opacity-90">{description}</p>
       
       {onClick && (
         <div className="mt-4 text-blue-300 font-medium text-sm flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
