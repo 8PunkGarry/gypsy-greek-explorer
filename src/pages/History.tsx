@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from "sonner";
@@ -33,394 +32,439 @@ const historyQuestions: Question[] = [
   {
     id: "1",
     category: "history",
-    text: "Когда началась Греческая революция?",
+    text: "Η Βυζαντινή Αυτοκρατορία ήταν:",
     options: [
-      { id: "a", text: "1821", isCorrect: true },
-      { id: "b", text: "1804", isCorrect: false },
-      { id: "c", text: "1832", isCorrect: false },
-      { id: "d", text: "1776", isCorrect: false },
+      { id: "a", text: "εχθρός της Ρωμαϊκής Αυτοκρατορίας", isCorrect: false },
+      { id: "b", text: "η Δυτική Ρωμαϊκή Αυτοκρατορία", isCorrect: false },
+      { id: "c", text: "το Ανατολικό τμήμα της Ρωμαϊκής Αυτοκρατορίας", isCorrect: true },
+      { id: "d", text: "σύμμαχος της Ρωμαϊκής Αυτοκρατορίας", isCorrect: false },
     ],
-    explanation: "Греческая революция началась в 1821 году и привела к независимости Греции от Османской империи.",
+    explanation: "Η Βυζαντινή Αυτοκρατορία ήταν το Ανατολικό τμήμα της Ρωμαϊκής Αυτοκρατορίας.",
   },
   {
     id: "2",
     category: "history",
-    text: "Кто был первым премьер-министром Греции после обретения независимости?",
+    text: "Ποιος είναι ο εικονιζόμενος;",
     options: [
-      { id: "a", text: "Иоаннис Каподистриас", isCorrect: true },
-      { id: "b", text: "Александрос Маврокордатос", isCorrect: false },
-      { id: "c", text: "Константинос Канарис", isCorrect: false },
-      { id: "d", text: "Теодорос Колокотронис", isCorrect: false },
+      { id: "a", text: "Αθανάσιος Διάκος", isCorrect: false },
+      { id: "b", text: "Γεώργιος Καραϊσκάκης", isCorrect: false },
+      { id: "c", text: "Θεόδωρος Κολοκοτρώνης", isCorrect: false },
+      { id: "d", text: "Οδυσσέας Ανδρούτσος", isCorrect: true },
     ],
-    explanation: "Иоаннис Каподистриас был первым премьер-министром Греции, сыгравшим ключевую роль в формировании греческого государства.",
+    explanation: "Στην εικόνα απεικονίζεται ο Οδυσσέας Ανδρούτσος, σημαντικός αγωνιστής της Ελληνικής Επανάστασης του 1821.",
   },
   {
     id: "3",
     category: "history",
-    text: "Какое событие считается началом Второй мировой войны?",
+    text: "Η παρακάτω φωτογραφία απεικονίζει:",
     options: [
-      { id: "a", text: "Нападение Германии на Польшу", isCorrect: true },
-      { id: "b", text: "Нападение Японии на Перл-Харбор", isCorrect: false },
-      { id: "c", text: "Вторжение Италии в Эфиопию", isCorrect: false },
-      { id: "d", text: "Аншлюс Австрии", isCorrect: false },
+      { id: "a", text: "Την καταστροφή της Χίου", isCorrect: false },
+      { id: "b", text: "Το Ολοκαύτωμα του Μεσολογγίου", isCorrect: false },
+      { id: "c", text: "Την απελευθέρωση της Θεσσαλονίκης", isCorrect: false },
+      { id: "d", text: "Την καταστροφή της Σμύρνης", isCorrect: true },
     ],
-    explanation: "Нападение Германии на Польшу 1 сентября 1939 года традиционно считается началом Второй мировой войны.",
+    explanation: "Η φωτογραφία απεικονίζει την καταστροφή της Σμύρνης το 1922.",
   },
   {
     id: "4",
     category: "history",
-    text: "Кто был лидером Советского Союза во время Второй мировой войны?",
+    text: "Η παρακάτω φωτογραφία προέρχεται από:",
     options: [
-      { id: "a", text: "Иосиф Сталин", isCorrect: true },
-      { id: "b", text: "Владимир Ленин", isCorrect: false },
-      { id: "c", text: "Никита Хрущев", isCorrect: false },
-      { id: "d", text: "Леонид Брежнев", isCorrect: false },
+      { id: "a", text: "Τους εορτασμούς για την είσοδο της Ελλάδας στην Ενωμένη Ευρώπη", isCorrect: false },
+      { id: "b", text: "Την Απελευθέρωση της Αθήνας τον Οκτώβριο του 1944", isCorrect: false },
+      { id: "c", text: "Την εξέγερση των φοιτητών στο Πολυτεχνείο τον Νοέμβριο του 1973", isCorrect: true },
+      { id: "d", text: "Τους πανηγυρισμούς για την αποβίβαση του ελληνικού στρατού στη Σμύρνη, τον Μάιο του 1919", isCorrect: false },
     ],
-    explanation: "Иосиф Сталин был лидером Советского Союза во время Второй мировой войны.",
+    explanation: "Η φωτογραφία προέρχεται από την εξέγερση των φοιτητών στο Πολυτεχνείο τον Νοέμβριο του 1973.",
   },
   {
     id: "5",
     category: "history",
-    text: "Какое событие привело к вступлению США во Вторую мировую войну?",
+    text: "Ο Γεώργιος Παπανδρέου έμεινε γνωστός ως:",
     options: [
-      { id: "a", text: "Нападение на Перл-Харбор", isCorrect: true },
-      { id: "b", text: "Нападение Германии на Польшу", isCorrect: false },
-      { id: "c", text: "Битва за Британию", isCorrect: false },
-      { id: "d", text: "Вторжение в Нормандию", isCorrect: false },
+      { id: "a", text: "ο γέρος του Μοριά", isCorrect: false },
+      { id: "b", text: "ο γέρος της Δημοκρατίας", isCorrect: true },
+      { id: "c", text: "Γεωργάκης Ολύμπιος", isCorrect: false },
+      { id: "d", text: "Γεώργιος Α΄", isCorrect: false },
     ],
-    explanation: "Нападение японской авиации на Перл-Харбор 7 декабря 1941 года привело к вступлению США во Вторую мировую войну.",
+    explanation: "Ο Γεώργιος Παπανδρέου έμεινε γνωστός ως 'ο γέρος της Δημοκρατίας'.",
   },
   {
     id: "6",
     category: "history",
-    text: "В каком году была основана первая греческая цивилизация?",
+    text: "Ο Γεώργιος Αβέρωφ (1815-1899) υπήρξε ένας από τους:",
     options: [
-      { id: "a", text: "3000 до н.э.", isCorrect: true },
-      { id: "b", text: "1500 до н.э.", isCorrect: false },
-      { id: "c", text: "800 до н.э.", isCorrect: false },
-      { id: "d", text: "500 до н.э.", isCorrect: false },
+      { id: "a", text: "γνωστότερους Έλληνες ναυάρχους", isCorrect: false },
+      { id: "b", text: "μεγαλύτερους εθνικούς ευεργέτες", isCorrect: true },
+      { id: "c", text: "διασημότερους ζαχαροπλάστες στο Παρίσι του 19ου αιώνα", isCorrect: false },
+      { id: "d", text: "σημαντικότερους ποιητές της εποχής του", isCorrect: false },
     ],
-    explanation: "Первая греческая цивилизация, известная как минойская, была основана примерно в 3000 году до нашей эры на острове Крит.",
+    explanation: "Ο Γεώργιος Αβέρωφ υπήρξε ένας από τους μεγαλύτερους εθνικούς ευεργέτες της Ελλάδας.",
   },
   {
     id: "7",
     category: "history",
-    text: "Кто был основателем древнегреческой философии?",
+    text: "Ο κεφαλικός φόρος που πλήρωναν οι Χριστιανοί επί Τουρκοκρατίας ονομαζόταν:",
     options: [
-      { id: "a", text: "Фалес Милетский", isCorrect: true },
-      { id: "b", text: "Сократ", isCorrect: false },
-      { id: "c", text: "Платон", isCorrect: false },
-      { id: "d", text: "Аристотель", isCorrect: false },
+      { id: "a", text: "χαράτσι", isCorrect: true },
+      { id: "b", text: "δεκάτη", isCorrect: false },
+      { id: "c", text: "καπνικός", isCorrect: false },
+      { id: "d", text: "παιδομάζωμα", isCorrect: false },
     ],
-    explanation: "Фалес Милетский (624-546 до н.э.) считается первым философом в западной традиции и основателем ионийской школы философии.",
+    explanation: "Ο κεφαλικός φόρος που πλήρωναν οι Χριστιανοί επί Τουρκοκρατίας ονομαζόταν χαράτσι.",
   },
   {
     id: "8",
     category: "history",
-    text: "Когда произошло сражение при Фермопилах?",
+    text: "Η διάνοιξη της διώρυγας στον Ισθμό της Κορίνθου είναι έργο του:",
     options: [
-      { id: "a", text: "480 до н.э.", isCorrect: true },
-      { id: "b", text: "430 до н.э.", isCorrect: false },
-      { id: "c", text: "323 до н.э.", isCorrect: false },
-      { id: "d", text: "146 до н.э.", isCorrect: false },
+      { id: "a", text: "Περίανδρου του Κορίνθιου", isCorrect: false },
+      { id: "b", text: "Δημητρίου Πολιορκητή", isCorrect: false },
+      { id: "c", text: "Χαρίλαου Τρικούπη", isCorrect: true },
+      { id: "d", text: "Ιωάννη Καποδίστρια", isCorrect: false },
     ],
-    explanation: "Сражение при Фермопилах произошло в 480 году до н.э. во время греко-персидских войн.",
+    explanation: "Η διάνοιξη της διώρυγας στον Ισθμό της Κορίνθου είναι έργο του Χαρίλαου Τρικούπη.",
   },
   {
     id: "9",
     category: "history",
-    text: "Кто построил Парфенон в Афинах?",
+    text: "Ο Γεώργιος Αβέρωφ (1815-1899) υπήρξε ένας από τους:",
     options: [
-      { id: "a", text: "Перикл", isCorrect: true },
-      { id: "b", text: "Александр Македонский", isCorrect: false },
-      { id: "c", text: "Леонид", isCorrect: false },
-      { id: "d", text: "Солон", isCorrect: false },
+      { id: "a", text: "γνωστότερους Έλληνες ναυάρχους", isCorrect: false },
+      { id: "b", text: "μεγαλύτερους εθνικούς ευεργέτες", isCorrect: true },
+      { id: "c", text: "διασημότερους ζαχαροπλάστες στο Παρίσι του 19ου αιώνα", isCorrect: false },
+      { id: "d", text: "σημαντικότερους ποιητές της εποχής του", isCorrect: false },
     ],
-    explanation: "Парфенон был построен по инициативе афинского государственного деятеля Перикла в V веке до н.э.",
+    explanation: "Ο Γεώργιος Αβέρωφ υπήρξε ένας από τους μεγαλύτερους εθνικούς ευεργέτες της Ελλάδας.",
   },
   {
     id: "10",
     category: "history",
-    text: "Когда произошла битва при Марафоне?",
+    text: "Ο πρώτος Βασιλιάς της Ελλάδας, ο Όθωνας",
     options: [
-      { id: "a", text: "490 до н.э.", isCorrect: true },
-      { id: "b", text: "480 до н.э.", isCorrect: false },
-      { id: "c", text: "431 до н.э.", isCorrect: false },
-      { id: "d", text: "338 до н.э.", isCorrect: false },
+      { id: "a", text: "ήταν Βαυαρός πρίγκιπας", isCorrect: true },
+      { id: "b", text: "ήταν Άγγλος πρίγκιπας", isCorrect: false },
+      { id: "c", text: "ήταν Γάλλος πρίγκιπας", isCorrect: false },
+      { id: "d", text: "ήταν Ρώσος πρίγκιπας", isCorrect: false },
     ],
-    explanation: "Битва при Марафоне произошла в 490 году до н.э. между персидской армией и греческими силами.",
+    explanation: "Ο πρώτος Βασιλιάς της Ελλάδας, ο Όθωνας, ήταν Βαυαρός πρίγκιπας.",
   },
   {
     id: "11",
     category: "history",
-    text: "Какой период считается \"золотым веком\" древних Афин?",
+    text: "Ο Ιωάννης Καποδίστριας ήταν:",
     options: [
-      { id: "a", text: "V век до н.э.", isCorrect: true },
-      { id: "b", text: "IV век до н.э.", isCorrect: false },
-      { id: "c", text: "VI век до н.э.", isCorrect: false },
-      { id: "d", text: "III век до н.э.", isCorrect: false },
+      { id: "a", text: "σπουδαίος ποδοσφαιριστής", isCorrect: false },
+      { id: "b", text: "στρατιωτικός την εποχή των Βαλκανικών Πολέμων", isCorrect: false },
+      { id: "c", text: "ο πρώτος Κυβερνήτης της Ελλάδας", isCorrect: true },
+      { id: "d", text: "ο πρώτος Έλληνας Ολυμπιονίκης", isCorrect: false },
     ],
-    explanation: "V век до н.э. считается \"золотым веком\" древних Афин, особенно период правления Перикла (461-429 до н.э.).",
+    explanation: "Ο Ιωάννης Καποδίστριας ήταν ο πρώτος Κυβερνήτης της Ελλάδας μετά την απελευθέρωση από τους Οθωμανούς.",
   },
   {
     id: "12",
     category: "history",
-    text: "Когда был основан город Константинополь?",
+    text: "Ποιος είναι ο εικονιζόμενος;",
     options: [
-      { id: "a", text: "330 н.э.", isCorrect: true },
-      { id: "b", text: "410 н.э.", isCorrect: false },
-      { id: "c", text: "280 до н.э.", isCorrect: false },
-      { id: "d", text: "120 до н.э.", isCorrect: false },
+      { id: "a", text: "Μέγας Κωνσταντίνος", isCorrect: false },
+      { id: "b", text: "Μέγας Αλέξανδρος", isCorrect: true },
+      { id: "c", text: "Μέγας Ναπολέων", isCorrect: false },
+      { id: "d", text: "Περικλής", isCorrect: false },
     ],
-    explanation: "Константинополь был основан императором Константином I в 330 году н.э. на месте древнего города Византий.",
+    explanation: "Στην εικόνα απεικονίζεται ο Μέγας Αλέξανδρος.",
   },
   {
     id: "13",
     category: "history",
-    text: "Какой год считается концом Византийской империи?",
+    text: "Ο πρώτος Βασιλιάς της Ελλάδας, ο Όθωνας",
     options: [
-      { id: "a", text: "1453", isCorrect: true },
-      { id: "b", text: "1204", isCorrect: false },
-      { id: "c", text: "1389", isCorrect: false },
-      { id: "d", text: "1571", isCorrect: false },
+      { id: "a", text: "ήταν Βαυαρός πρίγκιπας", isCorrect: true },
+      { id: "b", text: "ήταν Άγγλος πρίγκιπας", isCorrect: false },
+      { id: "c", text: "ήταν Γάλλος πρίγκιπας", isCorrect: false },
+      { id: "d", text: "ήταν Ρώσος πρίγκιπας", isCorrect: false },
     ],
-    explanation: "1453 год считается концом Византийской империи, когда Константинополь был захвачен османскими турками под предводительством султана Мехмеда II.",
+    explanation: "Ο πρώτος Βασιλιάς της Ελλάδας, ο Όθωνας, ήταν Βαυαρός πρίγκιπας.",
   },
   {
     id: "14",
     category: "history",
-    text: "Кто был основателем Олимпийских игр в Древней Греции?",
+    text: "Ποιος είναι ο εικονιζόμενος;",
     options: [
-      { id: "a", text: "Геракл", isCorrect: true },
-      { id: "b", text: "Зевс", isCorrect: false },
-      { id: "c", text: "Аполлон", isCorrect: false },
-      { id: "d", text: "Посейдон", isCorrect: false },
+      { id: "a", text: "Γεώργιος Παπανδρέου", isCorrect: false },
+      { id: "b", text: "Κωνσταντίνος Μητσοτάκης", isCorrect: false },
+      { id: "c", text: "Κωνσταντίνος Καραμανλής", isCorrect: true },
+      { id: "d", text: "Ανδρέας Παπανδρέου", isCorrect: false },
     ],
-    explanation: "Согласно древнегреческой мифологии, Геракл основал Олимпийские игры в честь своего отца Зевса после завершения одного из своих двенадцати подвигов.",
+    explanation: "Στην εικόνα απεικονίζεται ο Κωνσταντίνος Καραμανλής.",
   },
   {
     id: "15",
     category: "history",
-    text: "Какой древнегреческий полис был известен своим милитаризмом?",
+    text: "Ποιος είναι ο εικονιζόμενος;",
     options: [
-      { id: "a", text: "Спарта", isCorrect: true },
-      { id: "b", text: "Афины", isCorrect: false },
-      { id: "c", text: "Коринф", isCorrect: false },
-      { id: "d", text: "Фивы", isCorrect: false },
+      { id: "a", text: "Παλαιών Πατρών Γερμανός", isCorrect: false },
+      { id: "b", text: "Αρχιεπίσκοπος Κύπρου Μακάριος", isCorrect: true },
+      { id: "c", text: "Παπαφλέσσας", isCorrect: false },
+      { id: "d", text: "Αρχιεπίσκοπος Δαμασκηνός", isCorrect: false },
     ],
-    explanation: "Спарта была известна своим милитаризмом, строгой дисциплиной и воинским воспитанием граждан.",
+    explanation: "Στην εικόνα απεικονίζεται ο Αρχιεπίσκοπος Κύπρου Μακάριος.",
   },
   {
     id: "16",
     category: "history",
-    text: "Какую территорию завоевал Александр Македонский?",
+    text: "Η παρακάτω φωτογραφία απεικονίζει:",
     options: [
-      { id: "a", text: "От Греции до Индии", isCorrect: true },
-      { id: "b", text: "Только Грецию и Египет", isCorrect: false },
-      { id: "c", text: "От Рима до Персии", isCorrect: false },
-      { id: "d", text: "Только Малую Азию", isCorrect: false },
+      { id: "a", text: "Δημόσιο εξευτελισμό των Ελλήνων Εβραίων από τους Γερμανούς στη διάρκεια του Δευτέρου Παγκοσμίου Πολέμου", isCorrect: true },
+      { id: "b", text: "Στρατιωτικά γυμνάσια την εποχή της Ελληνικής Επανάστασης", isCorrect: false },
+      { id: "c", text: "Αιχμαλωσίες την περίοδο των Βαλκανικών Πολέμων", isCorrect: false },
+      { id: "d", text: "Στρατιωτικές επιδείξεις", isCorrect: false },
     ],
-    explanation: "Александр Македонский создал империю, простиравшуюся от Греции и Египта на западе до Индии на востоке.",
+    explanation: "Η φωτογραφία απεικονίζει το δημόσιο εξευτελισμό των Ελλήνων Εβραίων από τους Γερμανούς στη διάρκεια του Δευτέρου Παγκοσμίου Πολέμου.",
   },
   {
     id: "17",
     category: "history",
-    text: "Когда произошла гражданская война в Греции?",
+    text: "Η περίοδος της σύγχρονης ελληνικής ιστορίας, μετά την πτώση της δικτατορίας τον Ιούλιο του 1974, ονομάζεται:",
     options: [
-      { id: "a", text: "1946-1949", isCorrect: true },
-      { id: "b", text: "1939-1945", isCorrect: false },
-      { id: "c", text: "1967-1974", isCorrect: false },
-      { id: "d", text: "1922-1924", isCorrect: false },
+      { id: "a", text: "Μεταπολίτευση", isCorrect: true },
+      { id: "b", text: "Ελληνική Επανάσταση", isCorrect: false },
+      { id: "c", text: "Περσικοί Πόλεμοι", isCorrect: false },
+      { id: "d", text: "Βυζαντινή περίοδος", isCorrect: false },
     ],
-    explanation: "Гражданская война в Греции происходила в 1946-1949 годах между правительственными силами и коммунистическими повстанцами.",
+    explanation: "Η περίοδος της σύγχρονης ελληνικής ιστορίας, μετά την πτώση της δικτατορίας τον Ιούλιο του 1974, ονομάζεται Μεταπολίτευση.",
   },
   {
     id: "18",
     category: "history",
-    text: "В каком году Греция стала членом Европейского союза?",
+    text: "Η παρακάτω φωτογραφία απεικονίζει:",
     options: [
-      { id: "a", text: "1981", isCorrect: true },
-      { id: "b", text: "1973", isCorrect: false },
-      { id: "c", text: "1986", isCorrect: false },
-      { id: "d", text: "2002", isCorrect: false },
+      { id: "a", text: "Την καταστροφή της Χίου", isCorrect: false },
+      { id: "b", text: "Το Ολοκαύτωμα του Μεσολογγίου", isCorrect: false },
+      { id: "c", text: "Την απελευθέρωση της Θεσσαλονίκης", isCorrect: false },
+      { id: "d", text: "Την καταστροφή της Σμύρνης", isCorrect: true },
     ],
-    explanation: "Греция стала членом Европейского экономического сообщества (предшественника ЕС) в 1981 году.",
+    explanation: "Η φωτογραφία απεικονίζει την καταστροφή της Σμύρνης το 1922.",
   },
   {
     id: "19",
     category: "history",
-    text: "Какой период греческой истории называют \"режимом полковников\"?",
+    text: "Η περίοδος 1904-1908, όταν Έλληνες και Βούλγαροι αντάρτες συγκρούσθηκαν μεταξύ τους στα εδάφη της Μακεδονίας που τότε τα κατείχαν οι Οθωμανοί, ονομάστηκε:",
     options: [
-      { id: "a", text: "1967-1974", isCorrect: true },
-      { id: "b", text: "1956-1963", isCorrect: false },
-      { id: "c", text: "1945-1949", isCorrect: false },
-      { id: "d", text: "1981-1989", isCorrect: false },
+      { id: "a", text: "Μακεδονικός Αγώνας", isCorrect: true },
+      { id: "b", text: "Μικρασιατική Καταστροφή", isCorrect: false },
+      { id: "c", text: "Βαλκανικός Αγώνας", isCorrect: false },
+      { id: "d", text: "Αντίσταση της Μακεδονίας", isCorrect: false },
     ],
-    explanation: "\"Режим полковников\" - диктатура военной хунты в Греции, существовавшая с 1967 по 1974 год после государственного переворота.",
-  }
-];
-
-const History = () => {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [isTestComplete, setIsTestComplete] = useState(false);
-  const { isAuthenticated } = useAuth();
-  const { t } = useLanguage();
-
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['historyQuestions'],
-    queryFn: () => Promise.resolve(historyQuestions),
-    staleTime: Infinity,
-  });
-
-  useEffect(() => {
-    if (isError) {
-      toast.error("Failed to load questions. Please try again.");
-    }
-  }, [isError]);
-
-  const handleNextQuestion = () => {
-    if (currentQuestionIndex < (data?.length || 0) - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-    } else {
-      setIsTestComplete(true);
-    }
-  };
-
-  if (isLoading) {
-    return <div className="text-center py-8">Loading questions...</div>;
-  }
-
-  if (isError) {
-    return <div className="text-center py-8">Failed to load questions. Please try again.</div>;
-  }
-
-  if (isTestComplete) {
-    return (
-      <div className="relative min-h-screen">
-        <Navbar />
-        <div className="container mx-auto px-4 py-8">
-          <Breadcrumb className="mb-4">
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link to="/"><Home className="h-4 w-4" /></Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>{t('history')}</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-
-          <div className="flex justify-between items-center mb-8">
-            <div>
-              <h1 className="text-3xl font-bold text-greek-darkBlue">{t('greekHistory')}</h1>
-              <p className="text-lg text-gray-600">{t('keyEvents')}</p>
-            </div>
-            <div className="flex items-center gap-4">
-              <UserAuthDialog />
-            </div>
-          </div>
-          <Card className="w-full max-w-3xl mx-auto shadow-soft animate-fadeIn">
-            <CardContent className="text-center py-8">
-              <h2 className="text-2xl font-semibold text-green-500 mb-4">{t('testComplete')}</h2>
-              <p className="text-gray-700 mb-4">{t('testCompleteMessage')}</p>
-              <div className="flex gap-3 justify-center mt-6">
-                <Button asChild variant="outline">
-                  <Link to="/">{t('home')}</Link>
-                </Button>
-                <Button onClick={() => {
-                  setCurrentQuestionIndex(0);
-                  setIsTestComplete(false);
-                }}>
-                  {t('retakeTest')}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="relative min-h-screen">
-      <Navbar />
-      <div className="container mx-auto px-4 py-8">
-        <Breadcrumb className="mb-4">
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link to="/"><Home className="h-4 w-4" /></Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>{t('history')}</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-greek-darkBlue">{t('greekHistory')}</h1>
-            <p className="text-lg text-gray-600">{t('keyEvents')}</p>
-          </div>
-          <div className="flex items-center gap-4">
-            <NavigationMenu>
-              <NavigationMenuList>
-                <NavigationMenuItem>
-                  <NavigationMenuTrigger>{t('practice')}</NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div className="grid w-[400px] gap-3 p-4">
-                      <NavigationMenuLink asChild>
-                        <Link to="/history" className="flex items-center gap-2 p-2 rounded hover:bg-greek-blue/10">
-                          <Book size={16} />
-                          <span>{t('history')}</span>
-                        </Link>
-                      </NavigationMenuLink>
-                      <NavigationMenuLink asChild>
-                        <Link to="/geography" className="flex items-center gap-2 p-2 rounded hover:bg-greek-blue/10">
-                          <Map size={16} />
-                          <span>{t('geography')}</span>
-                        </Link>
-                      </NavigationMenuLink>
-                      <NavigationMenuLink asChild>
-                        <Link to="/culture" className="flex items-center gap-2 p-2 rounded hover:bg-greek-blue/10">
-                          <Compass size={16} />
-                          <span>{t('culture')}</span>
-                        </Link>
-                      </NavigationMenuLink>
-                      <NavigationMenuLink asChild>
-                        <Link to="/politics" className="flex items-center gap-2 p-2 rounded hover:bg-greek-blue/10">
-                          <LandPlot size={16} />
-                          <span>{t('politics')}</span>
-                        </Link>
-                      </NavigationMenuLink>
-                    </div>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
-            <Button asChild variant="outline" size="sm">
-              <Link to="/">{t('home')}</Link>
-            </Button>
-            <UserAuthDialog />
-          </div>
-        </div>
-
-        {data && data.length > 0 && (
-          <TestCard
-            question={data[currentQuestionIndex]}
-            onNext={handleNextQuestion}
-            currentQuestionNumber={currentQuestionIndex + 1}
-            totalQuestions={data.length}
-          />
-        )}
-      </div>
-    </div>
-  );
-};
-
-export default History;
+    explanation: "Η περίοδος 1904-1908, όταν Έλληνες και Βούλγαροι αντάρτες συγκρούσθηκαν μεταξύ τους στα εδάφη της Μακεδονίας που τότε τα κατείχαν οι Οθωμανοί, ονομάστηκε Μακεδονικός Αγώνας.",
+  },
+  {
+    id: "20",
+    category: "history",
+    text: "Η Άλωση της Κωνσταντινούπολης από τους Οθωμανούς έγινε:",
+    options: [
+      { id: "a", text: "το 1204", isCorrect: false },
+      { id: "b", text: "το 1453", isCorrect: true },
+      { id: "c", text: "το 1430", isCorrect: false },
+      { id: "d", text: "το 1543", isCorrect: false },
+    ],
+    explanation: "Η Άλωση της Κωνσταντινούπολης από τους Οθωμανούς έγινε το 1453.",
+  },
+  {
+    id: "21",
+    category: "history",
+    text: "Ποιος είναι ο εικονιζόμενος;",
+    options: [
+      { id: "a", text: "Αθανάσιος Διάκος", isCorrect: true },
+      { id: "b", text: "Γεώργιος Καραϊσκάκης", isCorrect: false },
+      { id: "c", text: "Θεόδωρος Κολοκοτρώνης", isCorrect: false },
+      { id: "d", text: "Οδυσσέας Ανδρούτσος", isCorrect: false },
+    ],
+    explanation: "Στην εικόνα απεικονίζεται ο Αθανάσιος Διάκος.",
+  },
+  {
+    id: "22",
+    category: "history",
+    text: "Ποιος είναι ο εικονιζόμενος;",
+    options: [
+      { id: "a", text: "Αθανάσιος Διάκος", isCorrect: false },
+      { id: "b", text: "Γεώργιος Καραϊσκάκης", isCorrect: true },
+      { id: "c", text: "Θεόδωρος Κολοκοτρώνης", isCorrect: false },
+      { id: "d", text: "Οδυσσέας Ανδρούτσος", isCorrect: false },
+    ],
+    explanation: "Στην εικόνα απεικονίζεται ο Γεώργιος Καραϊσκάκης.",
+  },
+  {
+    id: "23",
+    category: "history",
+    text: "Η τουρκική εισβολή στην Κύπρο έγινε:",
+    options: [
+      { id: "a", text: "Την 25η Μαρτίου 1821", isCorrect: false },
+      { id: "b", text: "Στις 20 Ιουλίου 1974", isCorrect: true },
+      { id: "c", text: "Την 5η Οκτωβρίου 1985", isCorrect: false },
+      { id: "d", text: "Την 30η Απριλίου 1890", isCorrect: false },
+    ],
+    explanation: "Η τουρκική εισβολή στην Κύπρο έγινε στις 20 Ιουλίου 1974.",
+  },
+  {
+    id: "24",
+    category: "history",
+    text: "Η παρακάτω φωτογραφία προέρχεται από:",
+    options: [
+      { id: "a", text: "Τους εορτασμούς για την είσοδο της Ελλάδας στην Ενωμένη Ευρώπη", isCorrect: false },
+      { id: "b", text: "Την Απελευθέρωση της Αθήνας τον Οκτώβριο του 1944", isCorrect: false },
+      { id: "c", text: "Την εξέγερση των φοιτητών στο Πολυτεχνείο τον Νοέμβριο του 1973", isCorrect: true },
+      { id: "d", text: "Τους πανηγυρισμούς για την αποβίβαση του ελληνικού στρατού στη Σμύρνη, τον Μάιο του 1919", isCorrect: false },
+    ],
+    explanation: "Η φωτογραφία προέρχεται από την εξέγερση των φοιτητών στο Πολυτεχνείο τον Νοέμβριο του 1973.",
+  },
+  {
+    id: "25",
+    category: "history",
+    text: "Η παρακάτω φωτογραφία απεικονίζει:",
+    options: [
+      { id: "a", text: "Δημόσιο εξευτελισμό των Ελλήνων Εβραίων από τους Γερμανούς στη διάρκεια του Δευτέρου Παγκοσμίου Πολέμου", isCorrect: true },
+      { id: "b", text: "Στρατιωτικά γυμνάσια την εποχή της Ελληνικής Επανάστασης", isCorrect: false },
+      { id: "c", text: "Αιχμαλωσίες την περίοδο των Βαλκανικών Πολέμων", isCorrect: false },
+      { id: "d", text: "Στρατιωτικές επιδείξεις", isCorrect: false },
+    ],
+    explanation: "Η φωτογραφία απεικονίζει το δημόσιο εξευτελισμό των Ελλήνων Εβραίων από τους Γερμανούς στη διάρκεια του Δευτέρου Παγκοσμίου Πολέμου.",
+  },
+  {
+    id: "26",
+    category: "history",
+    text: "Η παρακάτω φωτογραφία απεικονίζει:",
+    options: [
+      { id: "a", text: "Την καταστροφή της Χίου", isCorrect: false },
+      { id: "b", text: "Το Ολοκαύτωμα του Μεσολογγίου", isCorrect: false },
+      { id: "c", text: "Την απελευθέρωση της Θεσσαλονίκης", isCorrect: false },
+      { id: "d", text: "Την καταστροφή της Σμύρνης", isCorrect: true },
+    ],
+    explanation: "Η φωτογραφία απεικονίζει την καταστροφή της Σμύρνης το 1922.",
+  },
+  {
+    id: "27",
+    category: "history",
+    text: "Η περίοδος της σύγχρονης ελληνικής ιστορίας, μετά την πτώση της δικτατορίας τον Ιούλιο του 1974, ονομάζεται:",
+    options: [
+      { id: "a", text: "Μεταπολίτευση", isCorrect: true },
+      { id: "b", text: "Ελληνική Επανάσταση", isCorrect: false },
+      { id: "c", text: "Περσικοί Πόλεμοι", isCorrect: false },
+      { id: "d", text: "Βυζαντινή περίοδος", isCorrect: false },
+    ],
+    explanation: "Η περίοδος της σύγχρονης ελληνικής ιστορίας, μετά την πτώση της δικτατορίας τον Ιούλιο του 1974, ονομάζεται Μεταπολίτευση.",
+  },
+  {
+    id: "28",
+    category: "history",
+    text: "Η τουρκική εισβολή στην Κύπρο έγινε:",
+    options: [
+      { id: "a", text: "Την 25η Μαρτίου 1821", isCorrect: false },
+      { id: "b", text: "Στις 20 Ιουλίου 1974", isCorrect: true },
+      { id: "c", text: "Την 5η Οκτωβρίου 1985", isCorrect: false },
+      { id: "d", text: "Την 30η Απριλίου 1890", isCorrect: false },
+    ],
+    explanation: "Η τουρκική εισβολή στην Κύπρο έγινε στις 20 Ιουλίου 1974.",
+  },
+  {
+    id: "29",
+    category: "history",
+    text: "Η ανατίναξη της Γέφυρας του Γοργοποτάμου στις 25 Νοεμβρίου 1942 ήταν:",
+    options: [
+      { id: "a", text: "Μια πράξη απελπισίας των Ελλήνων στη διάρκεια των Βαλκανικών Πολέμων.", isCorrect: false },
+      { id: "b", text: "Ένα γεγονός για να υπονομευθεί η Χούντα των Συνταγματαρχών.", isCorrect: false },
+      { id: "c", text: "Αντίποινα των Τούρκων για να τιμωρήσουν τους Έλληνες για την επανάστασή τους.", isCorrect: false },
+      { id: "d", text: "Η κορυφαία κοινή αντιστασιακή δράση των Ελλήνων στη διάρκεια της Катохής κατά τον Δεύτερο Παγκόσμιο Πόλεμο.", isCorrect: true },
+    ],
+    explanation: "Η ανατίναξη της Γέφυρας του Γοργοποτάμου στις 25 Νοεμβρίου 1942 ήταν η κορυφαία κοινή αντιστασιακή δράση των Ελλήνων στη διάρκεια της Катохής κατά τον Δεύτερο Παγκόσμιο Πόλεμο.",
+  },
+  {
+    id: "30",
+    category: "history",
+    text: "Η παρακάτω φωτογραφία απεικονίζει:",
+    options: [
+      { id: "a", text: "Την καταστροφή της Χίου", isCorrect: false },
+      { id: "b", text: "Το Ολοκαύτωμα του Μεσολογγίου", isCorrect: false },
+      { id: "c", text: "Την απελευθέρωση της Θεσσαλονίκης", isCorrect: false },
+      { id: "d", text: "Την καταστροφή της Σμύρνης", isCorrect: true },
+    ],
+    explanation: "Η φωτογραφία απεικονίζει την καταστροφή της Σμύρνης το 1922.",
+  },
+  {
+    id: "31",
+    category: "history",
+    text: "Η παρακάτω φωτογραφία προέρχεται από:",
+    options: [
+      { id: "a", text: "Τους εορτασμούς για την είσοδο της Ελλάδας στην Ενωμένη Ευρώπη", isCorrect: false },
+      { id: "b", text: "Την Απελευθέρωση της Αθήνας τον Οκτώβριο του 1944", isCorrect: false },
+      { id: "c", text: "Την εξέγερση των φοιτητών στο Πολυτεχνείο τον Νοέμβριο του 1973", isCorrect: true },
+      { id: "d", text: "Τους πανηγυρισμούς για την αποβίβαση του ελληνικού στρατού στη Σμύρνη, τον Μάιο του 1919", isCorrect: false },
+    ],
+    explanation: "Η φωτογραφία προέρχεται από την εξέγερση των φοιτητών στο Πολυτεχνείο τον Νοέμβριο του 1973.",
+  },
+  {
+    id: "32",
+    category: "history",
+    text: "Η παρακάτω φωτογραφία απεικονίζει:",
+    options: [
+      { id: "a", text: "Την καταστροφή της Χίου", isCorrect: false },
+      { id: "b", text: "Το Ολοκαύτωμα του Μεσολογγίου", isCorrect: false },
+      { id: "c", text: "Την απελευθέρωση της Θεσσαλονίκης", isCorrect: false },
+      { id: "d", text: "Την καταστροφή της Σμύρνης", isCorrect: true },
+    ],
+    explanation: "Η φωτογραφία απεικονίζει την καταστροφή της Σμύρνης το 1922.",
+  },
+  {
+    id: "33",
+    category: "history",
+    text: "Η περίοδος της σύγχρονης ελληνικής ιστορίας, μετά την πτώση της δικτατορίας τον Ιούλιο του 1974, ονομάζεται:",
+    options: [
+      { id: "a", text: "Μεταπολίτευση", isCorrect: true },
+      { id: "b", text: "Ελληνική Επανάσταση", isCorrect: false },
+      { id: "c", text: "Περσικοί Πόλεμοι", isCorrect: false },
+      { id: "d", text: "Βυζαντινή περίοδος", isCorrect: false },
+    ],
+    explanation: "Η περίοδος της σύγχρονης ελληνικής ιστορίας, μετά την πτώση της δικτατορίας τον Ιούλιο του 1974, ονομάζεται Μεταπολίτευση.",
+  },
+  {
+    id: "34",
+    category: "history",
+    text: "Η περίοδος του 5ου αιώνα π.Χ., όταν ο ισχυρότερος πολιτικός άνδρας στην αρχαία Αθήνα ήταν ο Περικλής, άνθισε η Δημοκρατία, άκμασαν τα γράμματα και οι τέχνες και έγιναν τα μεγάλα έργα στην Ακρόπολη, ονομάζεται:",
+    options: [
+      { id: "a", text: "Χρυσός Αιώνας", isCorrect: true },
+      { id: "b", text: "Ελληνική Επανάσταση", isCorrect: false },
+      { id: "c", text: "Περσικοί Πόλεμοι", isCorrect: false },
+      { id: "d", text: "Βυζαντινή περίοδος", isCorrect: false },
+    ],
+    explanation: "Η περίοδος του 5ου αιώνα π.Χ., όταν ο ισχυρότερος πολιτικός άνδρας στην αρχαία Αθήνα ήταν ο Περικλής, ονομάζεται Χρυσός Αιώνας.",
+  },
+  {
+    id: "35",
+    category: "history",
+    text: "Η περίοδος της σύγχρονης ελληνικής ιστορίας, μετά την πτώση της δικτατορίας τον Ιούλιο του 1974, ονομάζεται:",
+    options: [
+      { id: "a", text: "Μεταπολίτευση", isCorrect: true },
+      { id: "b", text: "Ελληνική Επανάσταση", isCorrect: false },
+      { id: "c", text: "Περσικοί Πόλεμοι", isCorrect: false },
+      { id: "d", text: "Βυζαντινή περίοδος", isCorrect: false },
+    ],
+    explanation: "Η περίοδος της σύγχρονης ελληνικής ιστορίας, μετά την πτώση της δικτατορίας τον Ιούλιο του 1974, ονομάζεται Μεταπολίτευση.",
+  },
+  {
+    id: "36",
+    category: "history",
+    text: "Η περίοδος της σύγχρονης ελληνικής ιστορίας, μετά την πτώση της δικτατορίας τον Ιούλιο του 1974, ονομάζεται:",
+    options: [
+      { id: "a", text: "Μεταπολίτευση", isCorrect: true },
+      { id: "b", text: "Ελληνική Επανάσταση", isCorrect: false },
+      { id: "c", text: "Περσικοί Πόλεμοι", isCorrect: false },
+      { id: "d", text: "Βυζαντινή περίοδος", isCorrect: false },
+    ],
+    explanation: "Η περίοδος της σύγχρονης ελληνικής ιστορίας, μετά την πτώση της δικτατορίας τον Ιούλιο του 1974, ονομάζεται Μεταπολίτευση.",
+  },
+  {
+    id: "37",
+    category: "history",
+    text: "Η περίοδος της σύγχρονης ελληνικής ιστορίας, μετά την πτώση της δικτατορίας τον Ιούλιο του 1974, ονομάζεται:",
+    options: [
+      { id: "a", text: "Μεταπολίτευση", isCorrect: true },
+      { id: "b
