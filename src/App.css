@@ -1,3 +1,4 @@
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -35,8 +36,9 @@
 
 .card {
   padding: 2em;
+  background-color: rgba(250, 250, 250, 0.9);
 }
 
 .read-the-docs {
-  color: #888;
+  color: #777;
 }
