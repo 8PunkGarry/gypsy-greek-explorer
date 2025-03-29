@@ -83,7 +83,7 @@ const TestCard: React.FC<TestCardProps> = ({
     }
   };
 
-  // Translate question and options
+  // Make sure we have proper fallbacks for translations
   const translatedQuestion = t(`history_question_${question.id}`) || question.text;
   const translatedExplanation = t(`history_explanation_${question.id}`) || question.explanation;
 
@@ -112,7 +112,11 @@ const TestCard: React.FC<TestCardProps> = ({
       
         <div className="space-y-3">
           {question.options.map((option) => {
-            const translatedOption = t(`history_answer_${question.id}_${option.id.replace('a', '1').replace('b', '2').replace('c', '3').replace('d', '4')}`) || option.text;
+            // Better fallback for translated options
+            const optionIdNum = option.id.replace('a', '1').replace('b', '2').replace('c', '3').replace('d', '4');
+            const translationKey = `history_answer_${question.id}_${optionIdNum}`;
+            const translatedOption = t(translationKey) || option.text;
+            
             return (
               <div
                 key={option.id}
