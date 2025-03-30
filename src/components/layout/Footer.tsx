@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, Heart, GraduationCap, BookOpen, Map, Compass, LayoutTemplate, CheckSquare, Globe, MessageSquare } from 'lucide-react';
+import { Mail, Phone, MapPin, Heart, GraduationCap, BookOpen, Map, Compass, LayoutTemplate, CheckSquare, Globe, MessageSquare, FileText, Shield } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
