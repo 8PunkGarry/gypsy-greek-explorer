@@ -8,6 +8,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { UserAuthDialog } from './UserAuthDialog';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useToast } from "@/components/ui/use-toast";
 
 interface TestCardProps {
   question: Question;
@@ -30,6 +31,7 @@ const TestCard: React.FC<TestCardProps> = ({
   const [showExplanation, setShowExplanation] = useState(false);
   const { isAuthenticated } = useAuth();
   const { t } = useLanguage();
+  const { toast } = useToast();
 
   const handleOptionClick = (optionId: string) => {
     if (selectedOption) return; // Prevent changing answer after selection
@@ -39,6 +41,21 @@ const TestCard: React.FC<TestCardProps> = ({
     const isCorrect = question.options.find(o => o.id === optionId)?.isCorrect || false;
     if (onAnswer) {
       onAnswer(isCorrect);
+      
+      // Show toast notification based on answer correctness
+      if (isCorrect) {
+        toast({
+          title: t('correctAnswer'),
+          description: t('youAnsweredCorrectly'),
+          variant: "default"
+        });
+      } else {
+        toast({
+          title: t('incorrectAnswer'),
+          description: t('tryAgainNextTime'),
+          variant: "destructive"
+        });
+      }
     }
   };
 
