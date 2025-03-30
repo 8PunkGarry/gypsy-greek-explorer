@@ -11,6 +11,7 @@ import NotFound from "./pages/NotFound";
 import History from "./pages/History";
 import Politics from "./pages/Politics";
 import Geography from "./pages/Geography";
+import Culture from "./pages/Culture";
 
 const queryClient = new QueryClient();
 
@@ -27,8 +28,7 @@ const App = () => (
               <Route path="/history" element={<History />} />
               <Route path="/politics" element={<Politics />} />
               <Route path="/geography" element={<Geography />} />
-              {/* These routes will be implemented later */}
-              <Route path="/culture" element={<NotFound />} />
+              <Route path="/culture" element={<Culture />} />
               
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
