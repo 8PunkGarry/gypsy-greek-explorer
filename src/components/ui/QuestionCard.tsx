@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { ChevronDown, CheckCircle2, XCircle } from 'lucide-react';
+import { ChevronDown, CheckCircle2, XCircle, AlertCircle } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { Question } from '@/types/questions';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -45,21 +45,27 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
   };
 
   return (
-    <div className={cn(
-      "mb-4 overflow-hidden rounded-xl border border-gray-100 transition-all duration-300 bg-white/80 backdrop-blur-sm shadow-sm",
-      expanded ? "shadow-md" : "hover:shadow-md"
-    )}>
+    <motion.div 
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.3, delay: index * 0.1 }}
+      className={cn(
+        "mb-5 overflow-hidden rounded-xl glass border border-gray-100 transition-all duration-300",
+        expanded ? "shadow-lg" : "shadow-sm hover:shadow-md"
+      )}
+    >
       <div 
         onClick={onToggle} 
         className={cn(
           "flex items-center justify-between p-5 cursor-pointer",
-          expanded ? "bg-greek-darkBlue text-white" : "bg-white text-gray-800"
+          expanded ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white" : "bg-white text-gray-800"
         )}
       >
         <h3 className="font-medium text-lg flex items-center">
           <span className={cn(
             "flex items-center justify-center w-8 h-8 rounded-full mr-4 text-sm font-semibold",
-            expanded ? "bg-white text-greek-darkBlue" : "bg-greek-blue/20 text-greek-darkBlue"
+            expanded ? "bg-white text-blue-600" : "bg-blue-100 text-blue-600"
           )}>
             {index + 1}
           </span>
@@ -79,11 +85,14 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <div className="p-5 border-t border-gray-100">
+            <div className="p-6 border-t border-gray-100">
               <div className="space-y-3 mb-6">
-                {question.options.map((option) => (
-                  <div
+                {question.options.map((option, optIndex) => (
+                  <motion.div
                     key={option.id}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3, delay: optIndex * 0.1 }}
                     onClick={() => handleOptionClick(option.id)}
                     className={cn(
                       "p-4 border rounded-lg flex justify-between items-center transition-all cursor-pointer",
@@ -91,7 +100,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
                     )}
                   >
                     <div className="flex items-center">
-                      <span className="w-6 h-6 rounded-full flex items-center justify-center bg-gray-100 mr-3 font-medium text-sm">
+                      <span className="w-7 h-7 rounded-full flex items-center justify-center bg-blue-100 mr-3 font-medium text-sm text-blue-600">
                         {option.id.toUpperCase()}
                       </span>
                       <span>{option.text}</span>
@@ -108,7 +117,7 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
                         <CheckCircle2 className="text-green-500" size={20} />
                       ) : null
                     )}
-                  </div>
+                  </motion.div>
                 ))}
               </div>
               
@@ -116,17 +125,23 @@ const QuestionCard: React.FC<QuestionCardProps> = ({
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-100"
+                  transition={{ duration: 0.5 }}
+                  className="mt-6 p-5 rounded-lg border border-blue-100 bg-blue-50"
                 >
-                  <h4 className="font-medium text-blue-800 mb-2">Объяснение:</h4>
-                  <p className="text-gray-700">{question.explanation}</p>
+                  <div className="flex items-start">
+                    <AlertCircle className="text-blue-600 mr-3 mt-0.5" size={20} />
+                    <div>
+                      <h4 className="font-medium text-lg text-blue-800 mb-2">Объяснение:</h4>
+                      <p className="text-gray-700 leading-relaxed">{question.explanation}</p>
+                    </div>
+                  </div>
                 </motion.div>
               )}
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 };
 

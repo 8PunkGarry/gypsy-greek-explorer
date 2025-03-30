@@ -7,7 +7,7 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 210 40% 98%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -16,35 +16,35 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 210 100% 50%;
+    --primary: 221 83% 53%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 349 89% 60%;
+    --accent-foreground: 0 0% 98%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --ring: 221 83% 53%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-background: 217 33% 17%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 221 83% 53%;
     --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 349 89% 60%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 217 33% 25%;
+    --sidebar-ring: 221 83% 53%;
   }
 
   .dark {
@@ -57,7 +57,7 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
     --primary-foreground: 222.2 47.4% 11.2%;
 
     --secondary: 217.2 32.6% 17.5%;
@@ -66,8 +66,8 @@
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 349 89% 60%;
+    --accent-foreground: 0 0% 98%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
@@ -75,14 +75,15 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    --sidebar-background: 217 33% 9%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 217.2 91.2% 59.8%;
+    --sidebar-primary-foreground: 222.2 47.4% 11.2%;
+    --sidebar-accent: 349 89% 60%; 
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 217.2 32.6% 17.5%;
+    --sidebar-ring: 212.7 26.8% 83.9%;
   }
 }
 
@@ -96,10 +97,10 @@
   }
 
   body {
-    @apply bg-greek-white text-foreground font-sans;
+    @apply bg-background text-foreground font-sans;
     background-image: 
-      radial-gradient(circle at 20% 20%, rgba(211, 228, 253, 0.18) 0%, transparent 25%),
-      radial-gradient(circle at 80% 50%, rgba(122, 139, 118, 0.1) 0%, transparent 20%);
+      radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 25%),
+      radial-gradient(circle at 80% 50%, rgba(236, 72, 153, 0.05) 0%, transparent 20%);
     background-attachment: fixed;
   }
   
@@ -108,19 +109,19 @@
   }
   
   h1 {
-    @apply text-4xl sm:text-5xl md:text-6xl font-semibold;
+    @apply text-4xl sm:text-5xl md:text-6xl font-bold;
   }
   
   h2 {
-    @apply text-3xl sm:text-4xl font-semibold;
+    @apply text-3xl sm:text-4xl font-bold;
   }
   
   h3 {
-    @apply text-2xl sm:text-3xl font-medium;
+    @apply text-2xl sm:text-3xl font-semibold;
   }
   
   h4 {
-    @apply text-xl sm:text-2xl font-medium;
+    @apply text-xl sm:text-2xl font-semibold;
   }
   
   p {
@@ -134,11 +135,11 @@
 
 @layer components {
   .glass {
-    @apply bg-white bg-opacity-70 backdrop-blur-md border border-white border-opacity-20 shadow-soft;
+    @apply bg-white bg-opacity-80 backdrop-blur-md border border-white border-opacity-20 shadow-lg rounded-xl;
   }
   
   .glass-dark {
-    @apply bg-black bg-opacity-20 backdrop-blur-md border border-white border-opacity-10 shadow-soft;
+    @apply bg-black bg-opacity-20 backdrop-blur-md border border-white border-opacity-10 shadow-md rounded-xl;
   }
   
   .button-animation {
@@ -150,7 +151,19 @@
   }
   
   .card-hover {
-    @apply transition-all duration-300 ease-out hover:shadow-medium hover:translate-y-[-3px];
+    @apply transition-all duration-300 ease-out hover:shadow-xl hover:-translate-y-1;
+  }
+
+  .nav-link {
+    @apply relative text-lg font-medium text-gray-700 hover:text-primary transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-bottom-right after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:origin-bottom-left hover:after:scale-x-100;
+  }
+
+  .nav-link-active {
+    @apply text-primary after:scale-x-100;
+  }
+
+  .question-card {
+    @apply p-6 rounded-xl bg-white/90 backdrop-blur-md shadow-md border border-gray-100/80 transition-all duration-300;
   }
 }
 
@@ -165,12 +178,12 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(59, 130, 246, 0.3);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(59, 130, 246, 0.5);
 }
 
 /* Smooth reveal animation */
@@ -183,4 +196,28 @@
 .reveal.active {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Hero section gradient text */
+.gradient-text {
+  background: linear-gradient(to right, #3b82f6, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Floating animation */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-float {
+  animation: float 10s ease-in-out infinite;
 }
