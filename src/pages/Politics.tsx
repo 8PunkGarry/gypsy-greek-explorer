@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import BlurBackground from '@/components/ui/BlurBackground';
 import Navbar from '@/components/layout/Navbar';
@@ -11,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserAuthDialog } from '@/components/ui/UserAuthDialog';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Question } from '@/types/questions';
+import { Landmark } from 'lucide-react';
 
 const Politics = () => {
   const [score, setScore] = useState(0);
@@ -525,12 +525,19 @@ const Politics = () => {
               </Card>
             ) : (
               <>
-                <div className="flex justify-between items-center mb-6">
-                  <h1 className="text-3xl font-medium text-gray-900">Политическое устройство Греции</h1>
-                  <div className="text-gray-600">
-                    Вопрос {currentQuestionIndex + 1} из {shuffledQuestions.length}
-                  </div>
+                {/* Updated header section to match Geography style */}
+                <div className="bg-green-50 py-2 px-4 rounded-full inline-flex items-center mb-4">
+                  <Landmark className="w-5 h-5 mr-2 text-green-600" />
+                  <span className="text-green-700 font-medium">{t('politics')}</span>
                 </div>
+                
+                <h1 className="text-4xl font-bold mb-4 text-gray-900">
+                  {t('testOnPolitics')}
+                </h1>
+                
+                <p className="text-lg text-gray-600 mb-8">
+                  {t('checkYourKnowledgeAboutPolitics')}
+                </p>
                 
                 <div className="mb-8">
                   <div className="w-full bg-gray-200 rounded-full h-2.5">

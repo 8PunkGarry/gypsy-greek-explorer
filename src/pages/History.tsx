@@ -262,18 +262,20 @@ const History = () => {
             </BreadcrumbList>
           </Breadcrumb>
           
-          <div className="bg-gradient-to-r from-greek-darkBlue to-blue-600 p-6 md:p-12 rounded-2xl text-white mb-8 shadow-lg">
-            <div className="max-w-3xl mx-auto text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-white/20 mb-4">
-                <Book size={32} className="text-white" />
-              </div>
-              <h1 className="text-3xl md:text-4xl font-bold mb-4">История Греции</h1>
-              <p className="text-lg text-white/90">
-                Познакомьтесь с ключевыми событиями и периодами греческой истории от древних цивилизаций 
-                до современной Греции. Изучите вопросы, которые помогут вам подготовиться к интервью.
-              </p>
-            </div>
+          {/* Updated header section to match Geography style */}
+          <div className="bg-green-50 py-2 px-4 rounded-full inline-flex items-center mb-4">
+            <Book className="w-5 h-5 mr-2 text-green-600" />
+            <span className="text-green-700 font-medium">История</span>
           </div>
+          
+          <h1 className="text-4xl font-bold mb-4 text-gray-900">
+            Тест по истории Греции
+          </h1>
+          
+          <p className="text-lg text-gray-600 mb-8">
+            Проверьте свои знания о ключевых исторических событиях, 
+            древних цивилизациях и современной истории Греции.
+          </p>
           
           <div className="mb-8">
             <h2 className="text-2xl font-bold mb-6 flex items-center text-greek-darkBlue">
